@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200" fill="none" role="img" aria-label="Laptop glowing in a dark room">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#101014"/>
+      <stop offset="1" stop-color="#1C1428"/>
+    </linearGradient>
+    <linearGradient id="scr" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E84848"/>
+      <stop offset="0.55" stop-color="#6D5BD3"/>
+      <stop offset="1" stop-color="#0891B2"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#6D5BD3" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#6D5BD3" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="40"/>
+    </filter>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg)"/>
+  <circle cx="450" cy="560" r="380" fill="url(#halo)" filter="url(#blur)"/>
+  <rect x="130" y="380" width="640" height="430" rx="20" fill="#0E0E14" stroke="#2A2A38" stroke-width="6"/>
+  <rect x="152" y="402" width="596" height="386" rx="10" fill="url(#scr)"/>
+  <g fill="#0F1117" opacity="0.9">
+    <rect x="180" y="430" width="200" height="26" rx="6"/>
+    <rect x="180" y="478" width="320" height="26" rx="6"/>
+    <rect x="180" y="526" width="150" height="26" rx="6"/>
+    <rect x="180" y="574" width="260" height="26" rx="6"/>
+    <rect x="180" y="622" width="90" height="26" rx="6"/>
+  </g>
+  <g fill="#FFFFFF" opacity="0.85">
+    <rect x="196" y="622" width="12" height="12" rx="3"/>
+    <rect x="500" y="430" width="14" height="14" rx="3"/>
+    <rect x="220" y="574" width="12" height="12" rx="3"/>
+  </g>
+  <path d="M150 810 L750 810 L786 856 L114 856 Z" fill="#23232E"/>
+  <rect x="330" y="856" width="240" height="16" rx="8" fill="#16161D"/>
+  <path d="M90 1000 L150 960 L210 1000 Z" fill="#3A2A52" opacity="0.8"/>
+  <circle cx="700" cy="250" r="5" fill="#6D5BD3"/>
+  <circle cx="150" cy="200" r="4" fill="#0891B2"/>
+  <circle cx="760" cy="340" r="3" fill="#E84848"/>
+  <g stroke="#52526B" stroke-width="3" stroke-linecap="round" fill="none">
+    <path d="M640 250 l24 0"/>
+    <path d="M640 282 l24 0"/>
+  </g>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200" fill="none" role="img" aria-label="Overlapping gradient capsules, abstract teamwork">
+  <defs>
+    <linearGradient id="coral" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E84848"/>
+      <stop offset="1" stop-color="#8E2A2A"/>
+    </linearGradient>
+    <linearGradient id="sage" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4D7C3A"/>
+      <stop offset="1" stop-color="#23491B"/>
+    </linearGradient>
+    <linearGradient id="lav" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6D5BD3"/>
+      <stop offset="1" stop-color="#332A78"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#6D5BD3" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#6D5BD3" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="34"/>
+    </filter>
+    <filter id="sb" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="26" stdDeviation="22" flood-color="#1A1A2E" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <rect width="900" height="1200" fill="#EEF0F6"/>
+  <circle cx="450" cy="560" r="360" fill="url(#halo)" filter="url(#blur)"/>
+  <g transform="rotate(-10 470 560)" filter="url(#sb)">
+    <rect x="240" y="430" width="360" height="120" rx="60" fill="url(#coral)"/>
+    <rect x="200" y="620" width="430" height="120" rx="60" fill="url(#sage)"/>
+    <rect x="250" y="810" width="380" height="120" rx="60" fill="url(#lav)"/>
+  </g>
+  <circle cx="640" cy="470" r="16" fill="#FFE3B3"/>
+  <circle cx="600" cy="660" r="16" fill="#B9E7C8"/>
+  <circle cx="660" cy="850" r="16" fill="#D9CCFF"/>
+  <path d="M300 480 a26 26 0 0 1 52 0 c0 20 -26 40 -26 40 s-26 -20 -26 -40 z" fill="#FFFFFF" opacity="0.9"/>
+  <path d="M360 480 a26 26 0 0 1 52 0 c0 20 -26 40 -26 40 s-26 -20 -26 -40 z" fill="#FFFFFF" opacity="0.9"/>
+  <path d="M300 660 a26 26 0 0 1 52 0 c0 20 -26 40 -26 40 s-26 -20 -26 -40 z" fill="#FFFFFF" opacity="0.9"/>
+  <path d="M360 660 a26 26 0 0 1 52 0 c0 20 -26 40 -26 40 s-26 -20 -26 -40 z" fill="#FFFFFF" opacity="0.9"/>
+  <path d="M320 850 a26 26 0 0 1 52 0 c0 20 -26 40 -26 40 s-26 -20 -26 -40 z" fill="#FFFFFF" opacity="0.9"/>
+  <path d="M380 850 a26 26 0 0 1 52 0 c0 20 -26 40 -26 40 s-26 -20 -26 -40 z" fill="#FFFFFF" opacity="0.9"/>
+  <path d="M742 300 a36 36 0 0 1 72 0 c0 28 -36 56 -36 56 s-36 -28 -36 -56 z" fill="#E84848" opacity="0.9"/>
+</svg>

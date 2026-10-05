@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" fill="none" role="img" aria-label="Crowd silhouettes at a lit stage">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#140F1E"/>
+      <stop offset="1" stop-color="#1F1630"/>
+    </linearGradient>
+    
+    <filter id="blur" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="750" fill="url(#bg)"/>
+  <circle cx="600" cy="-40" r="260" fill="#E84848" opacity="0.5" filter="url(#blur)"/>
+  <polygon points="600,0 340,640 860,640" fill="#0891B2" opacity="0.10"/>
+  <polygon points="600,0 60,640 1140,640" fill="#6D5BD3" opacity="0.08"/>
+  <g fill="#10101C">
+    <circle cx="90" cy="700" r="54"/>
+    <circle cx="210" cy="690" r="58"/>
+    <circle cx="330" cy="706" r="52"/>
+    <circle cx="450" cy="696" r="60"/>
+    <circle cx="580" cy="706" r="54"/>
+    <circle cx="700" cy="690" r="60"/>
+    <circle cx="830" cy="706" r="50"/>
+    <circle cx="950" cy="694" r="58"/>
+    <circle cx="1080" cy="706" r="54"/>
+  </g>
+  <g fill="#07070D">
+    <circle cx="60" cy="740" r="44"/>
+    <circle cx="170" cy="742" r="46"/>
+    <circle cx="290" cy="740" r="42"/>
+    <circle cx="600" cy="742" r="48"/>
+    <circle cx="760" cy="742" r="44"/>
+    <circle cx="920" cy="740" r="46"/>
+    <circle cx="1120" cy="742" r="44"/>
+  </g>
+  <g fill="#E84848" opacity="0.9">
+    <circle cx="330" cy="690" r="6"/>
+    <circle cx="580" cy="692" r="6"/>
+    <circle cx="830" cy="690" r="6"/>
+  </g>
+  <g stroke="#6D5BD3" stroke-width="4" stroke-linecap="round" opacity="0.7">
+    <line x1="420" y1="220" x2="360" y2="420"/>
+    <line x1="780" y1="220" x2="840" y2="420"/>
+    <line x1="600" y1="200" x2="600" y2="420"/>
+  </g>
+</svg>

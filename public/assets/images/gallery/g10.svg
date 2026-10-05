@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" role="img" aria-label="Whiteboard covered in design notes and flow arrows">
+  <defs>
+    <filter id="blur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="1200" fill="#F4F2EC"/>
+  <rect x="120" y="150" width="960" height="700" rx="18" fill="#EDF0F4" stroke="#D9DEE6" stroke-width="3"/>
+  <g fill="#E84848" opacity="0.85">
+    <rect x="200" y="250" width="240" height="90" rx="12"/>
+    <rect x="200" y="250" width="96" height="90" rx="12" fill="#FF6B6B"/>
+  </g>
+  <g fill="#FFFFFF" opacity="0.92">
+    <rect x="260" y="282" width="120" height="12" rx="6"/>
+    <rect x="260" y="304" width="150" height="12" rx="6"/>
+  </g>
+  <g fill="#4D7C3A" opacity="0.9">
+    <rect x="600" y="240" width="200" height="90" rx="12"/>
+  </g>
+  <g fill="#FFFFFF" opacity="0.92">
+    <rect x="632" y="272" width="136" height="12" rx="6"/>
+    <rect x="632" y="294" width="100" height="12" rx="6"/>
+  </g>
+  <g stroke="#111111" stroke-width="6" stroke-linecap="round">
+    <path d="M440 295 L596 285" marker-end="url(#arrow)"/>
+    <path d="M800 285 L900 620"/>
+    <path d="M440 295 L360 650"/>
+  </g>
+  <g fill="#0891B2" opacity="0.85">
+    <rect x="240" y="620" width="180" height="120" rx="14"/>
+  </g>
+  <g fill="#FFFFFF" opacity="0.92">
+    <rect x="270" y="650" width="120" height="12" rx="6"/>
+    <rect x="270" y="672" width="80" height="12" rx="6"/>
+  </g>
+  <g fill="#D97706" opacity="0.9">
+    <rect x="760" y="680" width="220" height="90" rx="14"/>
+  </g>
+  <g fill="#FFFFFF" opacity="0.92">
+    <rect x="790" y="712" width="160" height="12" rx="6"/>
+    <rect x="790" y="734" width="120" height="12" rx="6"/>
+  </g>
+  <path d="M290 470 q80 -60 190 -20 q120 40 220 -10" stroke="#6D5BD3" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="2 26"/>
+  <g fill="#6D5BD3" opacity="0.5">
+    <circle cx="290" cy="470" r="26"/>
+    <circle cx="480" cy="448" r="22"/>
+  </g>
+  <g fill="#111111" opacity="0.75">
+    <circle cx="290" cy="470" r="8"/>
+    <circle cx="480" cy="448" r="7"/>
+  </g>
+  <g stroke="#B9BFC9" stroke-width="4" stroke-linecap="round" opacity="0.8">
+    <path d="M300 500 q24 30 0 60"/>
+    <path d="M330 516 q26 32 0 66"/>
+  </g>
+  <circle cx="1046" cy="234" r="10" fill="#FFF9EA" stroke="#D97706" stroke-width="5"/>
+</svg>

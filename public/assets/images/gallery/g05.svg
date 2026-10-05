@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1400" viewBox="0 0 1000 1400" fill="none" role="img" aria-label="Sunlit studio desk with monitor and plant">
+  <defs>
+    <linearGradient id="wins" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#BFE3F5"/>
+      <stop offset="1" stop-color="#F4E9D7"/>
+    </linearGradient>
+    <linearGradient id="scr" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111115"/>
+      <stop offset="0.6" stop-color="#6D5BD3"/>
+      <stop offset="1" stop-color="#E84848"/>
+    </linearGradient>
+    <radialGradient id="lav" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#6D5BD3" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#6D5BD3" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="36"/>
+    </filter>
+  </defs>
+  <rect width="1000" height="1400" fill="#F3EFE6"/>
+  <rect x="700" y="-60" width="520" height="560" fill="url(#lav)" filter="url(#blur)"/>
+  <rect x="150" y="170" width="360" height="430" rx="20" fill="#FFFFFF" stroke="#E6E0D2" stroke-width="4"/>
+  <rect x="170" y="190" width="320" height="390" rx="12" fill="url(#wins)"/>
+  <circle cx="330" cy="330" r="46" fill="#FFDF9E"/>
+  <path d="M170 470 Q300 420 400 500" stroke="#7AB39E" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <rect x="150" y="600" width="360" height="8" rx="4" fill="#D9D2C2"/>
+  <path d="M120 1000 h760 v140 h-760 z" fill="#26262C"/>
+  <g stroke="#38383F">
+    <rect x="220" y="620" width="70" height="80" rx="8" fill="none" stroke-width="3"/>
+    <path d="M285 640 a42 42 0 0 1 0 36" stroke-width="3" fill="none"/>
+  </g>
+  <g stroke="#D8A75F" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.9">
+    <path d="M255 620 q-10 -22 2 -40"/>
+  </g>
+  <rect x="530" y="640" width="360" height="250" rx="18" fill="#111115" stroke="#000000" stroke-width="0"/>
+  <rect x="550" y="662" width="320" height="208" rx="10" fill="url(#scr)"/>
+  <g fill="#FFFFFF" opacity="0.9">
+    <rect x="576" y="684" width="140" height="22" rx="6"/>
+    <rect x="576" y="722" width="200" height="22" rx="6"/>
+    <rect x="576" y="760" width="90" height="22" rx="6"/>
+  </g>
+  <g fill="#E84848" opacity="0.85">
+    <rect x="830" y="684" width="26" height="22" rx="6"/>
+    <rect x="830" y="722" width="26" height="22" rx="6"/>
+  </g>
+  <rect x="610" y="890" width="200" height="40" rx="14" fill="#1B1B21"/>
+  <path d="M540 890 L820 890 L840 934 L520 934 Z" fill="#18181D"/>
+  <g fill="#3E8E6B">
+    <path d="M160 1000 q-30 -140 40 -180 q30 60 10 180 z"/>
+    <path d="M200 1000 q-10 -110 40 -140 q14 40 6 140 z"/>
+  </g>
+  <path d="M180 1000 l10 -40 h40 l10 40 z" fill="#B4653A"/>
+  <rect x="170" y="1000" width="60" height="26" rx="10" fill="#B4653A"/>
+</svg>

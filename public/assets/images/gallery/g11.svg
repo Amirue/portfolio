@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200" fill="none" role="img" aria-label="Ramadan lanterns glowing under a crescent moon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0C0F2B"/>
+      <stop offset="1" stop-color="#1A1340"/>
+    </linearGradient>
+    <radialGradient id="moonGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#F4E9C9" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#F4E9C9" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="lanGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#F2B04B" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#F2B04B" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg)"/>
+  <circle cx="700" cy="170" r="150" fill="url(#moonGlow)" filter="url(#blur)"/>
+  <path d="M716 128 a66 66 0 1 0 40 108 a56 56 0 1 1 -40 -108 z" fill="#F4E9C9"/>
+  <g stroke="#6A608F" stroke-width="3" fill="none" opacity="0.8">
+    <path d="M60 260 Q450 190 840 260"/>
+    <path d="M60 520 Q450 450 840 520"/>
+    <path d="M60 780 Q450 710 840 780"/>
+  </g>
+  <g fill="#F2B04B" filter="url(#blur)" opacity="0.85">
+    <circle cx="210" cy="330" r="60"/>
+    <circle cx="600" cy="330" r="60"/>
+    <circle cx="450" cy="590" r="60"/>
+    <circle cx="120" cy="850" r="60"/>
+    <circle cx="760" cy="850" r="60"/>
+  </g>
+  <g fill="#FFD98C">
+    <path d="M180 300 l12 -34 12 34 z"/>
+    <path d="M372 300 l12 -22 12 22 z"/>
+    <path d="M570 300 l12 -34 12 34 z"/>
+    <path d="M410 560 l12 -30 12 30 z"/>
+  </g>
+  <g fill="#F2B04B">
+    <path d="M150 330 l26 24 a14 14 0 0 1 -26 0 z"/>
+    <path d="M606 330 l26 24 a14 14 0 0 1 -26 0 z"/>
+  </g>
+  <g fill="#FFE6B8" opacity="0.9">
+    <rect x="196" y="330" width="28" height="70" rx="14"/>
+    <rect x="616" y="330" width="28" height="70" rx="14"/>
+    <rect x="450" y="600" width="28" height="70" rx="14"/>
+    <rect x="106" y="860" width="28" height="70" rx="14"/>
+    <rect x="746" y="860" width="28" height="70" rx="14"/>
+  </g>
+  <g stroke="#E8923B" stroke-width="4" fill="none">
+    <path d="M210 400 l0 60"/>
+    <path d="M630 400 l0 60"/>
+    <path d="M464 670 l0 60"/>
+    <path d="M120 930 l0 60"/>
+    <path d="M760 930 l0 60"/>
+  </g>
+  <path d="M0 1200 L0 1080 L220 1020 L440 1080 L660 1010 L900 1070 L900 1200 Z" fill="#0A0A1E"/>
+  <path d="M420 1060 L450 940 L480 1060 Z" fill="#0A0A1E"/>
+  <path d="M432 1020 L450 940 L468 1020 Z" fill="#141430"/>
+  <circle cx="450" cy="930" r="60" fill="#FFD98C" filter="url(#blur)"/>
+  <g fill="#FFE9C4" opacity="0.85">
+    <rect x="500" y="600" width="90" height="16" rx="6"/>
+    <rect x="640" y="600" width="90" height="16" rx="6"/>
+  </g>
+  <circle cx="250" cy="160" r="4" fill="#F4E9C9" opacity="0.8"/>
+  <circle cx="380" cy="90" r="3" fill="#F4E9C9" opacity="0.7"/>
+  <circle cx="80" cy="700" r="4" fill="#F4E9C9" opacity="0.7"/>
+</svg>

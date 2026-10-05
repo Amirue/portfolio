@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" fill="none" role="img" aria-label="Sunrise over an empty road, runner silhouetted">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E8604A"/>
+      <stop offset="0.55" stop-color="#F2A65E"/>
+      <stop offset="1" stop-color="#F6CE9C"/>
+    </linearGradient>
+    <filter id="blur" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="620" fill="url(#sky)"/>
+  <circle cx="470" cy="430" r="120" fill="#FFDC9E" opacity="0.9"/>
+  <rect x="430" y="560" width="220" height="60" rx="60" fill="#FFE3B3" opacity="0.5" filter="url(#blur)"/>
+  <path d="M0 620 L260 420 L520 620 Z" fill="#4A2430"/>
+  <path d="M520 620 L780 380 L1120 620 Z" fill="#4A2430"/>
+  <path d="M700 620 L970 460 L1200 620 Z" fill="#33202B"/>
+  <path d="M180 560 L600 430 L1040 560 L1040 900 L180 900 Z" fill="#2E2326"/>
+  <path d="M520 555 L600 520 L680 555 L680 630 L520 630 Z" fill="#22202A"/>
+  <path d="M600 520 L600 900" stroke="#EFE3D0" stroke-width="8" stroke-dasharray="44 46" opacity="0.85"/>
+  <g fill="#0E0D12">
+    <circle cx="660" cy="640" r="16"/>
+    <path d="M660 656 L660 760"/>
+    <path d="M626 884 L660 756 L694 884" fill="#0E0D12"/>
+    <path d="M660 700 L616 780" stroke="#0E0D12" stroke-width="14" stroke-linecap="round"/>
+    <path d="M660 700 L706 782" stroke="#0E0D12" stroke-width="14" stroke-linecap="round"/>
+  </g>
+  <g stroke="#F6CE9C" stroke-width="4" stroke-linecap="round" opacity="0.7">
+    <line x1="900" y1="330" x2="946" y2="318"/>
+    <line x1="940" y1="352" x2="996" y2="344"/>
+  </g>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none" role="img" aria-label="Layered Cameron Highlands hills in morning mist">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#DFF1EC"/>
+      <stop offset="1" stop-color="#F6FAF4"/>
+    </linearGradient>
+    <filter id="blur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#sky)"/>
+  <circle cx="900" cy="120" r="70" fill="#FFF7DB" opacity="0.95"/>
+  <path d="M0 300 L220 160 L430 300 Z" fill="#9CC9B6"/>
+  <path d="M300 340 L560 150 L820 340 Z" fill="#7AB39E"/>
+  <path d="M640 380 L900 130 L1200 400 L1200 480 L640 480 Z" fill="#55957F"/>
+  <path d="M0 420 L260 250 L540 430 L820 250 L1200 460 L1200 560 L0 600 Z" fill="#3B7A66"/>
+  <g opacity="0.7" fill="#2E614F">
+    <path d="M200 330 l6 -22 6 22 z"/>
+    <path d="M230 310 l6 -22 6 22 z"/>
+    <path d="M420 250 l6 -22 6 22 z"/>
+    <path d="M262 270 l6 -22 6 22 z"/>
+    <path d="M700 300 l6 -22 6 22 z"/>
+    <path d="M880 300 l6 -22 6 22 z"/>
+    <path d="M1010 330 l6 -22 6 22 z"/>
+  </g>
+  <g fill="#FFFFFF" opacity="0.55">
+    <rect x="-40" y="300" width="420" height="34" rx="17" filter="url(#blur)"/>
+    <rect x="500" y="250" width="360" height="30" rx="15" filter="url(#blur)"/>
+    <rect x="760" y="380" width="520" height="36" rx="18" filter="url(#blur)"/>
+  </g>
+</svg>

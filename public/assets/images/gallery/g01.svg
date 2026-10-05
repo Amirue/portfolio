@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" fill="none" role="img" aria-label="Hackathon night, stage lights and city">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#101026"/>
+      <stop offset="1" stop-color="#2A2350"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#E84848" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#E84848" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="stagex" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0891B2"/>
+      <stop offset="1" stop-color="#0A3A52"/>
+    </linearGradient>
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="750" fill="url(#sky)"/>
+  <circle cx="150" cy="640" r="300" fill="url(#glow)" filter="url(#blur)"/>
+  <circle cx="150" cy="520" r="140" fill="#E84848" opacity="0.9"/>
+  <circle cx="118" cy="498" r="62" fill="#FF8A7A" opacity="0.7"/>
+  <path d="M0 650 L200 480 L400 650 Z" fill="#0B0B18"/>
+  <path d="M500 650 L700 430 L1000 650 Z" fill="#0B0B18"/>
+  <path d="M0 750 L0 690 L300 470 L560 690 L760 430 L950 690 L1200 520 L1200 750 Z" fill="#07070F"/>
+  <g fill="#FFD9A0" opacity="0.8">
+    <rect x="980" y="470" width="10" height="14"/>
+    <rect x="1006" y="490" width="12" height="16"/>
+    <rect x="1040" y="450" width="10" height="14"/>
+    <rect x="1018" y="520" width="10" height="14"/>
+    <rect x="1120" y="470" width="12" height="16"/>
+    <rect x="1150" y="500" width="10" height="14"/>
+  </g>
+  <rect x="430" y="640" width="340" height="14" rx="7" fill="url(#stagex)"/>
+  <rect x="520" y="560" width="160" height="84" rx="8" fill="#0E2330" opacity="0.95"/>
+  <rect x="540" y="578" width="120" height="48" rx="4" fill="#0891B2" opacity="0.25"/>
+  <g stroke="#6BD7F0" stroke-width="3" opacity="0.8" stroke-linecap="round">
+    <line x1="560" y1="600" x2="600" y2="600"/>
+    <line x1="560" y1="612" x2="630" y2="612"/>
+  </g>
+  <circle cx="1090" cy="620" r="6" fill="#E84848"/>
+  <circle cx="100" cy="300" r="4" fill="#6D5BD3"/>
+  <circle cx="285" cy="215" r="3" fill="#6D5BD3"/>
+  <circle cx="80" cy="180" r="3" fill="#6D5BD3"/>
+</svg>

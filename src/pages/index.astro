@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Amiruan — Creative Web Developer & AI Integration Specialist. Personal portfolio built with human-centered design, custom WordPress engineering, and thoughtful UX laws.">
+  <meta name="theme-color" content="#FFFFFF">
+  <title>Amiruan — Creative Developer & AI Specialist</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+
+  <!-- Header / Navigation -->
+  <header class="header" id="header" data-ux-law="Jakob's Law" data-ux-desc="Standard top navigation with familiar labels (Work, Stack, Architecture, Experience, Contact) so visitors know exactly where to find information.">
+    <div class="container header__inner">
+      <a href="#" class="brand" aria-label="Amiruan home">
+        Amiruan<span class="brand__dot" aria-hidden="true"></span>
+      </a>
+
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#about" class="nav__link">About</a>
+        <a href="#projects" class="nav__link">Work</a>
+        <a href="#stack" class="nav__link">Stack</a>
+        <a href="#experience" class="nav__link">Experience</a>
+        <a href="/gallery" class="nav__link">Gallery</a>
+        <a href="#contact" class="nav__link">Contact</a>
+      </nav>
+
+      <div class="header__actions">
+        <button class="header__tool ux-pathfinder__toggle" id="uxPathfinderToggle" aria-label="Open UX Pathfinder" aria-expanded="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="11" y1="8" x2="11" y2="14"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
+          <span>UX Pathfinder</span>
+        </button>
+        <button class="header__tool header__tool--coral" id="aiToggle" aria-label="Open AI command terminal">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+          </svg>
+          <span>Ask AI</span>
+          <kbd>⌘K</kbd>
+        </button>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <a href="#about" class="nav__link">About</a>
+    <a href="#projects" class="nav__link">Work</a>
+    <a href="#stack" class="nav__link">Stack</a>
+    <a href="#experience" class="nav__link">Experience</a>
+    <a href="/gallery" class="nav__link">Gallery</a>
+    <a href="#contact" class="nav__link">Contact</a>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="home" data-ux-law="Aesthetic-Usability Effect" data-ux-desc="The oversized typography, layered portraits, and bold negative space create an immediate emotional impression that makes the site feel crafted and personal.">
+      <div class="hero__marquee-wrapper" aria-hidden="true">
+        <div class="hero__marquee-row">
+          <div class="hero__marquee-track">
+            <span class="hero__marquee-text">Web Developer</span>
+            <span class="hero__marquee-text">Web Developer</span>
+            <span class="hero__marquee-text">Web Developer</span>
+            <span class="hero__marquee-text">Web Developer</span>
+          </div>
+        </div>
+        <div class="hero__marquee-row">
+          <div class="hero__marquee-track">
+            <span class="hero__marquee-text hero__marquee-text--outline">UI/UX Designer</span>
+            <span class="hero__marquee-text hero__marquee-text--outline">UI/UX Designer</span>
+            <span class="hero__marquee-text hero__marquee-text--outline">UI/UX Designer</span>
+            <span class="hero__marquee-text hero__marquee-text--outline">UI/UX Designer</span>
+          </div>
+        </div>
+        <div class="hero__marquee-row">
+          <div class="hero__marquee-track">
+            <span class="hero__marquee-text">AI Specialist</span>
+            <span class="hero__marquee-text">AI Specialist</span>
+            <span class="hero__marquee-text">AI Specialist</span>
+            <span class="hero__marquee-text">AI Specialist</span>
+          </div>
+        </div>
+        <div class="hero__marquee-row">
+          <div class="hero__marquee-track">
+            <span class="hero__marquee-text hero__marquee-text--outline">Creative</span>
+            <span class="hero__marquee-text hero__marquee-text--outline">Creative</span>
+            <span class="hero__marquee-text hero__marquee-text--outline">Creative</span>
+            <span class="hero__marquee-text hero__marquee-text--outline">Creative</span>
+          </div>
+        </div>
+
+        <div class="hero__images" data-ux-law="Serial Position Effect" data-ux-desc="The portraits sit at the top of the marquee rows, anchoring the most memorable part of the hero exactly where attention peaks.">
+          <div class="hero__image hero__image--left">
+            <img src="/assets/images/hero-1.png" alt="Amiruan portrait 1" loading="eager">
+          </div>
+          <div class="hero__image hero__image--center">
+            <img src="/assets/images/hero-2.png" alt="Amiruan portrait 2" loading="eager">
+          </div>
+          <div class="hero__image hero__image--right">
+            <img src="/assets/images/hero-3.png" alt="Amiruan portrait 3" loading="eager">
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__scroll-hint">
+        <span>Scroll</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </div>
+
+      <div class="hero__bottom-bar" data-ux-law="Postel's Law" data-ux-desc="The bottom bar accepts loose scanning: visitors can read location, time, or status in any order they choose.">
+        <div class="hero__bottom-left">
+          <span>Based in Kuala Lumpur</span>
+          <span>MYT (UTC+8)</span>
+        </div>
+        <div class="hero__bottom-right">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>Open to work</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Personal Quote -->
+    <section class="quote-section" id="philosophy">
+      <div class="container quote-section__inner reveal">
+        <p class="quote-section__text" data-ux-law="Peak-End Rule" data-ux-desc="A memorable, personal statement early in the journey creates a strong emotional peak that shapes how visitors remember the experience.">
+          "I'm not just a developer pushing pixels. I'm a <em>maker</em> who cares about how things feel, why they work, and what they mean for the people using them. Every interface is a conversation — I try to make it a good one."
+        </p>
+        <div class="quote-section__footer">
+          <div class="quote-section__avatar">
+            <img src="/assets/images/profile.png" alt="Amiruan profile">
+          </div>
+          <div>
+            <div class="quote-section__name">Muhammad Amiruddin</div>
+            <div class="quote-section__role">Creative Web Developer & AI Specialist</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">01 — About</span>
+          <h2 class="section-title">More than a <span class="coral-gradient-text">tech stack</span>.</h2>
+          <p class="section-subtitle">I work across design, development, and AI — building every layer so nothing gets lost between handoff and launch.</p>
+        </header>
+
+        <div class="about-grid">
+          <div class="about-text reveal" style="transition-delay: 100ms;">
+            <p>
+              I started out curious about why some websites felt effortless and others felt like work. That curiosity turned into a career: <strong>designing interfaces</strong> that respect attention, <strong>engineering WordPress systems</strong> that scale quietly, and <strong>weaving AI into workflows</strong> that actually help people.
+            </p>
+            <p>
+              Based in Kuala Lumpur, I collaborate with founders, agencies, and product teams who want work that is fast, beautiful, and <em>human</em>. I don't chase trends. I chase clarity.
+            </p>
+            <p>
+              When I'm not building, I'm learning — about typography, cognitive load, agentic systems, and the small details that make software feel like it was made for you.
+            </p>
+          </div>
+
+          <div class="about-services reveal" style="transition-delay: 200ms;" data-ux-law="Hick's Law" data-ux-desc="Services are grouped into four clear, scannable items so visitors can quickly understand what I do without cognitive overload.">
+            <div class="about-service">
+              <span>Art Direction & UI/UX</span>
+              <span class="about-service__arrow">→</span>
+            </div>
+            <div class="about-service">
+              <span>Custom WordPress Engineering</span>
+              <span class="about-service__arrow">→</span>
+            </div>
+            <div class="about-service">
+              <span>AI Integration & Automation</span>
+              <span class="about-service__arrow">→</span>
+            </div>
+            <div class="about-service">
+              <span>Frontend Development</span>
+              <span class="about-service__arrow">→</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tri-Stack Matrix -->
+    <section class="section" id="architecture">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">02 — Core Disciplines</span>
+          <h2 class="section-title">The <span class="coral-gradient-text">Tri-Stack</span> Matrix</h2>
+          <p class="section-subtitle">Three disciplines I combine to ship complete digital products.</p>
+        </header>
+
+        <div class="matrix" data-ux-law="Law of Common Region" data-ux-desc="Each discipline is visually enclosed in its own card with shared borders and spacing, making the three pillars feel like a unified group.">
+          <article class="matrix-card reveal" style="transition-delay: 100ms;">
+            <div class="matrix-card__icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                <path d="M2 2l7.586 7.586"></path>
+                <circle cx="11" cy="11" r="2"></circle>
+              </svg>
+            </div>
+            <h3 class="matrix-card__title">UI/UX Design</h3>
+            <p class="matrix-card__desc">Human-centered interfaces with intentional motion, accessible patterns, and design systems that scale.</p>
+            <ul class="matrix-card__list">
+              <li>Figma Design Systems</li>
+              <li>Micro-Interactions & Motion</li>
+              <li>Responsive Layouts</li>
+              <li>Accessibility (a11y)</li>
+            </ul>
+          </article>
+
+          <article class="matrix-card reveal" style="transition-delay: 200ms;">
+            <div class="matrix-card__icon matrix-card__icon--sage">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <h3 class="matrix-card__title">WordPress Engineering</h3>
+            <p class="matrix-card__desc">Headless and monolithic architectures, custom content models, and backend automation that just works.</p>
+            <ul class="matrix-card__list">
+              <li>ACF Pro & Custom Post Types</li>
+              <li>Headless REST / GraphQL</li>
+              <li>Custom Hooks & Filters</li>
+              <li>Dockerized Workflows</li>
+            </ul>
+          </article>
+
+          <article class="matrix-card reveal" style="transition-delay: 300ms;">
+            <div class="matrix-card__icon matrix-card__icon--lavender">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            <h3 class="matrix-card__title">AI Integration</h3>
+            <p class="matrix-card__desc">Agentic assistants, real-time interfaces, and generative components that feel helpful, not robotic.</p>
+            <ul class="matrix-card__list">
+              <li>LLM Agent Prompting</li>
+              <li>WebSocket Systems</li>
+              <li>Vector Embeddings & RAG</li>
+              <li>Interactive Kiosks</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Selected Works -->
+    <section class="section" id="projects" style="background: linear-gradient(180deg, transparent 0%, rgba(232, 72, 72, 0.015) 50%, transparent 100%);">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">03 — Selected Works</span>
+          <h2 class="section-title">Case studies in <span class="amber-gradient-text">craft</span>.</h2>
+          <p class="section-subtitle">A curated set of projects spanning custom backends, AI interfaces, and precision UI systems.</p>
+        </header>
+
+        <div class="filter-bar reveal" style="transition-delay: 100ms;" data-ux-law="Hick's Law" data-ux-desc="Only four filter options are shown, reducing decision time and making project discovery feel effortless.">
+          <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All</button>
+          <button class="filter-btn" data-filter="uiux" role="tab" aria-selected="false">UI/UX</button>
+          <button class="filter-btn" data-filter="wordpress" role="tab" aria-selected="false">WordPress</button>
+          <button class="filter-btn" data-filter="ai" role="tab" aria-selected="false">AI</button>
+        </div>
+
+        <div class="works-grid" id="worksGrid" data-ux-law="Law of Proximity" data-ux-desc="Each project card groups its visual, title, tags, and actions closely together, so visitors perceive them as a single unit.">
+          <article class="work-card reveal" data-category="uiux" style="transition-delay: 100ms;">
+            <div class="work-card__visual">
+              <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+              </svg>
+            </div>
+            <div class="work-card__content">
+              <div class="work-card__tags">
+                <span class="badge badge-coral">Figma</span>
+                <span class="badge badge-lavender">a11y</span>
+              </div>
+              <h3 class="work-card__title">Fintech Dashboard Design System</h3>
+              <p class="work-card__desc">A scalable component library and token architecture enabling rapid product iteration across web and mobile.</p>
+              <div class="work-card__metric">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                99/100 Lighthouse Accessibility
+              </div>
+              <div class="work-card__actions">
+                <a href="#" class="work-card__action">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="work-card reveal" data-category="wordpress" style="transition-delay: 200ms;">
+            <div class="work-card__visual">
+              <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <div class="work-card__content">
+              <div class="work-card__tags">
+                <span class="badge badge-sage">Headless WP</span>
+                <span class="badge badge-coral">React</span>
+              </div>
+              <h3 class="work-card__title">Headless Commerce Platform</h3>
+              <p class="work-card__desc">Decoupled architecture serving sub-second page loads with custom ACF field groups and GraphQL.</p>
+              <div class="work-card__metric">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                0.2s Average Response
+              </div>
+              <div class="work-card__actions">
+                <a href="#" class="work-card__action">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="work-card reveal" data-category="ai" style="transition-delay: 300ms;">
+            <div class="work-card__visual">
+              <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            <div class="work-card__content">
+              <div class="work-card__tags">
+                <span class="badge badge-lavender">OpenAI API</span>
+                <span class="badge badge-coral">WebSockets</span>
+              </div>
+              <h3 class="work-card__title">AI Knowledge Assistant</h3>
+              <p class="work-card__desc">Real-time assistant using vector embeddings and RAG to answer domain-specific queries accurately.</p>
+              <div class="work-card__metric">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                94% Response Accuracy
+              </div>
+              <div class="work-card__actions">
+                <a href="#" class="work-card__action">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="work-card reveal" data-category="wordpress" style="transition-delay: 100ms;">
+            <div class="work-card__visual">
+              <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+            <div class="work-card__content">
+              <div class="work-card__tags">
+                <span class="badge badge-sage">PrintNode</span>
+                <span class="badge badge-coral">Docker</span>
+              </div>
+              <h3 class="work-card__title">Automated Printing Pipeline</h3>
+              <p class="work-card__desc">Dockerized backend orchestrating silent thermal printing and webhook dispatch for retail.</p>
+              <div class="work-card__metric">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                10K+ Orders Automated
+              </div>
+              <div class="work-card__actions">
+                <a href="#" class="work-card__action">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="work-card reveal" data-category="uiux" style="transition-delay: 200ms;">
+            <div class="work-card__visual">
+              <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            </div>
+            <div class="work-card__content">
+              <div class="work-card__tags">
+                <span class="badge badge-coral">Tailwind</span>
+                <span class="badge badge-lavender">Prototyping</span>
+              </div>
+              <h3 class="work-card__title">Global Brand Website Redesign</h3>
+              <p class="work-card__desc">Responsive web experience with performance-first Tailwind and scroll-driven storytelling.</p>
+              <div class="work-card__metric">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                +180% Engagement Lift
+              </div>
+              <div class="work-card__actions">
+                <a href="#" class="work-card__action">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="work-card reveal" data-category="ai" style="transition-delay: 300ms;">
+            <div class="work-card__visual">
+              <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                <circle cx="12" cy="14" r="4"></circle>
+                <line x1="12" y1="6" x2="12.01" y2="6"></line>
+              </svg>
+            </div>
+            <div class="work-card__content">
+              <div class="work-card__tags">
+                <span class="badge badge-lavender">LLM Agents</span>
+                <span class="badge badge-coral">Next.js</span>
+              </div>
+              <h3 class="work-card__title">AI Kiosk Interface</h3>
+              <p class="work-card__desc">Touch-first kiosk with natural-language ordering, voice input, and generative UI feedback.</p>
+              <div class="work-card__metric">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                30% Faster Checkout
+              </div>
+              <div class="work-card__actions">
+                <a href="#" class="work-card__action">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skill Bento Matrix -->
+    <section class="section" id="stack">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">04 — Stack & Capabilities</span>
+          <h2 class="section-title">Tools that power <span class="sage-gradient-text">execution</span>.</h2>
+          <p class="section-subtitle">A living matrix of technologies, proficiencies, and the design principles behind the layout.</p>
+        </header>
+
+        <div class="bento">
+          <div class="bento__item bento__item--wide reveal" style="transition-delay: 100ms;" data-ux-law="Law of Similarity" data-ux-desc="Each skill card uses the same shape, border, and spacing, making the bento grid feel like a cohesive family of related items.">
+            <h3 class="bento__title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              Proficiency Radar
+            </h3>
+            <svg class="radar" viewBox="0 0 320 260" aria-label="Skill proficiency radar chart">
+              <g stroke="var(--border-subtle)" fill="none" stroke-width="1">
+                <polygon points="160,30 275,95 275,205 160,270 45,205 45,95" />
+                <polygon points="160,65 235,110 235,190 160,235 85,190 85,110" />
+                <polygon points="160,100 195,120 195,175 160,195 125,175 125,120" />
+              </g>
+              <g stroke="var(--border-subtle)" stroke-width="1">
+                <line x1="160" y1="30" x2="160" y2="150" />
+                <line x1="275" y1="95" x2="160" y2="150" />
+                <line x1="275" y1="205" x2="160" y2="150" />
+                <line x1="160" y1="270" x2="160" y2="150" />
+                <line x1="45" y1="205" x2="160" y2="150" />
+                <line x1="45" y1="95" x2="160" y2="150" />
+              </g>
+              <polygon id="radarPolygon" points="160,50 255,110 245,185 160,245 75,185 70,110" fill="rgba(232, 72, 72, 0.12)" stroke="var(--accent-coral)" stroke-width="2" />
+              <g font-family="var(--font-mono)" font-size="11" fill="var(--text-muted)" text-anchor="middle">
+                <text x="160" y="20">UI/UX</text>
+                <text x="295" y="90">WordPress</text>
+                <text x="295" y="220">AI/LLM</text>
+                <text x="160" y="285">DevOps</text>
+                <text x="25" y="220">Frontend</text>
+                <text x="25" y="90">Backend</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="bento__item reveal" style="transition-delay: 200ms;" data-ux-law="Miller's Law" data-ux-desc="Each skill list contains 4 items, keeping the working-memory load within the 7±2 range for easy scanning.">
+            <h3 class="bento__title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Frontend
+            </h3>
+            <ul class="bento__list">
+              <li>React / Next.js <div class="bento__meter"><div class="bento__meter-fill" data-width="95"></div></div></li>
+              <li>TypeScript <div class="bento__meter"><div class="bento__meter-fill" data-width="90"></div></div></li>
+              <li>Tailwind CSS <div class="bento__meter"><div class="bento__meter-fill" data-width="98"></div></div></li>
+              <li>Framer Motion <div class="bento__meter"><div class="bento__meter-fill" data-width="88"></div></div></li>
+            </ul>
+          </div>
+
+          <div class="bento__item reveal" style="transition-delay: 300ms;" data-ux-law="Goal-Gradient Effect" data-ux-desc="Progress bars visually move toward completion, motivating visitors to scan the full skill profile and creating a sense of progress.">
+            <h3 class="bento__title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              WordPress & Backend
+            </h3>
+            <ul class="bento__list">
+              <li>ACF Pro / CPT <div class="bento__meter"><div class="bento__meter-fill" data-width="96"></div></div></li>
+              <li>REST / GraphQL <div class="bento__meter"><div class="bento__meter-fill" data-width="92"></div></div></li>
+              <li>PHP / MySQL <div class="bento__meter"><div class="bento__meter-fill" data-width="85"></div></div></li>
+              <li>Docker / CI/CD <div class="bento__meter"><div class="bento__meter-fill" data-width="80"></div></div></li>
+            </ul>
+          </div>
+
+          <div class="bento__item reveal" style="transition-delay: 100ms;" data-ux-law="Chunking" data-ux-desc="Technologies are grouped into themed categories (Frontend, Backend, AI, Design) so the information is easier to remember and navigate.">
+            <h3 class="bento__title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 12L2.5 8.5"/><path d="M12 12v10"/></svg>
+              AI & Automation
+            </h3>
+            <ul class="bento__list">
+              <li>OpenAI / Gemini APIs <div class="bento__meter"><div class="bento__meter-fill" data-width="93"></div></div></li>
+              <li>RAG & Vector DBs <div class="bento__meter"><div class="bento__meter-fill" data-width="85"></div></div></li>
+              <li>WebSockets <div class="bento__meter"><div class="bento__meter-fill" data-width="88"></div></div></li>
+              <li>LangChain / Agents <div class="bento__meter"><div class="bento__meter-fill" data-width="78"></div></div></li>
+            </ul>
+          </div>
+
+          <div class="bento__item bento__item--wide reveal" style="transition-delay: 200ms;" data-ux-law="Law of Uniform Connectedness" data-ux-desc="Design tool tags are visually connected through shared pill styling and consistent spacing, signaling they belong to the same design toolkit.">
+            <h3 class="bento__title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+              Design & Prototyping
+            </h3>
+            <div class="bento__tags">
+              <span class="bento__tag">Figma</span>
+              <span class="bento__tag">Adobe XD</span>
+              <span class="bento__tag">Principle</span>
+              <span class="bento__tag">Spline 3D</span>
+              <span class="bento__tag">Whimsical</span>
+              <span class="bento__tag">Maze</span>
+              <span class="bento__tag">Storybook</span>
+              <span class="bento__tag">Zeroheight</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Timeline -->
+    <section class="section" id="experience">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">05 — Experience</span>
+          <h2 class="section-title">Strategic <span class="coral-gradient-text">milestones</span>.</h2>
+          <p class="section-subtitle">A timeline of roles, projects, and pivotal moments that shaped my craft.</p>
+        </header>
+
+        <div class="timeline" data-ux-law="Law of Common Region" data-ux-desc="Each role is enclosed in a card and connected by a continuous timeline, creating a clear chronological region.">
+          <article class="timeline__item reveal" style="transition-delay: 100ms;">
+            <div class="timeline__card">
+              <div class="timeline__meta">
+                <span class="timeline__date">2023 — Present</span>
+                <span class="badge badge-coral">Founder</span>
+              </div>
+              <h3 class="timeline__role">Independent Digital Consultant</h3>
+              <p class="timeline__company">Amiruan Digital Studio</p>
+              <p class="timeline__desc">Delivering end-to-end UI/UX systems, headless WordPress architectures, and AI integrations for APAC clients.</p>
+              <div class="timeline__tags">
+                <span class="bento__tag">Next.js</span>
+                <span class="bento__tag">Headless WP</span>
+                <span class="bento__tag">OpenAI API</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="timeline__item reveal" style="transition-delay: 200ms;">
+            <div class="timeline__card">
+              <div class="timeline__meta">
+                <span class="timeline__date">2021 — 2023</span>
+                <span class="badge badge-sage">Senior</span>
+              </div>
+              <h3 class="timeline__role">Senior Web Developer</h3>
+              <p class="timeline__company">Regional E-Commerce Agency</p>
+              <p class="timeline__desc">Led WooCommerce ecosystems, headless storefronts, and automated backend pipelines for retail brands.</p>
+              <div class="timeline__tags">
+                <span class="bento__tag">WordPress</span>
+                <span class="bento__tag">React</span>
+                <span class="bento__tag">Docker</span>
+                <span class="bento__tag">PrintNode</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="timeline__item reveal" style="transition-delay: 300ms;">
+            <div class="timeline__card">
+              <div class="timeline__meta">
+                <span class="timeline__date">2019 — 2021</span>
+                <span class="badge badge-lavender">Mid-Level</span>
+              </div>
+              <h3 class="timeline__role">UI/UX & Frontend Developer</h3>
+              <p class="timeline__company">Creative Technology Studio</p>
+              <p class="timeline__desc">Designed responsive web experiences, design systems, and interactive prototypes for fintech and SaaS.</p>
+              <div class="timeline__tags">
+                <span class="bento__tag">Figma</span>
+                <span class="bento__tag">Tailwind</span>
+                <span class="bento__tag">Vue.js</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="timeline__item reveal" style="transition-delay: 100ms;">
+            <div class="timeline__card">
+              <div class="timeline__meta">
+                <span class="timeline__date">2018 — 2019</span>
+                <span class="badge badge-coral">Junior</span>
+              </div>
+              <h3 class="timeline__role">Junior Web Designer</h3>
+              <p class="timeline__company">Digital Marketing Agency</p>
+              <p class="timeline__desc">Cut teeth on WordPress theme development, landing pages, and foundational UI design.</p>
+              <div class="timeline__tags">
+                <span class="bento__tag">WordPress</span>
+                <span class="bento__tag">HTML/CSS</span>
+                <span class="bento__tag">jQuery</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact" style="background: linear-gradient(180deg, transparent 0%, rgba(109, 91, 211, 0.015) 50%, transparent 100%);">
+      <div class="container">
+        <header class="section-header reveal">
+          <span class="section-label">06 — Contact</span>
+          <h2 class="section-title">Start a <span class="amber-gradient-text">project</span>.</h2>
+          <p class="section-subtitle">Tell me what you're building. I'll respond within 24 hours with a clear path forward.</p>
+        </header>
+
+        <div class="contact-grid">
+          <div class="contact-info reveal" style="transition-delay: 100ms;" data-ux-law="Postel's Law" data-ux-desc="Contact options are flexible — email, location, and a form — so visitors can reach out in whatever way is easiest for them.">
+            <a href="mailto:hello@amiruan.dev" class="contact-info__item">
+              <div class="contact-info__icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <div class="contact-info__label">Email</div>
+                <div class="contact-info__value">hello@amiruan.dev</div>
+              </div>
+            </a>
+
+            <a href="#" class="contact-info__item">
+              <div class="contact-info__icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <div class="contact-info__label">Location</div>
+                <div class="contact-info__value">Kuala Lumpur, Malaysia (MYT)</div>
+              </div>
+            </a>
+
+            <a href="#" class="contact-info__item">
+              <div class="contact-info__icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><circle cx="12" cy="14" r="4"/><line x1="12" y1="6" x2="12.01" y2="6"/></svg>
+              </div>
+              <div>
+                <div class="contact-info__label">Availability</div>
+                <div class="contact-info__value">Open for Q3 2026 projects</div>
+              </div>
+            </a>
+          </div>
+
+          <form class="contact-form reveal" style="transition-delay: 200ms;" id="contactForm" novalidate data-ux-law="Occam's Razor" data-ux-desc="The contact form asks only for the essentials, removing unnecessary fields so the path to sending a message is as simple as possible.">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@company.com" required>
+            </div>
+            <div class="form-group">
+              <label for="projectType">Project Type</label>
+              <select id="projectType" name="projectType" required>
+                <option value="" disabled selected>Select a discipline</option>
+                <option value="uiux">UI/UX Design</option>
+                <option value="wordpress">WordPress Engineering</option>
+                <option value="ai">AI Integration</option>
+                <option value="fullstack">Full-Stack Product</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Project Details</label>
+              <textarea id="message" name="message" placeholder="Tell me about your goals, timeline, and budget..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+            <div class="form-status" id="formStatus" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="footer" data-ux-law="Peak-End Rule" data-ux-desc="The footer closes the experience with system status, live time, and social links — a calm, memorable ending to the journey.">
+    <div class="container footer__inner">
+      <div class="footer__top">
+        <div class="footer__brand">Amiruan.</div>
+        <div class="footer__social">
+          <a href="#" aria-label="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+          </a>
+          <a href="#" aria-label="Dribbble">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer__status">
+        <div class="footer__status-item">
+          <span class="footer__status-dot" aria-hidden="true"></span>
+          <span>System: <strong>Operational</strong></span>
+        </div>
+        <div class="footer__status-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Local Time: <strong id="localTime">--:--</strong> MYT</span>
+        </div>
+        <div class="footer__status-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Status: <strong id="availabilityStatus">Available for hire</strong></span>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>&copy; <span id="year"></span> Amiruan. Built with precision.</p>
+        <p>Designed & engineered by Muhammad Amiruddin.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AI Terminal Modal -->
+  <div class="terminal-overlay" id="terminalOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="AI command terminal" data-ux-law="Doherty Threshold" data-ux-desc="The terminal responds instantly to keyboard input, keeping the interaction pace below 400ms and maintaining user momentum.">
+    <div class="terminal-modal">
+      <div class="terminal-modal__header">
+        <div class="terminal-modal__title">
+          <span>&gt;_</span>
+          amiruan-terminal — ask me anything
+        </div>
+        <button class="terminal-modal__close" id="terminalClose" aria-label="Close terminal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="terminal-modal__body" id="terminalBody">
+        <div class="terminal-log" id="terminalLog">
+          <div class="terminal-log__entry terminal-log__entry--system">Welcome to the Amiruan terminal.</div>
+          <div class="terminal-log__entry terminal-log__entry--system">Try: “stacks”, “projects”, “contact”, or “availability”</div>
+        </div>
+      </div>
+      <div class="terminal-modal__hint">
+        <span>Press <strong>Enter</strong> to submit</span>
+        <span>Press <strong>Esc</strong> or <strong>⌘K</strong> to close</span>
+      </div>
+      <div class="terminal-modal__input-wrap">
+        <span class="hero__terminal-prompt">&gt;</span>
+        <input type="text" class="terminal-modal__input" id="terminalInput" placeholder='ask_amiruan("...")' autocomplete="off" aria-label="Terminal input">
+      </div>
+    </div>
+  </div>
+
+  <!-- UX Pathfinder Panel -->
+  <div class="ux-pathfinder-backdrop" id="uxPathfinderBackdrop" aria-hidden="true"></div>
+  <aside class="ux-pathfinder-panel" id="uxPathfinderPanel" aria-label="UX Pathfinder panel" aria-hidden="true">
+    <div class="ux-pathfinder-panel__header">
+      <div class="ux-pathfinder-panel__title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="11" y1="8" x2="11" y2="14"></line>
+          <line x1="8" y1="11" x2="14" y2="11"></line>
+        </svg>
+        UX Pathfinder
+      </div>
+      <button class="ux-pathfinder-panel__close" id="uxPathfinderClose" aria-label="Close UX Pathfinder">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="ux-pathfinder-panel__body">
+      <p class="ux-pathfinder-panel__intro">
+        This portfolio is built on proven UX laws from <a href="https://lawsofux.com/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-lavender); text-decoration: underline;">lawsofux.com</a>.<br><br>
+        <strong>Click any law</strong> below to close this panel and jump to where it's applied on the page. Close anytime with the X, the backdrop, or the Esc key.
+      </p>
+      <div id="uxPathfinderList"></div>
+    </div>
+  </aside>
+
+  <script is:inline src="/assets/js/main.js"></script>
+</body>
+</html>
