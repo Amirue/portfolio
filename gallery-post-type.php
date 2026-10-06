@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Plugin Name: Gallery Post Type
  * Description: Registers a Gallery Post custom post type with custom fields for the portfolio gallery. Uses Featured Image + post attachments for images (no ACF PRO needed).
@@ -216,3 +216,210 @@ function amiruan_gallery_editor_help() {
     }
 }
 add_action('admin_notices', 'amiruan_gallery_editor_help');
+
+// ============================================================
+// ============================================================
+// WORK CPT
+// ============================================================
+
+function amiruan_register_work_post_type() {
+    $labels = array(
+        'name'               => 'Works',
+        'singular_name'      => 'Work',
+        'menu_name'          => 'Works',
+        'add_new'            => 'Add New',
+        'add_new_item'       => 'Add New Work',
+        'edit_item'          => 'Edit Work',
+        'new_item'           => 'New Work',
+        'view_item'          => 'View Work',
+        'search_items'       => 'Search Works',
+        'not_found'          => 'No works found',
+        'not_found_in_trash' => 'No works found in Trash',
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'has_archive'        => true,
+        'rewrite'            => array('slug' => 'work'),
+        'supports'           => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'),
+        'show_in_rest'       => true,
+        'menu_icon'          => 'dashicons-portfolio',
+        'menu_position'      => 6,
+    );
+
+    register_post_type('work', $args);
+}
+add_action('init', 'amiruan_register_work_post_type');
+
+function amiruan_register_work_type_taxonomy() {
+    $labels = array(
+        'name'              => 'Work Types',
+        'singular_name'     => 'Work Type',
+        'search_items'      => 'Search Work Types',
+        'all_items'         => 'All Work Types',
+        'edit_item'         => 'Edit Work Type',
+        'update_item'       => 'Update Work Type',
+        'add_new_item'      => 'Add New Work Type',
+        'new_item_name'     => 'New Work Type Name',
+        'menu_name'         => 'Work Types',
+    );
+
+    $args = array(
+        'hierarchical'      => true,
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_in_rest'      => true,
+        'rewrite'           => array('slug' => 'work-type'),
+    );
+
+    register_taxonomy('work_type', array('work'), $args);
+}
+add_action('init', 'amiruan_register_work_type_taxonomy');
+
+function amiruan_add_default_work_types() {
+    $terms = array('uiux', 'wordpress', 'ai');
+    foreach ($terms as $term) {
+        if (!term_exists($term, 'work_type')) {
+            wp_insert_term(ucfirst($term), 'work_type');
+        }
+    }
+}
+add_action('admin_init', 'amiruan_add_default_work_types');
+
+function amiruan_register_work_acf_fields() {
+    if (!function_exists('acf_add_local_field_group')) return;
+
+    acf_add_local_field_group(array(
+        'key'      => 'group_work_post',
+        'title'    => 'Work Details',
+        'fields'   => array(
+            array(
+                'key'   => 'field_work_subtitle',
+                'label' => 'Subtitle',
+                'name'  => 'subtitle',
+                'type'  => 'text',
+                'instructions' => 'Short tagline shown under the title',
+            ),
+            array(
+                'key'   => 'field_work_role',
+                'label' => 'My Role',
+                'name'  => 'role',
+                'type'  => 'text',
+                'instructions' => 'e.g. "Design + Development"',
+            ),
+            array(
+                'key'   => 'field_work_tools',
+                'label' => 'Tools',
+                'name'  => 'tools',
+                'type'  => 'text',
+                'instructions' => 'Comma-separated: "Figma, React, WordPress"',
+            ),
+            array(
+                'key'   => 'field_work_metric',
+                'label' => 'Metric',
+                'name'  => 'metric',
+                'type'  => 'text',
+                'instructions' => 'Highlight stat: "99/100 Lighthouse"',
+            ),
+            array(
+                'key'   => 'field_work_demo_url',
+                'label' => 'Demo URL',
+                'name'  => 'demo_url',
+                'type'  => 'url',
+                'instructions' => 'Live project URL for laptop demo (leave empty for image carousel)',
+            ),
+            array(
+                'key'   => 'field_work_year',
+                'label' => 'Year',
+                'name'  => 'year',
+                'type'  => 'text',
+                'instructions' => 'e.g. "2025"',
+            ),
+            array(
+                'key'   => 'field_work_context',
+                'label' => 'The Context',
+                'name'  => 'context',
+                'type'  => 'textarea',
+                'instructions' => 'Project background - appears on the detail page',
+                'rows'  => 4,
+            ),
+            array(
+                'key'   => 'field_work_process',
+                'label' => 'The Process',
+                'name'  => 'process',
+                'type'  => 'textarea',
+                'instructions' => 'How you built it - appears on the detail page',
+                'rows'  => 4,
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param'    => 'post_type',
+                    'operator' => '==',
+                    'value'    => 'work',
+                ),
+            ),
+        ),
+        'style' => 'default',
+    ));
+}
+add_action('acf/init', 'amiruan_register_work_acf_fields');
+
+function amiruan_get_work_images($post_id) {
+    $images = array();
+
+    $thumb_id = get_post_thumbnail_id($post_id);
+    if ($thumb_id) {
+        $url = wp_get_attachment_url($thumb_id);
+        if ($url) {
+            $images[] = array('id' => $thumb_id, 'url' => $url);
+        }
+    }
+
+    $attachments = get_posts(array(
+        'post_type'      => 'attachment',
+        'post_mime_type' => 'image',
+        'post_parent'    => $post_id,
+        'numberposts'    => 10,
+        'orderby'        => 'menu_order',
+        'order'          => 'ASC',
+    ));
+
+    foreach ($attachments as $att) {
+        if ($att->ID == $thumb_id) continue;
+        $url = wp_get_attachment_url($att->ID);
+        if ($url) {
+            $images[] = array('id' => $att->ID, 'url' => $url);
+        }
+    }
+
+    return $images;
+}
+
+function amiruan_work_rest_fields($response, $post, $request) {
+    if ($post->post_type !== 'work') return $response;
+
+    $workImages = amiruan_get_work_images($post->ID);
+    $tools = get_field('tools', $post->ID) ?: '';
+    $toolsArr = array_filter(array_map('trim', explode(',', $tools)));
+
+    $response->data['acf'] = array(
+        'subtitle'     => get_field('subtitle', $post->ID) ?: '',
+        'role'         => get_field('role', $post->ID) ?: '',
+        'tools'        => $toolsArr,
+        'metric'       => get_field('metric', $post->ID) ?: '',
+        'demo_url'     => get_field('demo_url', $post->ID) ?: '',
+        'year'         => get_field('year', $post->ID) ?: '',
+        'context'      => get_field('context', $post->ID) ?: '',
+        'process'      => get_field('process', $post->ID) ?: '',
+        'work_images'  => $workImages,
+    );
+
+    $terms = wp_get_post_terms($post->ID, 'work_type', array('fields' => 'slugs'));
+    $response->data['work_type'] = $terms;
+
+    return $response;
+}
+add_filter('rest_prepare_work', 'amiruan_work_rest_fields', 10, 3);
