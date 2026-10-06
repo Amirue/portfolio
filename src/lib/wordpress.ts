@@ -97,15 +97,23 @@ const HIGHLIGHTS = [
 ];
 
 export async function fetchGalleryData(): Promise<GalleryData> {
-  const res = await fetch(`${WP_API}/gallery_post?per_page=50&acf_format=standard`);
-  if (!res.ok) {
-    console.error(`WP API error: ${res.status} ${res.statusText}`);
+  try {
+    const res = await fetch(`${WP_API}/gallery_post?per_page=50&acf_format=standard`, {
+      signal: AbortSignal.timeout(10000),
+    });
+    const text = await res.text();
+    if (!text.trim().startsWith('[') && !text.trim().startsWith('{')) {
+      console.error('WP API returned non-JSON response (HTML?). Using empty data.');
+      return { profile: {}, highlights: HIGHLIGHTS, posts: [] };
+    }
+    const wpPosts: WPPost[] = JSON.parse(text);
+    return {
+      profile: {},
+      highlights: HIGHLIGHTS,
+      posts: wpPosts.map(mapPost),
+    };
+  } catch (e) {
+    console.error('WP API fetch failed:', e);
     return { profile: {}, highlights: HIGHLIGHTS, posts: [] };
   }
-  const wpPosts: WPPost[] = await res.json();
-  return {
-    profile: {},
-    highlights: HIGHLIGHTS,
-    posts: wpPosts.map(mapPost),
-  };
 }
