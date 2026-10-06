@@ -1,0 +1,518 @@
+﻿---
+import { fetchWorkSlugs, fetchWorkBySlug } from '../../lib/wordpress';
+
+export async function getStaticPaths() {
+  const slugs = await fetchWorkSlugs();
+  return slugs.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const work = await fetchWorkBySlug(slug!);
+
+if (!work) {
+  return Astro.redirect('/404');
+}
+
+const title = work.title;
+const subtitle = work.subtitle;
+const role = work.role;
+const year = work.year;
+const context = work.context;
+const workProcess = work.process;
+const tools = work.tools;
+const metric = work.metric;
+const demoUrl = work.demoUrl;
+const images = work.images;
+const content = work.content;
+const typeLabel = work.type === 'uiux' ? 'UI/UX' : work.type === 'wordpress' ? 'WordPress' : 'AI';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content={`${title} — ${subtitle}`}>
+  <title>{title} — Amiruan</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <style>
+    /* ── Split-screen detail layout ── */
+    .work-detail {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      min-height: 80vh;
+    }
+
+    .work-detail__content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .work-detail__label {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-coral, #E84848);
+    }
+
+    .work-detail__title {
+      font-family: var(--font-display, sans-serif);
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--text-main, #111);
+    }
+
+    .work-detail__subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted, #666);
+      line-height: 1.6;
+      margin: -0.5rem 0 0;
+    }
+
+    .work-detail__meta {
+      display: flex;
+      gap: 1.5rem;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.8rem;
+      color: var(--text-dim, #9CA3AF);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .work-detail__meta strong {
+      color: var(--text-main, #111);
+    }
+
+    .work-detail__section h2 {
+      font-family: var(--font-display, sans-serif);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-main, #111);
+    }
+
+    .work-detail__section p {
+      color: var(--text-muted, #666);
+      line-height: 1.75;
+      font-size: 0.95rem;
+    }
+
+    .work-detail__tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .work-detail__tool {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 100px;
+      background: rgba(0,0,0,0.05);
+      color: var(--text-main, #111);
+    }
+
+    .work-detail__metric {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 100px;
+      background: rgba(77, 124, 58, 0.08);
+      color: var(--accent-sage, #4D7C3A);
+      font-family: var(--font-mono, monospace);
+      font-size: 0.85rem;
+      font-weight: 600;
+      width: fit-content;
+    }
+
+    .work-detail__body {
+      color: var(--text-muted, #666);
+      line-height: 1.75;
+    }
+
+    /* ── Right panel: sticky demo ── */
+    .work-detail__demo {
+      position: sticky;
+      top: 2rem;
+      align-self: start;
+    }
+
+    /* ── Laptop mockup ── */
+    .laptop {
+      width: 100%;
+    }
+
+    .laptop__screen {
+      background: #1a1a2e;
+      border-radius: 12px 12px 0 0;
+      padding: 0;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+
+    .laptop__browser-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1rem;
+      background: #16213e;
+    }
+
+    .laptop__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .laptop__dot--red { background: #ff5f57; }
+    .laptop__dot--yellow { background: #ffbd2e; }
+    .laptop__dot--green { background: #28c840; }
+
+    .laptop__url {
+      flex: 1;
+      margin-left: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.6);
+      font-family: var(--font-mono, monospace);
+      font-size: 0.7rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .laptop__viewport {
+      position: relative;
+      width: 100%;
+      padding-top: 62.5%;
+      overflow: hidden;
+    }
+
+    .laptop__viewport iframe {
+      position: absolute;
+      inset: 0;
+      width: 133.34%;
+      height: 160%;
+      border: none;
+      transform: scale(0.75);
+      transform-origin: 0 0;
+    }
+
+    .laptop__base {
+      height: 14px;
+      background: linear-gradient(to bottom, #c0c0c8, #a8a8b0);
+      border-radius: 0 0 8px 8px;
+      position: relative;
+    }
+
+    .laptop__base::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 15%;
+      height: 4px;
+      background: #9898a0;
+      border-radius: 0 0 4px 4px;
+    }
+
+    .laptop__shadow {
+      width: 92%;
+      margin: 0 auto;
+      height: 20px;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.12) 0%, transparent 70%);
+    }
+
+    /* ── Image carousel ── */
+    .work-carousel {
+      position: relative;
+    }
+
+    .work-carousel__track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+
+    .work-carousel__track::-webkit-scrollbar { display: none; }
+
+    .work-carousel__slide {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+    }
+
+    .work-carousel__slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .work-carousel__nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      font-size: 1.1rem;
+      color: #111;
+      z-index: 2;
+    }
+
+    .work-carousel__nav--prev { left: 0.75rem; }
+    .work-carousel__nav--next { right: 0.75rem; }
+
+    .work-carousel__dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+
+    .work-carousel__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.15);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .work-carousel__dot.is-active {
+      background: var(--accent-coral, #E84848);
+      width: 20px;
+      border-radius: 4px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .work-detail {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 1.5rem 1rem 3rem;
+      }
+
+      .work-detail__demo {
+        position: static;
+      }
+
+      .work-detail__title {
+        font-size: 1.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="/" class="brand" aria-label="Amiruan home">
+        Amiruan<span class="brand__dot" aria-hidden="true"></span>
+      </a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="/#about" class="nav__link">About</a>
+        <a href="/#projects" class="nav__link">Work</a>
+        <a href="/#stack" class="nav__link">Stack</a>
+        <a href="/#experience" class="nav__link">Experience</a>
+        <a href="/gallery" class="nav__link">Gallery</a>
+        <a href="/#contact" class="nav__link">Contact</a>
+      </nav>
+      <div class="header__actions">
+        <button class="header__tool" id="uxPathfinderToggle" aria-label="Open UX Pathfinder">
+          <span>UX Pathfinder</span>
+        </button>
+        <button class="header__tool header__tool--coral" id="aiToggle" aria-label="Open AI command terminal">
+          <span>Ask AI</span>
+        </button>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <a href="/#about" class="nav__link">About</a>
+    <a href="/#projects" class="nav__link">Work</a>
+    <a href="/#stack" class="nav__link">Stack</a>
+    <a href="/#experience" class="nav__link">Experience</a>
+    <a href="/gallery" class="nav__link">Gallery</a>
+    <a href="/#contact" class="nav__link">Contact</a>
+  </div>
+
+  <main class="work-detail">
+    
+    <div class="work-detail__content">
+      <a href="/#projects" class="work-detail__label">&larr; Back to work</a>
+
+      <h1 class="work-detail__title">{title}</h1>
+      <p class="work-detail__subtitle">{subtitle}</p>
+
+      <div class="work-detail__meta">
+        <span><strong>{role}</strong></span>
+        <span>{year}</span>
+        <span>{typeLabel}</span>
+      </div>
+
+      {context && (
+        <section class="work-detail__section">
+          <h2>The Context</h2>
+          <p>{context}</p>
+        </section>
+      )}
+
+      {workProcess && (
+        <section class="work-detail__section">
+          <h2>The Process</h2>
+          <p>{workProcess}</p>
+        </section>
+      )}
+
+      {tools.length > 0 && (
+        <section class="work-detail__section">
+          <h2>Tools</h2>
+          <div class="work-detail__tools">
+            {tools.map((tool) => <span class="work-detail__tool">{tool}</span>)}
+          </div>
+        </section>
+      )}
+
+      {metric && (
+        <div class="work-detail__metric">✓ {metric}</div>
+      )}
+
+      {content && (
+        <section class="work-detail__body" set:html={content}></section>
+      )}
+    </div>
+
+    
+    <div class="work-detail__demo">
+      {demoUrl ? (
+        
+        <div class="laptop">
+          <div class="laptop__screen">
+            <div class="laptop__browser-bar">
+              <span class="laptop__dot laptop__dot--red"></span>
+              <span class="laptop__dot laptop__dot--yellow"></span>
+              <span class="laptop__dot laptop__dot--green"></span>
+              <span class="laptop__url">{demoUrl}</span>
+            </div>
+            <div class="laptop__viewport">
+              <iframe src={demoUrl} title="Live demo — {title}" loading="lazy"></iframe>
+            </div>
+          </div>
+          <div class="laptop__base"></div>
+          <div class="laptop__shadow"></div>
+        </div>
+      ) : images.length > 0 ? (
+        
+        <div class="work-carousel" id="workCarousel">
+          <div class="work-carousel__track" id="workCarouselTrack">
+            {images.map((img, i) => (
+              <div class="work-carousel__slide" data-index={i}>
+                <img src={img} alt={`${title} — screenshot ${i + 1}`} loading="lazy">
+              </div>
+            ))}
+          </div>
+          {images.length > 1 && (
+            <>
+              <button class="work-carousel__nav work-carousel__nav--prev" id="carouselPrev" aria-label="Previous image">&#8249;</button>
+              <button class="work-carousel__nav work-carousel__nav--next" id="carouselNext" aria-label="Next image">&#8250;</button>
+              <div class="work-carousel__dots" id="carouselDots">
+                {images.map((_, i) => (
+                  <button class={`work-carousel__dot ${i === 0 ? 'is-active' : ''}`} data-index={i} aria-label={`Go to image ${i + 1}`}></button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      ) : (
+        <div class="laptop">
+          <div class="laptop__screen">
+            <div class="laptop__browser-bar">
+              <span class="laptop__dot laptop__dot--red"></span>
+              <span class="laptop__dot laptop__dot--yellow"></span>
+              <span class="laptop__dot laptop__dot--green"></span>
+              <span class="laptop__url">Preview</span>
+            </div>
+            <div class="laptop__viewport" style="display:flex;align-items:center;justify-content:center;background:#1a1a2e;">
+              <p style="color:rgba(255,255,255,0.4);font-family:monospace;font-size:0.85rem;">No preview available</p>
+            </div>
+          </div>
+          <div class="laptop__base"></div>
+          <div class="laptop__shadow"></div>
+        </div>
+      )}
+    </div>
+  </main>
+
+  
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>&copy; {new Date().getFullYear()} Amiruan. Built with precision.</p>
+        <p><a href="/" class="footer__back">&larr; Back to home</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script is:inline>
+    (function() {
+      const track = document.getElementById('workCarouselTrack');
+      const prev = document.getElementById('carouselPrev');
+      const next = document.getElementById('carouselNext');
+      const dots = document.querySelectorAll('.work-carousel__dot');
+
+      if (!track) return;
+
+      let idx = 0;
+      const slides = track.querySelectorAll('.work-carousel__slide');
+      const total = slides.length;
+
+      function goTo(i) {
+        idx = Math.max(0, Math.min(total - 1, i));
+        track.scrollTo({ left: idx * track.clientWidth, behavior: 'smooth' });
+        dots.forEach((d, j) => d.classList.toggle('is-active', j === idx));
+      }
+
+      if (prev) prev.addEventListener('click', () => goTo(idx - 1));
+      if (next) next.addEventListener('click', () => goTo(idx + 1));
+      dots.forEach((d) => d.addEventListener('click', () => goTo(parseInt(d.dataset.index))));
+
+      let scrollTimer;
+      track.addEventListener('scroll', () => {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => {
+          idx = Math.round(track.scrollLeft / track.clientWidth);
+          dots.forEach((d, j) => d.classList.toggle('is-active', j === idx));
+        }, 100);
+      }, { passive: true });
+    })();
+  </script>
+
+  <script is:inline src="/assets/js/main.js"></script>
+</body>
+</html>

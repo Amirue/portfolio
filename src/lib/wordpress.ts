@@ -117,3 +117,126 @@ export async function fetchGalleryData(): Promise<GalleryData> {
     return { profile: {}, highlights: HIGHLIGHTS, posts: [] };
   }
 }
+
+// ============================================================
+// WORK / PROJECTS
+// ============================================================
+
+export interface WPWorkImage {
+  id: number;
+  url: string;
+}
+
+export interface WPWorkAcf {
+  subtitle: string;
+  role: string;
+  tools: string[];
+  metric: string;
+  demo_url: string;
+  year: string;
+  context: string;
+  process: string;
+  work_images: WPWorkImage[];
+}
+
+export interface WPWorkPost {
+  id: number;
+  slug: string;
+  title: { rendered: string };
+  content: { rendered: string };
+  excerpt: { rendered: string };
+  acf: WPWorkAcf;
+  work_type: string[];
+}
+
+export interface WorkCard {
+  slug: string;
+  title: string;
+  subtitle: string;
+  type: string;
+  metric: string;
+  tools: string[];
+  year: string;
+  image: string;
+}
+
+export interface WorkDetail extends WorkCard {
+  role: string;
+  context: string;
+  process: string;
+  demoUrl: string;
+  images: string[];
+  content: string;
+}
+
+function mapWorkPost(wp: WPWorkPost): WorkCard & { role: string; context: string; process: string; demoUrl: string; images: string[]; content: string } {
+  const acf = wp.acf || {} as WPWorkAcf;
+  const type = (wp.work_type && wp.work_type[0]) || 'uiux';
+  const images = (acf.work_images || []).map((img) => img.url).filter(Boolean);
+
+  return {
+    slug: wp.slug,
+    title: stripHtml(wp.title.rendered),
+    subtitle: acf.subtitle || stripHtml(wp.excerpt.rendered),
+    type,
+    metric: acf.metric || '',
+    tools: acf.tools || [],
+    year: acf.year || '',
+    image: images[0] || '',
+    role: acf.role || '',
+    context: acf.context || '',
+    process: acf.process || '',
+    demoUrl: acf.demo_url || '',
+    images,
+    content: wp.content.rendered || '',
+  };
+}
+
+export async function fetchWorksData(): Promise<WorkCard[]> {
+  try {
+    const res = await fetch(`${WP_API}/work?per_page=50&acf_format=standard`, {
+      signal: AbortSignal.timeout(10000),
+    });
+    const text = await res.text();
+    if (!text.trim().startsWith('[') && !text.trim().startsWith('{')) {
+      console.error('WP API returned non-JSON for works.');
+      return [];
+    }
+    const wpPosts: WPWorkPost[] = JSON.parse(text);
+    return wpPosts.map(mapWorkPost);
+  } catch (e) {
+    console.error('Works fetch failed:', e);
+    return [];
+  }
+}
+
+export async function fetchWorkSlugs(): Promise<string[]> {
+  try {
+    const res = await fetch(`${WP_API}/work?per_page=50&_fields=slug`, {
+      signal: AbortSignal.timeout(10000),
+    });
+    const text = await res.text();
+    if (!text.trim().startsWith('[')) return [];
+    const items: { slug: string }[] = JSON.parse(text);
+    return items.map((i) => i.slug);
+  } catch (e) {
+    console.error('Work slugs fetch failed:', e);
+    return [];
+  }
+}
+
+export async function fetchWorkBySlug(slug: string): Promise<(WorkCard & { role: string; context: string; process: string; demoUrl: string; images: string[]; content: string }) | null> {
+  try {
+    const res = await fetch(`${WP_API}/work?slug=${encodeURIComponent(slug)}&acf_format=standard`, {
+      signal: AbortSignal.timeout(10000),
+    });
+    const text = await res.text();
+    if (!text.trim().startsWith('[')) return null;
+    const items: WPWorkPost[] = JSON.parse(text);
+    if (!items.length) return null;
+    return mapWorkPost(items[0]);
+  } catch (e) {
+    console.error('Work fetch failed:', e);
+    return null;
+  }
+}

@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿---
+import { fetchWorksData } from "../lib/wordpress";
+const works = await fetchWorksData();
+---
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -274,158 +278,33 @@
           <button class="filter-btn" data-filter="ai" role="tab" aria-selected="false">AI</button>
         </div>
 
-        <div class="works-grid" id="worksGrid" data-ux-law="Law of Proximity" data-ux-desc="Each project card groups its visual, title, tags, and actions closely together, so visitors perceive them as a single unit.">
-          <article class="work-card reveal" data-category="uiux" style="transition-delay: 100ms;">
-            <div class="work-card__visual">
-              <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="3" y1="9" x2="21" y2="9"></line>
-                <line x1="9" y1="21" x2="9" y2="9"></line>
-              </svg>
-            </div>
-            <div class="work-card__content">
-              <div class="work-card__tags">
-                <span class="badge badge-coral">Figma</span>
-                <span class="badge badge-lavender">a11y</span>
+        <div class="works-grid" id="worksGrid">
+          {works.map((work) => (
+            <article class="work-card reveal" data-category={work.type}>
+              <div class="work-card__visual">
+                {work.image ? (
+                  <img src={work.image} alt={work.title} loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                ) : (
+                  <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                )}
               </div>
-              <h3 class="work-card__title">Fintech Dashboard Design System</h3>
-              <p class="work-card__desc">Built a reusable design system for a fintech dashboard so the team could ship new features faster.</p>
-              <div class="work-card__metric">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                99/100 Lighthouse Accessibility
+              <div class="work-card__content">
+                <div class="work-card__tags">
+                  <span class="badge badge-coral">{work.type === "uiux" ? "UI/UX" : work.type === "wordpress" ? "WordPress" : "AI"}</span>
+                  <span class="badge">{work.year}</span>
+                </div>
+                <h3 class="work-card__title">{work.title}</h3>
+                <p class="work-card__desc">{work.subtitle}</p>
+                <div class="work-card__metric">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  {work.metric}
+                </div>
+                <div class="work-card__actions">
+                  <a href={"/work/" + work.slug + "/"} class="work-card__action">View Case Study <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                </div>
               </div>
-              <div class="work-card__actions">
-                <a href="#" class="work-card__action">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-              </div>
-            </div>
-          </article>
-
-          <article class="work-card reveal" data-category="wordpress" style="transition-delay: 200ms;">
-            <div class="work-card__visual">
-              <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-              </svg>
-            </div>
-            <div class="work-card__content">
-              <div class="work-card__tags">
-                <span class="badge badge-sage">Headless WP</span>
-                <span class="badge badge-coral">React</span>
-              </div>
-              <h3 class="work-card__title">Headless Commerce Platform</h3>
-              <p class="work-card__desc">Split the frontend from WordPress using GraphQL. Pages load in under a second.</p>
-              <div class="work-card__metric">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                0.2s Average Response
-              </div>
-              <div class="work-card__actions">
-                <a href="#" class="work-card__action">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-              </div>
-            </div>
-          </article>
-
-          <article class="work-card reveal" data-category="ai" style="transition-delay: 300ms;">
-            <div class="work-card__visual">
-              <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                <line x1="8" y1="21" x2="16" y2="21"></line>
-                <line x1="12" y1="17" x2="12" y2="21"></line>
-              </svg>
-            </div>
-            <div class="work-card__content">
-              <div class="work-card__tags">
-                <span class="badge badge-lavender">OpenAI API</span>
-                <span class="badge badge-coral">WebSockets</span>
-              </div>
-              <h3 class="work-card__title">AI Knowledge Assistant</h3>
-              <p class="work-card__desc">An AI assistant that can answer questions about a specific topic using RAG and vector search.</p>
-              <div class="work-card__metric">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                94% Response Accuracy
-              </div>
-              <div class="work-card__actions">
-                <a href="#" class="work-card__action">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-              </div>
-            </div>
-          </article>
-
-          <article class="work-card reveal" data-category="wordpress" style="transition-delay: 100ms;">
-            <div class="work-card__visual">
-              <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-                <polyline points="10 9 9 9 8 9"></polyline>
-              </svg>
-            </div>
-            <div class="work-card__content">
-              <div class="work-card__tags">
-                <span class="badge badge-sage">PrintNode</span>
-                <span class="badge badge-coral">Docker</span>
-              </div>
-              <h3 class="work-card__title">Automated Printing Pipeline</h3>
-              <p class="work-card__desc">Automated order printing for a retail client. Docker backend that runs on its own.</p>
-              <div class="work-card__metric">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                10K+ Orders Automated
-              </div>
-              <div class="work-card__actions">
-                <a href="#" class="work-card__action">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-              </div>
-            </div>
-          </article>
-
-          <article class="work-card reveal" data-category="uiux" style="transition-delay: 200ms;">
-            <div class="work-card__visual">
-              <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-              </svg>
-            </div>
-            <div class="work-card__content">
-              <div class="work-card__tags">
-                <span class="badge badge-coral">Tailwind</span>
-                <span class="badge badge-lavender">Prototyping</span>
-              </div>
-              <h3 class="work-card__title">Global Brand Website Redesign</h3>
-              <p class="work-card__desc">Redesigned a global brand website. Focused on speed and clean scroll-based layout.</p>
-              <div class="work-card__metric">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                +180% Engagement Lift
-              </div>
-              <div class="work-card__actions">
-                <a href="#" class="work-card__action">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-              </div>
-            </div>
-          </article>
-
-          <article class="work-card reveal" data-category="ai" style="transition-delay: 300ms;">
-            <div class="work-card__visual">
-              <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
-                <circle cx="12" cy="14" r="4"></circle>
-                <line x1="12" y1="6" x2="12.01" y2="6"></line>
-              </svg>
-            </div>
-            <div class="work-card__content">
-              <div class="work-card__tags">
-                <span class="badge badge-lavender">LLM Agents</span>
-                <span class="badge badge-coral">Next.js</span>
-              </div>
-              <h3 class="work-card__title">AI Kiosk Interface</h3>
-              <p class="work-card__desc">A touchscreen kiosk for a restaurant. Voice ordering, natural language, fast checkout.</p>
-              <div class="work-card__metric">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                30% Faster Checkout
-              </div>
-              <div class="work-card__actions">
-                <a href="#" class="work-card__action">View Case Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-              </div>
-            </div>
-          </article>
+            </article>
+          ))}
         </div>
       </div>
     </section>
