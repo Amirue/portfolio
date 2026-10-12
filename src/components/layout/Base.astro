@@ -117,6 +117,10 @@ const personLd = {
     </style>
 
     <script>
+      import { initGlow } from '../../scripts/glow.js';
+
+      initGlow();
+
       const io = new IntersectionObserver(
         (entries) => {
           for (const e of entries) {

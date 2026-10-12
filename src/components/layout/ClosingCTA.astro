@@ -1,5 +1,6 @@
 ---
 import Marquee from './Marquee.astro';
+import Glow from './Glow.astro';
 
 interface Props {
   email?: string;
@@ -9,6 +10,7 @@ const { email = 'amiruan12@gmail.com', ctaHref = '/contact' } = Astro.props;
 ---
 
 <section class="closing">
+  <Glow variant="a" />
   <div class="closing__inner wrap">
     <div class="closing__lines">
       <span class="closing__line closing__line--w">I design,</span>
@@ -35,21 +37,13 @@ const { email = 'amiruan12@gmail.com', ctaHref = '/contact' } = Astro.props;
     overflow: hidden;
   }
 
-  /* CSS reinterpretation of glow-a.glsl behind the closing band */
-  .closing::before {
-    content: '';
-    position: absolute;
-    inset: -30% -10% auto -10%;
-    height: 160%;
-    background:
-      radial-gradient(50% 120% at 20% 10%, rgba(255, 59, 48, 0.14), transparent 62%),
-      radial-gradient(55% 130% at 80% 0%, rgba(77, 184, 255, 0.14), transparent 62%);
-    pointer-events: none;
-  }
-  .closing__inner { position: relative; }
+  /* Shader: glow-a.glsl, rendered by Glow.astro */
+  .closing__inner { position: relative; z-index: 1; }
 
   .closing__inner {
     padding: 90px var(--pad);
+    min-height: 802px;          /* ClosingTop is 802 + a 78px marquee = 880 in the design */
+    justify-content: center;
     display: flex;
     flex-direction: column;
     gap: 48px;

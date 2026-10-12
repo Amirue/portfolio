@@ -1,4 +1,6 @@
 ---
+import Glow from './Glow.astro';
+
 const year = new Date().getFullYear();
 
 const socials = [
@@ -10,6 +12,7 @@ const socials = [
 ---
 
 <footer class="ft">
+  <Glow variant="a" />
   <div class="ft__top wrap">
     <div class="ft__logo">AMIRUAN</div>
     <nav class="ft__social" aria-label="Social links">
@@ -40,30 +43,22 @@ const socials = [
     position: relative;
     background: var(--ink);
     border-top: 1px solid var(--line-d);
-    padding: 64px 0 24px;
+    padding: 64px 0 40px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
   }
 
-  /* CSS reinterpretation of glow-a.glsl at the footer (HANDOFF §7 option 1) */
-  .ft::before {
-    content: '';
-    position: absolute;
-    inset: -40% -10% auto -10%;
-    height: 140%;
-    background:
-      radial-gradient(60% 120% at 15% 0%, rgba(255, 59, 48, 0.10), transparent 60%),
-      radial-gradient(70% 130% at 85% 10%, rgba(77, 184, 255, 0.10), transparent 60%);
-    pointer-events: none;
-  }
+  /* Shader: glow-a.glsl, rendered by Glow.astro */
 
-  .ft > * { position: relative; }
+  .ft > .wrap { position: relative; z-index: 1; }
 
   .ft__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    padding-bottom: 40px;
   }
 
   .ft__logo {

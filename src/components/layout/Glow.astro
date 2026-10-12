@@ -1,0 +1,59 @@
+---
+/**
+ * Real shader background for a section — see src/scripts/glow.js.
+ *
+ * `variant="a"`    → glow-a.glsl    (hero, closing, footer, page heroes)
+ * `variant="dark"` → dark-glow.glsl (work, toolbox, case visuals)
+ *
+ * The CSS below is only the first-paint / no-WebGL fallback: a static
+ * approximation of the shader at t=0, using the shader's own colour values.
+ * The canvas is transparent until it actually renders, so if WebGL is
+ * unavailable this fallback is what shows.
+ *
+ * Put it as the FIRST child of a position:relative section. Sibling content
+ * must be position:relative so it sits above.
+ */
+interface Props {
+  variant?: 'a' | 'dark';
+}
+const { variant = 'a' } = Astro.props;
+---
+
+<canvas class={`glow glow--${variant}`} data-glow={variant} aria-hidden="true"></canvas>
+
+<style>
+  .glow {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* glow-a.glsl at t=0. Values measured from the actual shader output:
+     coral blob core #4d1726, cyan blob core #0c2435, over base #08080B. */
+  .glow--a {
+    background:
+      radial-gradient(80% 80% at 16% 66%, #4d1726 0%, rgba(77, 23, 38, 0) 100%),
+      radial-gradient(72% 72% at 88% 22%, #0c2435 0%, rgba(12, 36, 53, 0) 100%),
+      radial-gradient(105% 105% at 55% 50%, rgba(12, 36, 53, 0.45) 0%, rgba(12, 36, 53, 0) 100%),
+      #08080b;
+  }
+
+  /* dark-glow.glsl at t=0. The dark-red band across the top centre,
+     falling to base #09090B by the middle and toward the side edges. */
+  .glow--dark {
+    background:
+      radial-gradient(62% 100% at 50% 0%, #1d1115 0%, rgba(22, 14, 17, 0.6) 45%, rgba(9, 9, 11, 0) 100%),
+      #09090b;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* The canvas still renders one static frame; nothing to disable here. */
+    .glow {
+      will-change: auto;
+    }
+  }
+</style>

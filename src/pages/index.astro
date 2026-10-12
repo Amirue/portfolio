@@ -1,7 +1,9 @@
 ﻿---
 import Base from '../components/layout/Base.astro';
 import ClosingCTA from '../components/layout/ClosingCTA.astro';
+import Glow from '../components/layout/Glow.astro';
 import { fetchWorksData } from '../lib/wordpress';
+import { axes } from '../data/toolbox';
 
 const works = await fetchWorksData();
 const featured = works.slice(0, 3);
@@ -50,19 +52,19 @@ const path = [
   { y: 'NEXT', k: 'OPEN', t: 'Your team?', d: 'Currently open to new work. Maybe the next line on this list is with you.', x: ["Let's talk"] },
 ];
 
-const radar = [
-  { k: 'UI/UX', v: 88, label: 'UI/UX DESIGN', items: ['Design systems in Figma', 'Wireframes & prototyping', 'Micro-interactions', 'Accessibility (WCAG AA)'] },
-  { k: 'WORDPRESS', v: 92, label: 'WORDPRESS', items: ['Custom themes & blocks', 'ACF Pro & CPTs', 'Headless REST/GraphQL', 'WooCommerce'] },
-  { k: 'AI/LLM', v: 80, label: 'AI / LLM', items: ['LLM agents', 'RAG & vector search', 'Prompt engineering', 'Automation'] },
-  { k: 'FRONTEND', v: 78, label: 'FRONTEND', items: ['Astro / Next.js', 'React', 'Tailwind', 'Core Web Vitals'] },
-  { k: 'BACKEND', v: 74, label: 'BACKEND', items: ['PHP / MySQL', 'REST APIs', 'cPanel / Cloudflare', 'Docker'] },
-];
+const radar = axes.map((a) => ({ k: a.short, v: a.v, label: a.label, items: a.items }));
 
-const tools = [
-  ['Fi', 'Figma'], ['Af', 'Affinity'], ['Ps', 'Photoshop'], ['Bd', 'Breakdance'], ['Dv', 'Divi'],
-  ['El', 'Elementor'], ['Oc', 'OpenCode'], ['Rp', 'Replit'], ['Ag', 'Antigravity'], ['Nx', 'Next.js'],
-  ['Re', 'React'], ['Tw', 'Tailwind'], ['Cp', 'cPanel'], ['Cf', 'Cloudflare'], ['Sg', 'Sendgrid'],
-];
+// Radar geometry (viewBox 0 0 320 320)
+const RC = 160;
+const RR = 140;
+const polar = (i: number, r: number) => {
+  const a = ((-90 + i * 72) * Math.PI) / 180;
+  return [(RC + Math.cos(a) * r).toFixed(1), (RC + Math.sin(a) * r).toFixed(1)];
+};
+const pt = polar;
+const ringPts = (r: number) => axes.map((_, i) => polar(i, r).join(',')).join(' ');
+const dataPts = axes.map((a, i) => polar(i, (RR * a.v) / 100).join(',')).join(' ');
+const panelData = axes.map((a) => ({ label: a.label, v: a.v, items: a.items }));
 
 const lifePhotos = [
   '/assets/images/wc-1.jpg',
@@ -76,6 +78,7 @@ const lifePhotos = [
 
   <!-- 02 Hero -->
   <section class="hero">
+    <Glow variant="a" />
     <span class="hero__vline hero__vline--l" aria-hidden="true"></span>
     <span class="hero__vline hero__vline--r" aria-hidden="true"></span>
 
@@ -113,8 +116,8 @@ const lifePhotos = [
         <i></i><i></i><i></i><i></i><i></i><i></i>
       </span>
       <h1 class="hero__title">
-        <span>I BUILD</span>
-        <span>DIGITAL</span>
+        <span>I BUILD</span>{' '}
+        <span>DIGITAL</span>{' '}
         <span class="hero__title-c">EXPERIENCES</span>
       </h1>
       <span class="hero__hud hero__hud--foot">KUALA LUMPUR · 2026</span>
@@ -145,8 +148,8 @@ const lifePhotos = [
           <img src="/assets/images/profile.png" alt="Amiruan" width="480" height="600" loading="lazy" />
         </figure>
         <div class="about__bio">
-          <p class="reveal about__cap reveal">KUALA LUMPUR, MALAYSIA · 03.1390° N, 101.6869° E</p>
-          <p class="reveal about__note reveal">Currently taking on freelance work and open to full-time roles. Usually reply within a day.</p>
+          <p class="reveal about__cap">KUALA LUMPUR, MALAYSIA · 03.1390° N, 101.6869° E</p>
+          <p class="reveal about__note">Currently taking on freelance work and open to full-time roles. Usually reply within a day.</p>
           <p class="reveal t-body">I got into this because I was curious why some websites feel easy to use and others feel like homework. That curiosity turned into a career.</p>
           <p class="reveal t-body">I design interfaces, build WordPress systems, and plug in AI where it actually helps. I work with founders, agencies and product teams who want something clean and fast. Not trendy for the sake of it.</p>
           <p class="reveal t-body">Off the clock I am usually reading about typography or poking at some new tool. I care about the small details that make software feel like someone actually thought about the person using it.</p>
@@ -174,12 +177,15 @@ const lifePhotos = [
 
       <div class="proc reveal">
         <span class="proc__label">HOW IT USUALLY GOES</span>
-        <div class="proc__grid">
+        <div class="proc__steps">
           {process.map((p) => (
             <div class="proc__step">
-              <span class="proc__n u-blue">{p.n}</span>
-              <h3 class="proc__t">{p.t}</h3>
-              <p class="proc__d">{p.d}</p>
+              <span class="proc__n">{p.n}</span>
+              <span class="proc__dot" aria-hidden="true"></span>
+              <div class="proc__body">
+                <h3 class="proc__t">{p.t}</h3>
+                <p class="proc__d">{p.d}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -189,6 +195,7 @@ const lifePhotos = [
 
   <!-- 04 Work -->
   <section class="sec sec--ink work" id="projects">
+    <Glow variant="dark" />
     <div class="wrap">
       <header class="sec-head sec-head--row">
         <h2 class="t-h2 reveal">Selected Work</h2>
@@ -261,47 +268,58 @@ const lifePhotos = [
   </section>
 
   <!-- 06 Toolbox -->
-  <section class="sec sec--ink" id="stack">
+  <section class="sec sec--ink toolbox" id="stack">
+    <Glow variant="dark" />
     <div class="wrap">
       <header class="sec-head sec-head--row">
         <h2 class="t-h2 reveal">The Workbench</h2>
-        <span class="u-dim reveal t-label">Hover an axis on the radar.</span>
+        <p class="bench__sub reveal">Hover an axis on the radar. Whatever you point at shows the stack behind it.</p>
       </header>
 
-      <div class="bench">
-        <div class="bench__radar reveal">
-          <svg viewBox="0 0 320 320" role="img" aria-label="Skill radar">
-            <g stroke="var(--line-d2)" fill="none">
-              <polygon points="160,40 274,123 230,258 90,258 46,123" />
-              <polygon points="160,76 245,138 213,238 107,238 75,138" />
-              <polygon points="160,112 216,153 195,218 125,218 104,153" />
+      <div class="bench reveal">
+        <div class="bench__radar">
+          <svg viewBox="-44 -26 408 392" role="img" aria-label="Skill radar">
+            <g class="bench__rings" stroke="var(--line-d2)" fill="none">
+              <polygon points={ringPts(140)} />
+              <polygon points={ringPts(100)} />
+              <polygon points={ringPts(60)} />
             </g>
-            <g stroke="var(--line-d2)"><line x1="160" y1="160" x2="160" y2="40"/><line x1="160" y1="160" x2="274" y2="123"/><line x1="160" y1="160" x2="230" y2="258"/><line x1="160" y1="160" x2="90" y2="258"/><line x1="160" y1="160" x2="46" y2="123"/></g>
-            <polygon class="bench__poly" points="160,54 265,127 222,246 99,246 60,127" fill="rgba(255,59,48,0.14)" stroke="var(--accent)" stroke-width="1.5"/>
-            {radar.map((r, i) => {
-              const ang = (-90 + i * 72) * Math.PI / 180;
-              const x = 160 + Math.cos(ang) * 130;
-              const y = 160 + Math.sin(ang) * 130;
-              return <text class="bench__axis" x={x.toFixed(1)} y={y.toFixed(1)} text-anchor="middle" data-axis={i}>{r.k}</text>;
+            <g class="bench__spokes" stroke="var(--line-d2)">
+              {axes.map((_, i) => { const [x, y] = pt(i, 140); return <line x1="160" y1="160" x2={x} y2={y} />; })}
+            </g>
+            <polygon class="bench__data" points={dataPts} />
+            {axes.map((a, i) => {
+              const [x, y] = pt(i, 158);
+              return <text class="bench__axis" x={x} y={y} text-anchor="middle" dominant-baseline="middle" data-axis={i}>{a.short}</text>;
             })}
           </svg>
-        </div>
-        <div class="bench__panel reveal">
-          <span class="bench__pl u-blue">{radar[0].label}</span>
-          <span class="bench__pv">{radar[0].v}%</span>
+        <div class="bench__panel" id="benchPanel">
+          <div class="bench__ph">
+            <span class="bench__pl u-blue" id="benchLabel">{axes[0].label}</span>
+            <span class="bench__pv" id="benchPct">{axes[0].v}%</span>
+          </div>
           <ul id="benchList">
-            {radar[0].items.map((it) => <li>{it}</li>)}
+            {axes[0].items.map((it) => (
+              <li><span>{it}</span><span class="bench__bar"><i style={`width:${axes[0].v}%`}></i></span></li>
+            ))}
           </ul>
         </div>
       </div>
 
-      <div class="tools reveal">
-        {tools.map(([m, nm]) => (
-          <div class="tool">
-            <span class="tool__m">{m}</span>
-            <span class="tool__n">{nm}</span>
-          </div>
-        ))}
+      <div class="axes" id="axesGrid">
+        {axes.flatMap((a, ai) => a.tools.map((t) => (
+          <div class={`tool ${ai === 0 ? 'is-active' : ''}`} data-axis={ai}>
+                  <div class="tool__top">
+                    <span class="tool__n">{t.n}</span>
+                    {t.logo
+                      ? <svg class="tool__logo" viewBox="0 0 24 24" aria-hidden="true"><path d={t.logo} /></svg>
+                      : <span class="tool__logo tool__logo--none" aria-hidden="true" />}
+                  </div>
+                  <span class="tool__m">{t.letter}</span>
+              <span class="tool__nm">{t.name}</span>
+            </div>
+          )))}
+        </div>
       </div>
     </div>
   </section>
@@ -334,6 +352,7 @@ const lifePhotos = [
 <style>
   /* ── shared section shells ── */
   .sec { padding: 96px 0; position: relative; overflow: hidden; }
+  .sec > .wrap { position: relative; z-index: 1; }
   .sec--ink { background: var(--ink); color: var(--paper); }
   .sec--paper { background: var(--paper); color: var(--ink); }
   .sec-head { margin-bottom: 56px; display: flex; flex-direction: column; gap: 12px; }
@@ -343,13 +362,6 @@ const lifePhotos = [
   /* Fixed 1440x1000 composition: marquee band at y312, portrait 480x600 at y200
      sitting on top of it, headline inside the portrait at y396. */
   .hero { position: relative; background: var(--ink); height: 1000px; overflow: hidden; }
-  .hero::before {
-    content: ''; position: absolute; inset: -30% -10% auto -10%; height: 150%;
-    background:
-      radial-gradient(45% 90% at 20% 10%, rgba(255,59,48,0.16), transparent 60%),
-      radial-gradient(50% 100% at 82% 0%, rgba(77,184,255,0.16), transparent 60%);
-    pointer-events: none;
-  }
   .hero__vline { position: absolute; top: 0; height: 960px; width: 1px; background: #161616; }
   .hero__vline--l { left: 64px; }
   .hero__vline--r { right: 64px; }
@@ -402,10 +414,12 @@ const lifePhotos = [
 
   /* ── About ── */
   .about__statement { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 4.4vw, 64px); line-height: 1.05; letter-spacing: -0.03em; max-width: 20ch; }
+  /* WFacts — dark tiles, coral numerals */
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 56px 0; }
-  .stats__item { border: 1px solid var(--line-l); padding: 24px; display: flex; flex-direction: column; gap: 8px; }
-  .stats__n { font-family: var(--font-display); font-weight: 700; font-size: clamp(32px, 3.5vw, 52px); color: var(--accent-blue); letter-spacing: -0.03em; }
-  .stats__l { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--dim-l); }
+  .stats__item { background: var(--tile); border: 1px solid var(--line-d2); border-radius: var(--radius);
+    padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; }
+  .stats__n { font-family: var(--font-display); font-weight: 700; font-size: 42px; line-height: 1; color: var(--accent); letter-spacing: -1px; }
+  .stats__l { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; color: var(--dim-d); }
   .about__grid { display: grid; grid-template-columns: 320px 1fr; gap: 48px; align-items: start; }
   .about__portrait img { width: 100%; height: auto; }
   .about__bio { display: flex; flex-direction: column; gap: 16px; }
@@ -421,28 +435,36 @@ const lifePhotos = [
   .cap__list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
   .cap__list li { font-family: var(--font-mono); font-size: 12px; color: var(--ink); border-top: 1px solid var(--line-l); padding-top: 8px; }
 
-  .proc { margin-top: 72px; border: 1px solid var(--line-l); padding: 40px; background: var(--paper-2); }
-  .proc__label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; color: var(--dim-l); }
-  .proc__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 24px; }
-  .proc__n { font-family: var(--font-mono); font-size: 11px; }
-  .proc__t { font-family: var(--font-display); font-weight: 500; font-size: 20px; margin: 8px 0; }
-  .proc__d { font-family: var(--font-body); font-size: 13px; color: var(--dim-l); }
+  /* Process — dark card, horizontal rail with coral node dots */
+  .proc { margin-top: 72px; background: var(--tile); border: 1px solid var(--line-d2); border-radius: var(--radius);
+    padding: 36px 32px; display: flex; flex-direction: column; gap: 30px; }
+  .proc__label { align-self: flex-start; padding: 9px 14px; background: #1B1B22; border: 1px solid #33333D;
+    border-radius: var(--radius); font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; color: var(--dim-d); }
+  .proc__steps { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+  .proc__steps::before { content: ''; position: absolute; left: 0; right: 0; top: 30px; height: 1px; background: #FFFFFF1F; }
+  .proc__step { position: relative; display: flex; flex-direction: column; }
+  .proc__n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: var(--accent-blue); }
+  .proc__dot { width: 13px; height: 13px; border-radius: 50%; background: var(--tile);
+    border: 2px solid var(--accent); margin-top: 11px; }
+  .proc__body { display: flex; flex-direction: column; gap: 8px; margin-top: 27px; }
+  .proc__t { font-family: var(--font-display); font-weight: 500; font-size: 20px; color: #fff; }
+  .proc__d { font-family: var(--font-body); font-size: 13px; line-height: 1.6; color: var(--dim-d); }
 
   /* ── Work ── */
   .work__count { font-family: var(--font-mono); font-size: 12px; color: var(--dim-d); }
   .accordion { border-top: 1px solid var(--line-d2); }
-  .acc { border-bottom: 1px solid var(--line-d2); }
-  .acc__head { width: 100%; display: grid; grid-template-columns: 48px 1fr auto auto 40px; align-items: center; gap: 20px; padding: 28px 0; text-align: left; }
+  .acc { background: var(--tile); border-top: 1px solid var(--line-d2); border-bottom: 1px solid var(--line-d2);
+    padding: 0 40px; display: flex; flex-direction: column; gap: 6px; }
+  .acc__head { width: 100%; display: grid; grid-template-columns: 48px 1fr auto auto 40px; align-items: center; gap: 20px; padding: 36px 0; text-align: left; }
   .acc__n { font-family: var(--font-mono); font-size: 12px; }
   .acc__tag { font-family: var(--font-mono); font-size: 11px; color: var(--dim-d); letter-spacing: 1px; }
   .acc__yr { font-family: var(--font-mono); font-size: 11px; }
   .acc__ic { font-size: 22px; color: var(--accent); text-align: right; }
   .acc__body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
   .acc.is-open .acc__body { grid-template-rows: 1fr; }
-  .acc__panel { overflow: hidden; display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; }
-  .acc__panel > * { margin-bottom: 32px; }
-  .acc__img { width: 100%; height: auto; border: 1px solid var(--line-d2); }
-  .acc__img--ph { aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 12px; color: var(--dim-d); }
+  .acc__panel { overflow: hidden; display: grid; grid-template-columns: 620px 1fr; gap: 48px; padding-bottom: 48px; }
+  .acc__img { width: 100%; height: auto; border: 1px solid var(--line-d2); background: #0D0D12; }
+  .acc__img--ph { aspect-ratio: 620 / 412; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 12px; color: var(--dim-d); }
   .acc__info { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
   .acc__fl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; }
   .acc__desc { font-family: var(--font-body); font-size: 15px; color: #cfcfcf; }
@@ -456,7 +478,7 @@ const lifePhotos = [
   .path__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; }
   .path__hright { display: flex; flex-direction: column; align-items: flex-end; gap: 18px; width: 380px; }
   .path__sub { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--dim-l); }
-  .path__btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px;
+  .path__btn { display: inline-flex; align-items: center; gap: 10px; padding: 11px 22px;
     background: var(--accent-blue); border-radius: var(--radius);
     font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; color: #fff; }
 
@@ -493,18 +515,41 @@ const lifePhotos = [
   .path__item--flip .path__tick { left: auto; right: calc(50% + 7px); }
 
   /* ── Toolbox ── */
-  .bench { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
-  .bench__radar svg { width: 100%; max-width: 420px; }
-  .bench__axis { font-family: var(--font-mono); font-size: 9px; fill: var(--dim-d); letter-spacing: 1px; }
-  .bench__panel { border: 1px solid var(--line-d2); padding: 32px; display: flex; flex-direction: column; gap: 12px; }
-  .bench__pl { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; }
-  .bench__pv { font-family: var(--font-display); font-weight: 700; font-size: 40px; }
+  /* Radar left (480), tools right at ~60% as a 3x5 grid — one axis per row. */
+  .toolbox { padding: 160px 0; }
+  .bench__sub { font-family: var(--font-body); font-size: 15px; line-height: 1.55; color: var(--dim-d); width: 400px; max-width: 100%; }
+  .bench { display: grid; grid-template-columns: 480px 1fr; gap: 48px; align-items: start; margin-top: 8px; }
+  .bench__radar { display: flex; flex-direction: column; gap: 24px; }
+  .bench__radar svg { width: 100%; height: auto; }
+  .bench__axis { font-family: var(--font-mono); font-size: 10px; fill: #fff; letter-spacing: 1px; cursor: pointer; transition: fill 0.2s ease; }
+  .bench__axis.is-active, .bench__axis:hover { fill: var(--accent); }
+  .bench__data { fill: rgba(255, 59, 48, 0.14); stroke: var(--accent); stroke-width: 2; }
+  .bench__panel { background: var(--tile); border: 1px solid var(--accent); border-radius: var(--radius); padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 12px; }
+  .bench__ph { display: flex; justify-content: space-between; align-items: center; }
+  .bench__pl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; }
+  .bench__pv { font-family: var(--font-mono); font-size: 10px; color: #fff; }
   #benchList { display: flex; flex-direction: column; gap: 8px; }
-  #benchList li { font-family: var(--font-mono); font-size: 12px; color: #cfcfcf; border-top: 1px solid var(--line-d2); padding-top: 8px; }
-  .tools { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 56px; }
-  .tool { border: 1px solid var(--line-d2); padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-  .tool__m { font-family: var(--font-display); font-weight: 700; font-size: 22px; color: var(--accent); }
-  .tool__n { font-family: var(--font-mono); font-size: 11px; color: var(--dim-d); }
+  #benchList li { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  #benchList li span:first-child { font-family: var(--font-mono); font-size: 12px; color: #A8A8B3; }
+  .bench__bar { display: inline-block; width: 76px; height: 3px; background: var(--line-d2); position: relative; flex: none; }
+  .bench__bar i { position: absolute; left: 0; top: 0; height: 3px; background: var(--accent); }
+
+  .axes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .tool { height: 148px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;
+    background: transparent; outline: 1px solid var(--line-d2); outline-offset: -0.5px; border-radius: var(--radius);
+    transition: background 0.2s ease, outline-color 0.2s ease; }
+  .tool.is-active { background: rgba(255, 59, 48, 0.07); outline-color: var(--accent); }
+  .tool__top { display: flex; justify-content: space-between; align-items: center; }
+  .tool__n { font-family: var(--font-mono); font-size: 9px; color: var(--dim-d); transition: color 0.2s ease; }
+  .tool.is-active .tool__n { color: var(--accent); }
+  .tool__logo { width: 19px; height: 19px; fill: #fff; transition: fill 0.2s ease; }
+  .tool.is-active .tool__logo { fill: var(--accent); }
+  .tool__logo--none { display: block; }
+  .tool__m { font-family: var(--font-display); font-weight: 700; font-size: 34px; line-height: 1; letter-spacing: -1.5px; color: #fff; transition: color 0.2s ease; }
+  .tool.is-active .tool__m { color: var(--accent); }
+  .tool__nm { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.5px; color: var(--dim-d); transition: color 0.2s ease; }
+  .tool.is-active .tool__nm { color: #fff; }
 
   /* ── Life ── */
   .life__all { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1.5px; color: var(--accent); }
@@ -533,7 +578,7 @@ const lifePhotos = [
   }
 
   @media (max-width: 560px) {
-    .hero__title { font-size: 18px; line-height: 20px; }
+    .hero__title { font-size: 20px; line-height: 22px; }
     .hero__hud--bl { display: none; }
   }
 
@@ -542,7 +587,6 @@ const lifePhotos = [
     .stats { grid-template-columns: repeat(2, 1fr); }
     .about__grid { grid-template-columns: 1fr; }
     .caps { grid-template-columns: 1fr; }
-    .proc__grid { grid-template-columns: 1fr 1fr; }
     .acc__head { grid-template-columns: 32px 1fr 40px; }
     .acc__tag, .acc__yr { display: none; }
     .acc__panel { grid-template-columns: 1fr; }
@@ -556,13 +600,25 @@ const lifePhotos = [
       grid-column: 1; grid-row: auto; text-align: left; }
     .path__item--flip .path__tags { justify-content: flex-start; }
     .path__y { font-size: 56px; letter-spacing: -2px; }
-    .bench { grid-template-columns: 1fr; }
-    .tools { grid-template-columns: repeat(3, 1fr); }
+    .toolbox { padding: 96px 0; }
+    .bench { grid-template-columns: 1fr; gap: 40px; }
+    .bench__radar { width: 100%; max-width: 480px; margin-inline: auto; }
+    .axes { grid-template-columns: repeat(3, 1fr); }
+    .proc__steps { grid-template-columns: repeat(2, 1fr); row-gap: 36px; }
+    .proc__steps::before { display: none; }
     .life__track img { height: 180px; }
+  }
+
+  @media (max-width: 560px) {
+    .toolbox { padding: 64px 0; }
+    .axes { grid-template-columns: repeat(2, 1fr); }
+    .proc__steps { grid-template-columns: 1fr; }
+    .acc { padding: 0 20px; }
+    .acc__panel { grid-template-columns: 1fr; gap: 24px; }
   }
 </style>
 
-<script>
+<script define:vars={{ panelData }}>
   // Work accordion
   document.querySelectorAll('[data-acc] .acc__head').forEach((head) => {
     head.addEventListener('click', () => {
@@ -579,27 +635,24 @@ const lifePhotos = [
     });
   });
 
-  // Toolbox radar hover → swap panel
-  const radar = [
-    { label: 'UI/UX DESIGN', v: 88, items: ['Design systems in Figma', 'Wireframes & prototyping', 'Micro-interactions', 'Accessibility (WCAG AA)'] },
-    { label: 'WORDPRESS', v: 92, items: ['Custom themes & blocks', 'ACF Pro & CPTs', 'Headless REST/GraphQL', 'WooCommerce'] },
-    { label: 'AI / LLM', v: 80, items: ['LLM agents', 'RAG & vector search', 'Prompt engineering', 'Automation'] },
-    { label: 'FRONTEND', v: 78, items: ['Astro / Next.js', 'React', 'Tailwind', 'Core Web Vitals'] },
-    { label: 'BACKEND', v: 74, items: ['PHP / MySQL', 'REST APIs', 'cPanel / Cloudflare', 'Docker'] },
-  ];
-  const pl = document.querySelector('.bench__pl');
-  const pv = document.querySelector('.bench__pv');
-  const bl = document.getElementById('benchList');
+  // Toolbox: hover a radar axis → update the panel + light that axis's row
+  const cols = document.querySelectorAll('[data-axis]');
+  const bLabel = document.getElementById('benchLabel');
+  const bPct = document.getElementById('benchPct');
+  const bList = document.getElementById('benchList');
+  const activateAxis = (i) => {
+    const a = panelData[i];
+    if (!a) return;
+    cols.forEach((c) => c.classList.toggle('is-active', Number(c.getAttribute('data-axis')) === i));
+    document.querySelectorAll('.bench__axis').forEach((el) => el.classList.toggle('is-active', Number(el.getAttribute('data-axis')) === i));
+    if (bLabel) bLabel.textContent = a.label;
+    if (bPct) bPct.textContent = a.v + '%';
+    if (bList) bList.innerHTML = a.items.map((t) => `<li><span>${t}</span><span class="bench__bar"><i style="width:${a.v}%"></i></span></li>`).join('');
+  };
   document.querySelectorAll('.bench__axis').forEach((el) => {
-    const activate = () => {
-      const i = Number(el.getAttribute('data-axis'));
-      const r = radar[i];
-      if (!r || !pl || !pv || !bl) return;
-      pl.textContent = r.label;
-      pv.textContent = r.v + '%';
-      bl.innerHTML = r.items.map((t) => `<li>${t}</li>`).join('');
-    };
-    el.addEventListener('mouseenter', activate);
-    el.addEventListener('click', activate);
+    const i = Number(el.getAttribute('data-axis'));
+    el.addEventListener('mouseenter', () => activateAxis(i));
+    el.addEventListener('click', () => activateAxis(i));
   });
+  cols.forEach((c, i) => c.addEventListener('mouseenter', () => activateAxis(i)));
 </script>
