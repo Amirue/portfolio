@@ -1,0 +1,118 @@
+---
+import Marquee from './Marquee.astro';
+
+interface Props {
+  email?: string;
+  ctaHref?: string;
+}
+const { email = 'amiruan12@gmail.com', ctaHref = '/contact' } = Astro.props;
+---
+
+<section class="closing">
+  <div class="closing__inner wrap">
+    <div class="closing__lines">
+      <span class="closing__line closing__line--w">I design,</span>
+      <span class="closing__line closing__line--b">I build,</span>
+      <span class="closing__line closing__line--c">I ship.</span>
+    </div>
+
+    <div class="closing__row">
+      <div class="closing__left">
+        <span class="closing__kicker">GOT A PROJECT IN MIND?</span>
+        <span class="closing__note">Currently open to new work. Usually reply within a day.</span>
+      </div>
+      <a href={ctaHref} class="closing__cta">SAY HELLO →</a>
+    </div>
+  </div>
+
+  <Marquee text={`// LET'S TALK · ${email} · OPEN TO WORK ·`} variant="closing" active />
+</section>
+
+<style>
+  .closing {
+    position: relative;
+    background: var(--ink);
+    overflow: hidden;
+  }
+
+  /* CSS reinterpretation of glow-a.glsl behind the closing band */
+  .closing::before {
+    content: '';
+    position: absolute;
+    inset: -30% -10% auto -10%;
+    height: 160%;
+    background:
+      radial-gradient(50% 120% at 20% 10%, rgba(255, 59, 48, 0.14), transparent 62%),
+      radial-gradient(55% 130% at 80% 0%, rgba(77, 184, 255, 0.14), transparent 62%);
+    pointer-events: none;
+  }
+  .closing__inner { position: relative; }
+
+  .closing__inner {
+    padding: 90px var(--pad);
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .closing__lines {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .closing__line {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(44px, 8.6vw, 124px);
+    line-height: 0.94;
+    letter-spacing: -0.04em;
+  }
+  .closing__line--w { color: #fff; }
+  .closing__line--b { color: var(--accent-blue); }
+  .closing__line--c { color: var(--accent); }
+
+  .closing__row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .closing__left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .closing__kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--accent-blue);
+  }
+
+  .closing__note {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--dim-d);
+  }
+
+  .closing__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 32px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .closing__cta:hover {
+    transform: translateY(-2px);
+    background: #ff564b;
+  }
+</style>

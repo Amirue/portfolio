@@ -1,0 +1,197 @@
+---
+interface Props {
+  current?: string;
+}
+const { current = '' } = Astro.props;
+
+const nav = [
+  { label: 'Work', href: '/work' },
+  { label: 'Services', href: '/services' },
+  { label: 'Stack', href: '/#stack' },
+  { label: 'About', href: '/#about' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Contact', href: '/contact' },
+];
+---
+
+<header class="hd">
+  <div class="hd__inner wrap">
+    <a href="/" class="hd__logo" aria-label="Amiruan — home">
+      <span class="hd__mark" aria-hidden="true">
+        <span class="hd__lt">&lt;</span><span class="hd__a">A</span><span class="hd__gt">&gt;</span>
+      </span>
+      <span class="hd__wm">AMIRUAN</span>
+    </a>
+
+    <nav class="hd__nav" aria-label="Primary">
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          class={`hd__link ${current === item.label.toLowerCase() ? 'is-current' : ''}`}
+        >
+          {item.label}
+        </a>
+      ))}
+      <span class="hd__status">
+        <span class="hd__dot" aria-hidden="true"></span>
+        <span class="hd__status-txt">AVAILABLE</span>
+      </span>
+    </nav>
+
+    <button class="hd__burger" id="hdBurger" aria-label="Open menu" aria-expanded="false" aria-controls="hdMenu">
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <div class="hd__menu" id="hdMenu" hidden>
+    {nav.map((item) => (
+      <a href={item.href} class="hd__menu-link">{item.label}</a>
+    ))}
+  </div>
+</header>
+
+<style>
+  .hd {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--ink) 88%, transparent);
+    backdrop-filter: blur(0px);
+    border-bottom: 1px solid var(--line-d);
+    transition: backdrop-filter 0.3s ease, background 0.3s ease;
+  }
+
+  .hd.is-scrolled {
+    backdrop-filter: blur(14px);
+    background: color-mix(in srgb, var(--ink) 72%, transparent);
+  }
+
+  .hd__inner {
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .hd__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .hd__mark {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -1.5px;
+    line-height: 1;
+  }
+  .hd__lt { color: var(--accent-blue); }
+  .hd__a { color: #fff; }
+  .hd__gt { color: var(--accent); }
+
+  .hd__wm {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 3px;
+  }
+
+  .hd__nav {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+  }
+
+  .hd__link {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--dim-d);
+    transition: color 0.2s ease;
+  }
+  .hd__link:hover,
+  .hd__link.is-current {
+    color: #fff;
+  }
+
+  .hd__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hd__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+
+  .hd__status-txt {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--green);
+  }
+
+  .hd__burger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    width: 40px;
+    height: 40px;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .hd__burger span {
+    display: block;
+    height: 2px;
+    width: 24px;
+    background: #fff;
+  }
+  .hd__burger span:last-child { width: 16px; }
+
+  .hd__menu {
+    border-top: 1px solid var(--line-d);
+    background: var(--ink);
+    padding: 8px var(--pad) 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .hd__menu[hidden] { display: none; }
+  .hd__menu-link {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 500;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line-d);
+    color: var(--paper);
+  }
+
+  @media (max-width: 900px) {
+    .hd__nav { display: none; }
+    .hd__burger { display: flex; }
+  }
+
+  @media (min-width: 901px) {
+    .hd__menu { display: none; }
+  }
+</style>
+
+<script>
+  const hd = document.querySelector('.hd');
+  const burger = document.getElementById('hdBurger');
+  const menu = document.getElementById('hdMenu');
+
+  const onScroll = () => hd?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  burger?.addEventListener('click', () => {
+    const open = burger.getAttribute('aria-expanded') === 'true';
+    burger.setAttribute('aria-expanded', String(!open));
+    if (menu) menu.hidden = open;
+  });
+</script>

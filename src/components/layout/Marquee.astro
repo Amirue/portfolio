@@ -1,0 +1,88 @@
+---
+interface Props {
+  text: string;
+  variant?: 'top' | 'closing';
+  active?: boolean;
+}
+const { text, variant = 'top', active = false } = Astro.props;
+
+// Duplicate enough for a seamless loop
+const items = Array.from({ length: 6 });
+---
+
+<div class={`mq mq--${variant}`} aria-hidden="true">
+  <div class="mq__track marquee__track">
+    {items.map((_, i) => (
+      <span class={`mq__item ${active && i % 2 === 0 ? 'is-bright' : ''}`}>{text}</span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .mq {
+    border-bottom: 1px solid var(--line-d);
+    background: var(--marquee);
+    overflow: hidden;
+    user-select: none;
+  }
+
+  .mq--top {
+    height: 36px;
+    display: flex;
+    align-items: center;
+  }
+
+  .mq__track {
+    display: inline-flex;
+    gap: 44px;
+    flex-shrink: 0;
+    min-width: 100%;
+    justify-content: space-around;
+    animation: marquee 60s linear infinite;
+  }
+
+  .mq:hover .mq__track {
+    animation-play-state: paused;
+  }
+
+  .mq__item {
+    white-space: nowrap;
+    letter-spacing: 1px;
+  }
+
+  .mq--top .mq__item {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--orange);
+  }
+
+  .mq--closing {
+    border-top: 1px solid var(--line-d2);
+    border-bottom: none;
+    background: var(--ink);
+    height: 78px;
+    display: flex;
+    align-items: center;
+  }
+
+  .mq--closing .mq__item {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: rgba(255, 255, 255, 0.2);
+  }
+
+  .mq--closing .mq__item.is-bright {
+    color: #fff;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-100%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mq__track { animation: none; }
+  }
+</style>

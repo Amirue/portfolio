@@ -1,0 +1,154 @@
+---
+const year = new Date().getFullYear();
+
+const socials = [
+  { label: 'Instagram', href: 'https://www.instagram.com/amiruan_12' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/amiruddin-zulkifli-9485a2261' },
+  { label: 'GitHub', href: 'https://github.com/Amirue' },
+  { label: 'Email', href: 'mailto:amiruan12@gmail.com' },
+];
+---
+
+<footer class="ft">
+  <div class="ft__top wrap">
+    <div class="ft__logo">AMIRUAN</div>
+    <nav class="ft__social" aria-label="Social links">
+      {socials.map((s) => (
+        <a href={s.href} class="ft__social-link" {s.href.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {}}>
+          {s.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+
+  <div class="ft__mid wrap">
+    <span>© {year} Amiruan. Built with precision.</span>
+    <a href="/" class="ft__back">← Back to home</a>
+  </div>
+
+  <div class="ft__system wrap">
+    <span class="ft__sys ft__sys--op">
+      <span class="ft__dot" aria-hidden="true"></span> SYSTEM OPERATIONAL
+    </span>
+    <span class="ft__sys" id="ftClock">◷ LOCAL --:-- MYT</span>
+    <span class="ft__sys">◎ AVAILABLE FOR HIRE</span>
+  </div>
+</footer>
+
+<style>
+  .ft {
+    position: relative;
+    background: var(--ink);
+    border-top: 1px solid var(--line-d);
+    padding: 64px 0 24px;
+    overflow: hidden;
+  }
+
+  /* CSS reinterpretation of glow-a.glsl at the footer (HANDOFF §7 option 1) */
+  .ft::before {
+    content: '';
+    position: absolute;
+    inset: -40% -10% auto -10%;
+    height: 140%;
+    background:
+      radial-gradient(60% 120% at 15% 0%, rgba(255, 59, 48, 0.10), transparent 60%),
+      radial-gradient(70% 130% at 85% 10%, rgba(77, 184, 255, 0.10), transparent 60%);
+    pointer-events: none;
+  }
+
+  .ft > * { position: relative; }
+
+  .ft__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 40px;
+  }
+
+  .ft__logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 4px;
+    color: #fff;
+  }
+
+  .ft__social {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .ft__social-link {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--dim-d);
+    transition: color 0.2s ease;
+  }
+  .ft__social-link:hover { color: #fff; }
+
+  .ft__mid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 40px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--dim-d);
+  }
+  .ft__back:hover { color: #fff; }
+
+  .ft__system {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    background: #101010;
+    border-radius: var(--radius);
+    padding: 14px 20px;
+  }
+
+  .ft__sys {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--dim-d);
+  }
+
+  .ft__sys--op { color: var(--green); }
+
+  .ft__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+
+  @media (max-width: 700px) {
+    .ft__top,
+    .ft__mid { flex-direction: column; align-items: flex-start; gap: 20px; }
+  }
+</style>
+
+<script>
+  const clock = document.getElementById('ftClock');
+  const tick = () => {
+    if (!clock) return;
+    const time = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Kuala_Lumpur',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).format(new Date());
+    clock.textContent = `◷ LOCAL ${time} MYT`;
+  };
+  tick();
+  setInterval(tick, 30000);
+</script>

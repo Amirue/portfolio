@@ -1,669 +1,605 @@
 ﻿---
-import { fetchWorksData } from "../lib/wordpress";
+import Base from '../components/layout/Base.astro';
+import ClosingCTA from '../components/layout/ClosingCTA.astro';
+import { fetchWorksData } from '../lib/wordpress';
+
 const works = await fetchWorksData();
+const featured = works.slice(0, 3);
+
+// ── Static copy (declared here so a CPT swap later is a one-line change) ──
+const stats = [
+  { n: '08', label: 'YEARS BUILDING' },
+  { n: '60+', label: 'PROJECTS SHIPPED' },
+  { n: '12', label: 'COUNTRIES WORKED WITH' },
+  { n: '100', label: 'LIGHTHOUSE SCORE' },
+];
+
+const capabilities = [
+  {
+    n: '01',
+    title: 'UI/UX Design',
+    desc: 'Interfaces that are easy to use, look clean, and work on every screen.',
+    items: ['Design systems in Figma', 'Wireframes & prototypes', 'Micro-interactions & motion', 'Accessibility (WCAG AA)'],
+  },
+  {
+    n: '02',
+    title: 'WordPress & Frontend',
+    desc: 'Custom builds and frontends that hold up under real traffic.',
+    items: ['Custom themes & blocks', 'ACF Pro & custom post types', 'Headless (GraphQL / REST)', 'Core Web Vitals & speed'],
+  },
+  {
+    n: '03',
+    title: 'AI Integration',
+    desc: 'Practical AI that solves a real problem, not a chatbot bolted on for show.',
+    items: ['LLM agents & prompting', 'RAG & vector search', 'Workflow automation', 'Realtime (WebSockets)'],
+  },
+];
+
+const process = [
+  { n: '01', t: 'Discover', d: 'Understand the business, the users, and what actually needs to change.' },
+  { n: '02', t: 'Design', d: 'Wireframes first, then a real design system. Nothing decorative for its own sake.' },
+  { n: '03', t: 'Build', d: 'Clean, accessible frontend. WordPress or headless, whichever fits.' },
+  { n: '04', t: 'Ship & iterate', d: 'Launch, measure, keep improving. Handover docs and a walkthrough included.' },
+];
+
+const path = [
+  { y: '2020', k: 'EDUCATION', t: 'Started the degree', d: 'Entered university and learned the fundamentals — along with the fact that I would rather be building than reading about it.', x: ['React', 'Figma'] },
+  { y: '2023', k: 'EXPERIENCE', t: 'Internship', d: 'First industry role. Shipped real work, sat in real reviews, and learned how a team actually operates.', x: ['WordPress', 'JavaScript'] },
+  { y: '2024', k: 'EDUCATION', t: 'Graduated, First Class', d: 'Finished with a First Class degree. Final year spent on interface design and prototyping.', x: ['Figma', 'Research'] },
+  { y: '2024', k: 'EXPERIENCE', t: 'Junior Web Developer', d: 'First full-time role. WordPress builds, frontend work, and a lot of shipping.', x: ['WordPress', 'PHP'] },
+  { y: 'NEXT', k: 'OPEN', t: 'Your team?', d: 'Currently open to new work. Maybe the next line on this list is with you.', x: ["Let's talk"] },
+];
+
+const radar = [
+  { k: 'UI/UX', v: 88, label: 'UI/UX DESIGN', items: ['Design systems in Figma', 'Wireframes & prototyping', 'Micro-interactions', 'Accessibility (WCAG AA)'] },
+  { k: 'WORDPRESS', v: 92, label: 'WORDPRESS', items: ['Custom themes & blocks', 'ACF Pro & CPTs', 'Headless REST/GraphQL', 'WooCommerce'] },
+  { k: 'AI/LLM', v: 80, label: 'AI / LLM', items: ['LLM agents', 'RAG & vector search', 'Prompt engineering', 'Automation'] },
+  { k: 'FRONTEND', v: 78, label: 'FRONTEND', items: ['Astro / Next.js', 'React', 'Tailwind', 'Core Web Vitals'] },
+  { k: 'BACKEND', v: 74, label: 'BACKEND', items: ['PHP / MySQL', 'REST APIs', 'cPanel / Cloudflare', 'Docker'] },
+];
+
+const tools = [
+  ['Fi', 'Figma'], ['Af', 'Affinity'], ['Ps', 'Photoshop'], ['Bd', 'Breakdance'], ['Dv', 'Divi'],
+  ['El', 'Elementor'], ['Oc', 'OpenCode'], ['Rp', 'Replit'], ['Ag', 'Antigravity'], ['Nx', 'Next.js'],
+  ['Re', 'React'], ['Tw', 'Tailwind'], ['Cp', 'cPanel'], ['Cf', 'Cloudflare'], ['Sg', 'Sendgrid'],
+];
+
+const lifePhotos = [
+  '/assets/images/wc-1.jpg',
+  '/assets/images/wc-3.jpg',
+  '/assets/images/wc-2.jpg',
+  '/assets/images/hero-1.png',
+];
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Amiruan â€” Creative Web Developer & AI Integration Specialist. Personal portfolio built with human-centered design, custom WordPress engineering, and thoughtful UX laws.">
-  <meta name="theme-color" content="#FFFFFF">
-  <title>Amiruan â€” Creative Developer & AI Specialist</title>
-  <link rel="stylesheet" href="/assets/css/styles.css">
-</head>
-<body>
 
-  <!-- Header / Navigation -->
-  <header class="header" id="header" data-ux-law="Jakob's Law" data-ux-desc="Standard top navigation with familiar labels (Work, Stack, Architecture, Experience, Contact) so visitors know exactly where to find information.">
-    <div class="container header__inner">
-      <a href="#" class="brand" aria-label="Amiruan home">
-        Amiruan<span class="brand__dot" aria-hidden="true"></span>
-      </a>
+<Base title="Amiruan — Web Developer & AI Specialist" description="Creative web developer and AI specialist in Kuala Lumpur. I design, I build, I ship — WordPress, frontend and AI." current="">
 
-      <nav class="nav" aria-label="Primary navigation">
-        <a href="#about" class="nav__link">About</a>
-        <a href="#projects" class="nav__link">Work</a>
-        <a href="#stack" class="nav__link">Stack</a>
-        <a href="#experience" class="nav__link">Experience</a>
-        <a href="/gallery" class="nav__link">Gallery</a>
-        <a href="#contact" class="nav__link">Contact</a>
-      </nav>
+  <!-- 02 Hero -->
+  <section class="hero">
+    <span class="hero__vline hero__vline--l" aria-hidden="true"></span>
+    <span class="hero__vline hero__vline--r" aria-hidden="true"></span>
 
-      <div class="header__actions">
-        <button class="header__tool ux-pathfinder__toggle" id="uxPathfinderToggle" aria-label="Open UX Pathfinder" aria-expanded="false">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            <line x1="11" y1="8" x2="11" y2="14"></line>
-            <line x1="8" y1="11" x2="14" y2="11"></line>
-          </svg>
-          <span>UX Pathfinder</span>
-        </button>
-        <button class="header__tool header__tool--coral" id="aiToggle" aria-label="Open AI command terminal">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polyline points="4 17 10 11 4 5"></polyline>
-            <line x1="12" y1="19" x2="20" y2="19"></line>
-          </svg>
-          <span>Ask AI</span>
-          <kbd>âŒ˜K</kbd>
-        </button>
-        <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu" aria-expanded="false">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-      </div>
+    <div class="hero__marquees" aria-hidden="true">
+      <div class="hero__row marquee"><div class="marquee__track hero__track hero__track--l">
+        {[0,1,2,3].map(() => <span>// WEB DEVELOPER</span>)}
+      </div></div>
+      <div class="hero__row marquee"><div class="marquee__track hero__track hero__track--r">
+        {[0,1,2,3].map(() => <span class="hero__outline">UI/UX · WORDPRESS · AI INTEGRATION · CREATIVE</span>)}
+      </div></div>
+      <div class="hero__row marquee"><div class="marquee__track hero__track hero__track--l">
+        {[0,1,2,3].map(() => <span>// WEB DESIGN</span>)}
+      </div></div>
+      <div class="hero__row marquee"><div class="marquee__track hero__track hero__track--r">
+        {[0,1,2,3].map(() => <span class="hero__outline">KUALA LUMPUR · OPEN TO WORK</span>)}
+      </div></div>
     </div>
-  </header>
 
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-    <a href="#about" class="nav__link">About</a>
-    <a href="#projects" class="nav__link">Work</a>
-    <a href="#stack" class="nav__link">Stack</a>
-    <a href="#experience" class="nav__link">Experience</a>
-    <a href="/gallery" class="nav__link">Gallery</a>
-    <a href="#contact" class="nav__link">Contact</a>
-  </div>
+    <div class="hero__top">
+      <span class="u-blue">CREATIVE DEVELOPER / AI SPECIALIST</span>
+      <span class="u-dim">Kuala Lumpur, Malaysia</span>
+    </div>
 
-  <main>
-    <!-- Hero Section -->
-    <section class="hero" id="home" data-ux-law="Aesthetic-Usability Effect" data-ux-desc="The oversized typography, layered portraits, and bold negative space create an immediate emotional impression that makes the site feel crafted and personal.">
-      <div class="hero__marquee-wrapper" aria-hidden="true">
-        <div class="hero__marquee-row">
-          <div class="hero__marquee-track">
-            <span class="hero__marquee-text">Web Developer</span>
-            <span class="hero__marquee-text">Web Developer</span>
-            <span class="hero__marquee-text">Web Developer</span>
-            <span class="hero__marquee-text">Web Developer</span>
-          </div>
-        </div>
-        <div class="hero__marquee-row">
-          <div class="hero__marquee-track">
-            <span class="hero__marquee-text hero__marquee-text--outline">UI/UX Designer</span>
-            <span class="hero__marquee-text hero__marquee-text--outline">UI/UX Designer</span>
-            <span class="hero__marquee-text hero__marquee-text--outline">UI/UX Designer</span>
-            <span class="hero__marquee-text hero__marquee-text--outline">UI/UX Designer</span>
-          </div>
-        </div>
-        <div class="hero__marquee-row">
-          <div class="hero__marquee-track">
-            <span class="hero__marquee-text">AI Specialist</span>
-            <span class="hero__marquee-text">AI Specialist</span>
-            <span class="hero__marquee-text">AI Specialist</span>
-            <span class="hero__marquee-text">AI Specialist</span>
-          </div>
-        </div>
-        <div class="hero__marquee-row">
-          <div class="hero__marquee-track">
-            <span class="hero__marquee-text hero__marquee-text--outline">Creative</span>
-            <span class="hero__marquee-text hero__marquee-text--outline">Creative</span>
-            <span class="hero__marquee-text hero__marquee-text--outline">Creative</span>
-            <span class="hero__marquee-text hero__marquee-text--outline">Creative</span>
-          </div>
-        </div>
+    <figure class="hero__portrait">
+      <img src="/assets/images/hero-2.png" alt="Portrait of Amiruan" width="480" height="600" />
+      <span class="hero__scrim" aria-hidden="true"></span>
+      <span class="hero__scan" aria-hidden="true"></span>
+      <span class="hero__pgrid" aria-hidden="true"></span>
+      <span class="hero__frame" aria-hidden="true"></span>
+      <span class="hero__bar" aria-hidden="true"></span>
+      <span class="hero__hud hero__hud--tl">AMIRUAN_002.RAW</span>
+      <span class="hero__hud hero__hud--tr">● REC</span>
+      <span class="hero__hud hero__hud--bl">f/1.8 1/250 ISO 400</span>
+      <span class="hero__hud hero__hud--br" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i>
+      </span>
+      <h1 class="hero__title">
+        <span>I BUILD</span>
+        <span>DIGITAL</span>
+        <span class="hero__title-c">EXPERIENCES</span>
+      </h1>
+      <span class="hero__hud hero__hud--foot">KUALA LUMPUR · 2026</span>
+    </figure>
 
-        <div class="hero__images" data-ux-law="Serial Position Effect" data-ux-desc="The portraits sit at the top of the marquee rows, anchoring the most memorable part of the hero exactly where attention peaks.">
-          <div class="hero__image hero__image--left">
-            <img src="/assets/images/hero-1.png" alt="Amiruan portrait 1" loading="eager">
+    <div class="hero__bottom">
+      <span class="u-dim">03.1390° N, 101.6869° E</span>
+      <a href="#about" class="hero__scroll">SCROLL ↓</a>
+    </div>
+  </section>
+
+  <!-- 03 About -->
+  <section class="sec sec--paper on-paper" id="about">
+    <div class="wrap">
+      <p class="reveal about__statement">A designer who codes, and a developer who cares how it looks.</p>
+
+      <div class="stats">
+        {stats.map((s, i) => (
+          <div class="stats__item reveal" style={`--i:${i}`}>
+            <span class="stats__n">{s.n}</span>
+            <span class="stats__l">{s.label}</span>
           </div>
-          <div class="hero__image hero__image--center">
-            <img src="/assets/images/hero-2.png" alt="Amiruan portrait 2" loading="eager">
-          </div>
-          <div class="hero__image hero__image--right">
-            <img src="/assets/images/hero-3.png" alt="Amiruan portrait 3" loading="eager">
-          </div>
+        ))}
+      </div>
+
+      <div class="about__grid">
+        <figure class="about__portrait reveal">
+          <img src="/assets/images/profile.png" alt="Amiruan" width="480" height="600" loading="lazy" />
+        </figure>
+        <div class="about__bio">
+          <p class="reveal about__cap reveal">KUALA LUMPUR, MALAYSIA · 03.1390° N, 101.6869° E</p>
+          <p class="reveal about__note reveal">Currently taking on freelance work and open to full-time roles. Usually reply within a day.</p>
+          <p class="reveal t-body">I got into this because I was curious why some websites feel easy to use and others feel like homework. That curiosity turned into a career.</p>
+          <p class="reveal t-body">I design interfaces, build WordPress systems, and plug in AI where it actually helps. I work with founders, agencies and product teams who want something clean and fast. Not trendy for the sake of it.</p>
+          <p class="reveal t-body">Off the clock I am usually reading about typography or poking at some new tool. I care about the small details that make software feel like someone actually thought about the person using it.</p>
+          <a href="#" class="about__resume reveal">DOWNLOAD RESUME →</a>
         </div>
       </div>
 
-      <div class="hero__scroll-hint">
-        <span>Scroll</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
-      </div>
+      <header class="sec-head">
+        <h2 class="t-h2 reveal">What I do</h2>
+        <p class="reveal t-body about__sub">Three things, done properly. Most projects end up using two of them.</p>
+      </header>
 
-      <div class="hero__bottom-bar" data-ux-law="Postel's Law" data-ux-desc="The bottom bar accepts loose scanning: visitors can read location, time, or status in any order they choose.">
-        <div class="hero__bottom-left">
-          <span>Based in Kuala Lumpur</span>
-          <span>MYT (UTC+8)</span>
-        </div>
-        <div class="hero__bottom-right">
-          <span class="status-dot" aria-hidden="true"></span>
-          <span>Open to work</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Personal Quote -->
-    <section class="quote-section" id="philosophy">
-      <div class="container quote-section__inner reveal">
-        <p class="quote-section__text" data-ux-law="Peak-End Rule" data-ux-desc="A memorable, personal statement early in the journey creates a strong emotional peak that shapes how visitors remember the experience.">
-          "I build websites and I actually care about whether they work well. Not just how they look. If someone uses something I made and it makes their day easier, that is a good day for me."
-        </p>
-        <div class="quote-section__footer">
-          <div class="quote-section__avatar">
-            <img src="/assets/images/profile.png" alt="Amiruan profile">
-          </div>
-          <div>
-            <div class="quote-section__name">Muhammad Amiruddin</div>
-            <div class="quote-section__role">Creative Web Developer & AI Specialist</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="section" id="about">
-      <div class="container">
-        <header class="section-header reveal">
-          <h2 class="section-title">What I actually do</h2>
-<p class="section-subtitle">I design and build websites, mostly WordPress stuff with some AI mixed in.</p>
-        </header>
-
-        <div class="about-grid">
-          <div class="about-text reveal" style="transition-delay: 100ms;">
-            <p>
-              I got into this because I was curious about why some websites feel easy to use and others feel like homework. That curiosity turned into a career. I design interfaces, I build WordPress systems, and I plug in AI where it actually helps.
-            </p>
-            <p>
-              I am based in Kuala Lumpur. I work with founders, agencies, and product teams who want something clean and fast. Not trendy for the sake of it. Just good work that holds up.
-            </p>
-            <p>
-          When I am not working, I am usually reading about typography or playing with some new tool. I care about the small details that make software feel like someone actually thought about the person using it.
-            </p>
-          </div>
-
-          <div class="about-services reveal" style="transition-delay: 200ms;" data-ux-law="Hick's Law" data-ux-desc="Services are grouped into four clear, scannable items so visitors can quickly understand what I do without cognitive overload.">
-            <div class="about-service">
-              <span>Art Direction & UI/UX</span>
-              <span class="about-service__arrow">â†’</span>
-            </div>
-            <div class="about-service">
-              <span>Custom WordPress Engineering</span>
-              <span class="about-service__arrow">â†’</span>
-            </div>
-            <div class="about-service">
-              <span>AI Integration & Automation</span>
-              <span class="about-service__arrow">â†’</span>
-            </div>
-            <div class="about-service">
-              <span>Frontend Development</span>
-              <span class="about-service__arrow">â†’</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="architecture">
-      <div class="container">
-        <header class="section-header reveal">
-          <h2 class="section-title">Three things I do</h2>
-          <p class="section-subtitle">Design, WordPress, and AI. That is the overlap I live in.</p>
-        </header>
-
-        <div class="matrix" data-ux-law="Law of Common Region" data-ux-desc="Each discipline is visually enclosed in its own card with shared borders and spacing, making the three pillars feel like a unified group.">
-          <article class="matrix-card reveal" style="transition-delay: 100ms;">
-            <div class="matrix-card__icon">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
-                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
-                <path d="M2 2l7.586 7.586"></path>
-                <circle cx="11" cy="11" r="2"></circle>
-              </svg>
-            </div>
-            <h3 class="matrix-card__title">UI/UX Design</h3>
-            <p class="matrix-card__desc">I design interfaces that are easy to use, look clean, and work on every screen.</p>
-            <ul class="matrix-card__list">
-              <li>Figma Design Systems</li>
-              <li>Micro-Interactions & Motion</li>
-              <li>Responsive Layouts</li>
-              <li>Accessibility (a11y)</li>
+      <div class="caps">
+        {capabilities.map((c, i) => (
+          <article class="cap reveal" style={`--i:${i}`}>
+            <span class="cap__n u-blue">{c.n}</span>
+            <h3 class="t-card">{c.title}</h3>
+            <p class="cap__d">{c.desc}</p>
+            <ul class="cap__list">
+              {c.items.map((it) => <li>{it}</li>)}
             </ul>
           </article>
-
-          <article class="matrix-card reveal" style="transition-delay: 200ms;">
-            <div class="matrix-card__icon matrix-card__icon--sage">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-              </svg>
-            </div>
-            <h3 class="matrix-card__title">WordPress Engineering</h3>
-            <p class="matrix-card__desc">Custom WordPress setups, custom post types, and backend stuff that does not break.</p>
-            <ul class="matrix-card__list">
-              <li>ACF Pro & Custom Post Types</li>
-              <li>Headless REST / GraphQL</li>
-              <li>Custom Hooks & Filters</li>
-              <li>Dockerized Workflows</li>
-            </ul>
-          </article>
-
-          <article class="matrix-card reveal" style="transition-delay: 300ms;">
-            <div class="matrix-card__icon matrix-card__icon--lavender">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                <line x1="8" y1="21" x2="16" y2="21"></line>
-                <line x1="12" y1="17" x2="12" y2="21"></line>
-              </svg>
-            </div>
-            <h3 class="matrix-card__title">AI Integration</h3>
-            <p class="matrix-card__desc">Chatbots, AI tools, and smart features that actually help instead of getting in the way.</p>
-            <ul class="matrix-card__list">
-              <li>LLM Agent Prompting</li>
-              <li>WebSocket Systems</li>
-              <li>Vector Embeddings & RAG</li>
-              <li>Interactive Kiosks</li>
-            </ul>
-          </article>
-        </div>
+        ))}
       </div>
-    </section>
 
-    <!-- Selected Works -->
-    <section class="section" id="projects" style="background: linear-gradient(180deg, transparent 0%, rgba(232, 72, 72, 0.015) 50%, transparent 100%);">
-      <div class="container">
-        <header class="section-header reveal">
-          <h2 class="section-title">Recent work</h2>
-          <p class="section-subtitle">Some things I have built. A mix of client work and side projects.</p>
-        </header>
-
-        <div class="filter-bar reveal" style="transition-delay: 100ms;" data-ux-law="Hick's Law" data-ux-desc="Only four filter options are shown, reducing decision time and making project discovery feel effortless.">
-          <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All</button>
-          <button class="filter-btn" data-filter="uiux" role="tab" aria-selected="false">UI/UX</button>
-          <button class="filter-btn" data-filter="wordpress" role="tab" aria-selected="false">WordPress</button>
-          <button class="filter-btn" data-filter="ai" role="tab" aria-selected="false">AI</button>
-        </div>
-
-        <div class="works-grid" id="worksGrid">
-          {works.map((work) => (
-            <article class="work-card reveal" data-category={work.type}>
-              <div class="work-card__visual">
-                {work.image ? (
-                  <img src={work.image} alt={work.title} loading="lazy" style="width:100%;height:100%;object-fit:cover;">
-                ) : (
-                  <svg class="work-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-                )}
-              </div>
-              <div class="work-card__content">
-                <div class="work-card__tags">
-                  <span class="badge badge-coral">{work.type === "uiux" ? "UI/UX" : work.type === "wordpress" ? "WordPress" : "AI"}</span>
-                  <span class="badge">{work.year}</span>
-                </div>
-                <h3 class="work-card__title">{work.title}</h3>
-                <p class="work-card__desc">{work.subtitle}</p>
-                <div class="work-card__metric">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                  {work.metric}
-                </div>
-                <div class="work-card__actions">
-                  <a href={"/work/" + work.slug + "/"} class="work-card__action">View Case Study <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-                </div>
-              </div>
-            </article>
+      <div class="proc reveal">
+        <span class="proc__label">HOW IT USUALLY GOES</span>
+        <div class="proc__grid">
+          {process.map((p) => (
+            <div class="proc__step">
+              <span class="proc__n u-blue">{p.n}</span>
+              <h3 class="proc__t">{p.t}</h3>
+              <p class="proc__d">{p.d}</p>
+            </div>
           ))}
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Skill Bento Matrix -->
-    <section class="section" id="stack">
-      <div class="container">
-        <header class="section-header reveal">
-          <h2 class="section-title">Tools I use</h2>
-          <p class="section-subtitle">The tools I use every day, grouped loosely by what they do.</p>
-        </header>
+  <!-- 04 Work -->
+  <section class="sec sec--ink work" id="projects">
+    <div class="wrap">
+      <header class="sec-head sec-head--row">
+        <h2 class="t-h2 reveal">Selected Work</h2>
+        <span class="work__count reveal">{`(${String(featured.length).padStart(2, '0')}) · 2024—2025`}</span>
+      </header>
 
-        <div class="bento">
-          <div class="bento__item bento__item--wide reveal" style="transition-delay: 100ms;" data-ux-law="Law of Similarity" data-ux-desc="Each skill card uses the same shape, border, and spacing, making the bento grid feel like a cohesive family of related items.">
-            <h3 class="bento__title">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-              Proficiency Radar
-            </h3>
-            <svg class="radar" viewBox="0 0 320 260" aria-label="Skill proficiency radar chart">
-              <g stroke="var(--border-subtle)" fill="none" stroke-width="1">
-                <polygon points="160,30 275,95 275,205 160,270 45,205 45,95" />
-                <polygon points="160,65 235,110 235,190 160,235 85,190 85,110" />
-                <polygon points="160,100 195,120 195,175 160,195 125,175 125,120" />
-              </g>
-              <g stroke="var(--border-subtle)" stroke-width="1">
-                <line x1="160" y1="30" x2="160" y2="150" />
-                <line x1="275" y1="95" x2="160" y2="150" />
-                <line x1="275" y1="205" x2="160" y2="150" />
-                <line x1="160" y1="270" x2="160" y2="150" />
-                <line x1="45" y1="205" x2="160" y2="150" />
-                <line x1="45" y1="95" x2="160" y2="150" />
-              </g>
-              <polygon id="radarPolygon" points="160,50 255,110 245,185 160,245 75,185 70,110" fill="rgba(232, 72, 72, 0.12)" stroke="var(--accent-coral)" stroke-width="2" />
-              <g font-family="var(--font-mono)" font-size="11" fill="var(--text-muted)" text-anchor="middle">
-                <text x="160" y="20">UI/UX</text>
-                <text x="295" y="90">WordPress</text>
-                <text x="295" y="220">AI/LLM</text>
-                <text x="160" y="285">DevOps</text>
-                <text x="25" y="220">Frontend</text>
-                <text x="25" y="90">Backend</text>
-              </g>
-            </svg>
-          </div>
-
-          <div class="bento__item reveal" style="transition-delay: 200ms;" data-ux-law="Miller's Law" data-ux-desc="Each skill list contains 4 items, keeping the working-memory load within the 7Â±2 range for easy scanning.">
-            <h3 class="bento__title">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-              Frontend
-            </h3>
-            <ul class="bento__list">
-              <li>React / Next.js <div class="bento__meter"><div class="bento__meter-fill" data-width="95"></div></div></li>
-              <li>TypeScript <div class="bento__meter"><div class="bento__meter-fill" data-width="90"></div></div></li>
-              <li>Tailwind CSS <div class="bento__meter"><div class="bento__meter-fill" data-width="98"></div></div></li>
-              <li>Framer Motion <div class="bento__meter"><div class="bento__meter-fill" data-width="88"></div></div></li>
-            </ul>
-          </div>
-
-          <div class="bento__item reveal" style="transition-delay: 300ms;" data-ux-law="Goal-Gradient Effect" data-ux-desc="Progress bars visually move toward completion, motivating visitors to scan the full skill profile and creating a sense of progress.">
-            <h3 class="bento__title">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-              WordPress & Backend
-            </h3>
-            <ul class="bento__list">
-              <li>ACF Pro / CPT <div class="bento__meter"><div class="bento__meter-fill" data-width="96"></div></div></li>
-              <li>REST / GraphQL <div class="bento__meter"><div class="bento__meter-fill" data-width="92"></div></div></li>
-              <li>PHP / MySQL <div class="bento__meter"><div class="bento__meter-fill" data-width="85"></div></div></li>
-              <li>Docker / CI/CD <div class="bento__meter"><div class="bento__meter-fill" data-width="80"></div></div></li>
-            </ul>
-          </div>
-
-          <div class="bento__item reveal" style="transition-delay: 100ms;" data-ux-law="Chunking" data-ux-desc="Technologies are grouped into themed categories (Frontend, Backend, AI, Design) so the information is easier to remember and navigate.">
-            <h3 class="bento__title">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 12L2.5 8.5"/><path d="M12 12v10"/></svg>
-              AI & Automation
-            </h3>
-            <ul class="bento__list">
-              <li>OpenAI / Gemini APIs <div class="bento__meter"><div class="bento__meter-fill" data-width="93"></div></div></li>
-              <li>RAG & Vector DBs <div class="bento__meter"><div class="bento__meter-fill" data-width="85"></div></div></li>
-              <li>WebSockets <div class="bento__meter"><div class="bento__meter-fill" data-width="88"></div></div></li>
-              <li>LangChain / Agents <div class="bento__meter"><div class="bento__meter-fill" data-width="78"></div></div></li>
-            </ul>
-          </div>
-
-          <div class="bento__item bento__item--wide reveal" style="transition-delay: 200ms;" data-ux-law="Law of Uniform Connectedness" data-ux-desc="Design tool tags are visually connected through shared pill styling and consistent spacing, signaling they belong to the same design toolkit.">
-            <h3 class="bento__title">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-              Design & Prototyping
-            </h3>
-            <div class="bento__tags">
-              <span class="bento__tag">Figma</span>
-              <span class="bento__tag">Adobe XD</span>
-              <span class="bento__tag">Principle</span>
-              <span class="bento__tag">Spline 3D</span>
-              <span class="bento__tag">Whimsical</span>
-              <span class="bento__tag">Maze</span>
-              <span class="bento__tag">Storybook</span>
-              <span class="bento__tag">Zeroheight</span>
+      <div class="accordion" id="workAccordion">
+        {featured.map((w, i) => (
+          <article class={`acc ${i === 0 ? 'is-open' : ''}`} data-acc>
+            <button class="acc__head" aria-expanded={i === 0 ? 'true' : 'false'}>
+              <span class="acc__n u-blue">{String(i + 1).padStart(2, '0')}</span>
+              <span class="acc__t t-card">{w.title}</span>
+              <span class="acc__tag">{w.type === 'uiux' ? 'UI/UX' : w.type === 'wordpress' ? 'WordPress' : 'AI'}</span>
+              <span class="acc__yr u-dim">{w.year}</span>
+              <span class="acc__ic" aria-hidden="true">{i === 0 ? '—' : '+'}</span>
+            </button>
+            <div class="acc__body">
+              <div class="acc__panel">
+                {w.image
+                  ? <img class="acc__img" src={w.image} alt={w.title} loading="lazy" />
+                  : <div class="acc__img acc__img--ph">KIOSK · PREVIEW</div>}
+                <div class="acc__info">
+                  <span class="acc__fl u-blue">FEATURED PROJECT</span>
+                  <p class="acc__desc">{w.subtitle}</p>
+                  {w.metric && <span class="acc__metric">↑ {w.metric}</span>}
+                  <a class="acc__cta" href={`/work/${w.slug}/`}>READ CASE STUDY →</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </article>
+        ))}
       </div>
-    </section>
 
-    <!-- Experience Timeline -->
-    <section class="section" id="experience">
-      <div class="container">
-        <header class="section-header reveal">
-          <h2 class="section-title">Where I've worked</h2>
-          <p class="section-subtitle">Where I worked and what I did there.</p>
-        </header>
+      <a href="/work" class="work__all reveal">VIEW ALL WORK →</a>
+    </div>
+  </section>
 
-        <div class="timeline" data-ux-law="Law of Common Region" data-ux-desc="Each role is enclosed in a card and connected by a continuous timeline, creating a clear chronological region.">
-          <article class="timeline__item reveal" style="transition-delay: 100ms;">
-            <div class="timeline__card">
-              <div class="timeline__meta">
-                <span class="timeline__date">2023 â€” Present</span>
-                <span class="badge badge-coral">Founder</span>
-              </div>
-              <h3 class="timeline__role">Independent Digital Consultant</h3>
-              <p class="timeline__company">Amiruan Digital Studio</p>
-              <p class="timeline__desc">Design, WordPress, and AI projects for clients across APAC.</p>
-              <div class="timeline__tags">
-                <span class="bento__tag">Next.js</span>
-                <span class="bento__tag">Headless WP</span>
-                <span class="bento__tag">OpenAI API</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="timeline__item reveal" style="transition-delay: 200ms;">
-            <div class="timeline__card">
-              <div class="timeline__meta">
-                <span class="timeline__date">2021 â€” 2023</span>
-                <span class="badge badge-sage">Senior</span>
-              </div>
-              <h3 class="timeline__role">Senior Web Developer</h3>
-              <p class="timeline__company">Regional E-Commerce Agency</p>
-              <p class="timeline__desc">Built WooCommerce stores and automated backend stuff for retail brands.</p>
-              <div class="timeline__tags">
-                <span class="bento__tag">WordPress</span>
-                <span class="bento__tag">React</span>
-                <span class="bento__tag">Docker</span>
-                <span class="bento__tag">PrintNode</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="timeline__item reveal" style="transition-delay: 300ms;">
-            <div class="timeline__card">
-              <div class="timeline__meta">
-                <span class="timeline__date">2019 â€” 2021</span>
-                <span class="badge badge-lavender">Mid-Level</span>
-              </div>
-              <h3 class="timeline__role">UI/UX & Frontend Developer</h3>
-              <p class="timeline__company">Creative Technology Studio</p>
-              <p class="timeline__desc">Designed websites, design systems, and prototypes for fintech and SaaS clients.</p>
-              <div class="timeline__tags">
-                <span class="bento__tag">Figma</span>
-                <span class="bento__tag">Tailwind</span>
-                <span class="bento__tag">Vue.js</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="timeline__item reveal" style="transition-delay: 100ms;">
-            <div class="timeline__card">
-              <div class="timeline__meta">
-                <span class="timeline__date">2018 â€” 2019</span>
-                <span class="badge badge-coral">Junior</span>
-              </div>
-              <h3 class="timeline__role">Junior Web Designer</h3>
-              <p class="timeline__company">Digital Marketing Agency</p>
-              <p class="timeline__desc">Started with WordPress themes, landing pages, and learning UI design.</p>
-              <div class="timeline__tags">
-                <span class="bento__tag">WordPress</span>
-                <span class="bento__tag">HTML/CSS</span>
-                <span class="bento__tag">jQuery</span>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="section" id="contact" style="background: linear-gradient(180deg, transparent 0%, rgba(109, 91, 211, 0.015) 50%, transparent 100%);">
-      <div class="container">
-        <header class="section-header reveal">
-          <h2 class="section-title">Get in touch</h2>
-          <p class="section-subtitle">Got something in mind? Send me a message and I will get back to you within a day.</p>
-        </header>
-
-        <div class="contact-grid">
-          <div class="contact-info reveal" style="transition-delay: 100ms;" data-ux-law="Postel's Law" data-ux-desc="Contact options are flexible â€” email, location, and a form â€” so visitors can reach out in whatever way is easiest for them.">
-            <a href="mailto:hello@amiruan.dev" class="contact-info__item">
-              <div class="contact-info__icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              </div>
-              <div>
-                <div class="contact-info__label">Email</div>
-                <div class="contact-info__value">hello@amiruan.dev</div>
-              </div>
-            </a>
-
-            <a href="#" class="contact-info__item">
-              <div class="contact-info__icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              </div>
-              <div>
-                <div class="contact-info__label">Location</div>
-                <div class="contact-info__value">Kuala Lumpur, Malaysia (MYT)</div>
-              </div>
-            </a>
-
-            <a href="#" class="contact-info__item">
-              <div class="contact-info__icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><circle cx="12" cy="14" r="4"/><line x1="12" y1="6" x2="12.01" y2="6"/></svg>
-              </div>
-              <div>
-                <div class="contact-info__label">Availability</div>
-                <div class="contact-info__value">Open for Q3 2026 projects</div>
-              </div>
-            </a>
-          </div>
-
-          <form class="contact-form reveal" style="transition-delay: 200ms;" id="contactForm" novalidate data-ux-law="Occam's Razor" data-ux-desc="The contact form asks only for the essentials, removing unnecessary fields so the path to sending a message is as simple as possible.">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" placeholder="Your name" required>
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="you@company.com" required>
-            </div>
-            <div class="form-group">
-              <label for="projectType">Project Type</label>
-              <select id="projectType" name="projectType" required>
-                <option value="" disabled selected>Select a discipline</option>
-                <option value="uiux">UI/UX Design</option>
-                <option value="wordpress">WordPress Engineering</option>
-                <option value="ai">AI Integration</option>
-                <option value="fullstack">Full-Stack Product</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="message">Project Details</label>
-              <textarea id="message" name="message" placeholder="Tell me about your goals, timeline, and budget..." required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
-            <div class="form-status" id="formStatus" aria-live="polite"></div>
-          </form>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer" id="footer" data-ux-law="Peak-End Rule" data-ux-desc="The footer closes the experience with system status, live time, and social links â€” a calm, memorable ending to the journey.">
-    <div class="container footer__inner">
-      <div class="footer__top">
-        <div class="footer__brand">Amiruan.</div>
-        <div class="footer__social">
-          <a href="#" aria-label="GitHub">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          </a>
-          <a href="#" aria-label="LinkedIn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
-          <a href="#" aria-label="Twitter">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-          </a>
-          <a href="#" aria-label="Dribbble">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
+  <!-- 05 Path -->
+  <section class="sec sec--paper on-paper" id="experience">
+    <div class="wrap">
+      <div class="path__head reveal">
+        <h2 class="t-h2">Education &amp; Experience</h2>
+        <div class="path__hright">
+          <p class="path__sub">Where I have worked and what I did there. Short version: I have been at this since 2018.</p>
+          <a href="#" class="path__btn">
+            <span>DOWNLOAD RESUME</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
           </a>
         </div>
       </div>
 
-      <div class="footer__status">
-        <div class="footer__status-item">
-          <span class="footer__status-dot" aria-hidden="true"></span>
-          <span>System: <strong>Operational</strong></span>
+      <ol class="path">
+        {path.map((p, i) => (
+          <li class={`path__item reveal ${i % 2 ? 'path__item--flip' : ''} ${p.k === 'OPEN' ? 'is-open' : ''}`} style={`--i:${i}`}>
+            <span class="path__node" aria-hidden="true"></span>
+            <span class="path__tick" aria-hidden="true"></span>
+            <div class="path__year">
+              <span class={`path__y ${p.k === 'OPEN' ? 'u-accent' : 'u-blue'}`}>{p.y}</span>
+              <span class={`path__k ${p.k === 'EDUCATION' ? 'u-blue' : 'u-dim-l'}`}>{p.k}</span>
+            </div>
+            <div class="path__card">
+              <h3 class="path__t">{p.t}</h3>
+              <p class="path__d">{p.d}</p>
+              <div class="path__tags">{p.x.map((t) => <span>{t}</span>)}</div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 06 Toolbox -->
+  <section class="sec sec--ink" id="stack">
+    <div class="wrap">
+      <header class="sec-head sec-head--row">
+        <h2 class="t-h2 reveal">The Workbench</h2>
+        <span class="u-dim reveal t-label">Hover an axis on the radar.</span>
+      </header>
+
+      <div class="bench">
+        <div class="bench__radar reveal">
+          <svg viewBox="0 0 320 320" role="img" aria-label="Skill radar">
+            <g stroke="var(--line-d2)" fill="none">
+              <polygon points="160,40 274,123 230,258 90,258 46,123" />
+              <polygon points="160,76 245,138 213,238 107,238 75,138" />
+              <polygon points="160,112 216,153 195,218 125,218 104,153" />
+            </g>
+            <g stroke="var(--line-d2)"><line x1="160" y1="160" x2="160" y2="40"/><line x1="160" y1="160" x2="274" y2="123"/><line x1="160" y1="160" x2="230" y2="258"/><line x1="160" y1="160" x2="90" y2="258"/><line x1="160" y1="160" x2="46" y2="123"/></g>
+            <polygon class="bench__poly" points="160,54 265,127 222,246 99,246 60,127" fill="rgba(255,59,48,0.14)" stroke="var(--accent)" stroke-width="1.5"/>
+            {radar.map((r, i) => {
+              const ang = (-90 + i * 72) * Math.PI / 180;
+              const x = 160 + Math.cos(ang) * 130;
+              const y = 160 + Math.sin(ang) * 130;
+              return <text class="bench__axis" x={x.toFixed(1)} y={y.toFixed(1)} text-anchor="middle" data-axis={i}>{r.k}</text>;
+            })}
+          </svg>
         </div>
-        <div class="footer__status-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>Local Time: <strong id="localTime">--:--</strong> MYT</span>
-        </div>
-        <div class="footer__status-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span>Status: <strong id="availabilityStatus">Available for hire</strong></span>
+        <div class="bench__panel reveal">
+          <span class="bench__pl u-blue">{radar[0].label}</span>
+          <span class="bench__pv">{radar[0].v}%</span>
+          <ul id="benchList">
+            {radar[0].items.map((it) => <li>{it}</li>)}
+          </ul>
         </div>
       </div>
 
-      <div class="footer__bottom">
-        <p>&copy; <span id="year"></span> Amiruan. Built with precision.</p>
-        <p>Designed & engineered by Muhammad Amiruddin.</p>
+      <div class="tools reveal">
+        {tools.map(([m, nm]) => (
+          <div class="tool">
+            <span class="tool__m">{m}</span>
+            <span class="tool__n">{nm}</span>
+          </div>
+        ))}
       </div>
     </div>
-  </footer>
+  </section>
 
-  <!-- AI Terminal Modal -->
-  <div class="terminal-overlay" id="terminalOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="AI command terminal" data-ux-law="Doherty Threshold" data-ux-desc="The terminal responds instantly to keyboard input, keeping the interaction pace below 400ms and maintaining user momentum.">
-    <div class="terminal-modal">
-      <div class="terminal-modal__header">
-        <div class="terminal-modal__title">
-          <span>&gt;_</span>
-          amiruan-terminal â€” ask me anything
-        </div>
-        <button class="terminal-modal__close" id="terminalClose" aria-label="Close terminal">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-      <div class="terminal-modal__body" id="terminalBody">
-        <div class="terminal-log" id="terminalLog">
-          <div class="terminal-log__entry terminal-log__entry--system">Welcome to the Amiruan terminal.</div>
-          <div class="terminal-log__entry terminal-log__entry--system">Try: â€œstacksâ€, â€œprojectsâ€, â€œcontactâ€, or â€œavailabilityâ€</div>
-        </div>
-      </div>
-      <div class="terminal-modal__hint">
-        <span>Press <strong>Enter</strong> to submit</span>
-        <span>Press <strong>Esc</strong> or <strong>âŒ˜K</strong> to close</span>
-      </div>
-      <div class="terminal-modal__input-wrap">
-        <span class="hero__terminal-prompt">&gt;</span>
-        <input type="text" class="terminal-modal__input" id="terminalInput" placeholder='ask_amiruan("...")' autocomplete="off" aria-label="Terminal input">
+  <!-- 07 Life Lately -->
+  <section class="sec sec--paper on-paper life">
+    <div class="wrap">
+      <header class="sec-head sec-head--row">
+        <h2 class="t-h2 reveal">Life lately</h2>
+        <a href="/gallery" class="life__all reveal">SEE ALL PHOTOS →</a>
+      </header>
+    </div>
+    <div class="life__strip marquee">
+      <div class="marquee__track life__track">
+        {[...lifePhotos, ...lifePhotos].map((src) => (
+          <img src={src} alt="Life lately" loading="lazy" />
+        ))}
       </div>
     </div>
-  </div>
-
-  <!-- UX Pathfinder Panel -->
-  <div class="ux-pathfinder-backdrop" id="uxPathfinderBackdrop" aria-hidden="true"></div>
-  <aside class="ux-pathfinder-panel" id="uxPathfinderPanel" aria-label="UX Pathfinder panel" aria-hidden="true">
-    <div class="ux-pathfinder-panel__header">
-      <div class="ux-pathfinder-panel__title">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          <line x1="11" y1="8" x2="11" y2="14"></line>
-          <line x1="8" y1="11" x2="14" y2="11"></line>
-        </svg>
-        UX Pathfinder
+    <div class="life__ticker marquee mt">
+      <div class="marquee__track life__ttrack">
+        {[0,1,2].map(() => <span>// 2025 — 2026 · 24 PHOTOS · WORDCAMP KL · STUDIO DAYS · TRIPS ·</span>)}
       </div>
-      <button class="ux-pathfinder-panel__close" id="uxPathfinderClose" aria-label="Close UX Pathfinder">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
     </div>
-    <div class="ux-pathfinder-panel__body">
-      <p class="ux-pathfinder-panel__intro">
-        This portfolio is built on proven UX laws from <a href="https://lawsofux.com/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-lavender); text-decoration: underline;">lawsofux.com</a>.<br><br>
-        <strong>Click any law</strong> below to close this panel and jump to where it's applied on the page. Close anytime with the X, the backdrop, or the Esc key.
-      </p>
-      <div id="uxPathfinderList"></div>
-    </div>
-  </aside>
+  </section>
 
-  <script is:inline src="/assets/js/main.js"></script>
-</body>
-</html>
+  <ClosingCTA />
+</Base>
 
+<style>
+  /* ── shared section shells ── */
+  .sec { padding: 96px 0; position: relative; overflow: hidden; }
+  .sec--ink { background: var(--ink); color: var(--paper); }
+  .sec--paper { background: var(--paper); color: var(--ink); }
+  .sec-head { margin-bottom: 56px; display: flex; flex-direction: column; gap: 12px; }
+  .sec-head--row { flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
 
+  /* ── Hero ── */
+  /* Fixed 1440x1000 composition: marquee band at y312, portrait 480x600 at y200
+     sitting on top of it, headline inside the portrait at y396. */
+  .hero { position: relative; background: var(--ink); height: 1000px; overflow: hidden; }
+  .hero::before {
+    content: ''; position: absolute; inset: -30% -10% auto -10%; height: 150%;
+    background:
+      radial-gradient(45% 90% at 20% 10%, rgba(255,59,48,0.16), transparent 60%),
+      radial-gradient(50% 100% at 82% 0%, rgba(77,184,255,0.16), transparent 60%);
+    pointer-events: none;
+  }
+  .hero__vline { position: absolute; top: 0; height: 960px; width: 1px; background: #161616; }
+  .hero__vline--l { left: 64px; }
+  .hero__vline--r { right: 64px; }
 
+  .hero__marquees { position: absolute; left: 0; right: 0; top: 312px; display: flex; flex-direction: column; }
+  .hero__row { height: 98px; overflow: hidden; }
+  .hero__track { gap: 40px; align-items: center; height: 100%; }
+  .hero__track span { font-family: var(--font-mono); font-weight: 700; font-size: 62px; letter-spacing: -2px; color: #fff; white-space: nowrap; }
+  .hero__outline { color: transparent !important; -webkit-text-stroke: 1px rgba(77,184,255,0.55); }
+  .hero__track--l { animation: marquee 46s linear infinite; }
+  .hero__track--r { animation: marqueeR 46s linear infinite; }
+  @keyframes marqueeR { from { transform: translateX(-100%); } to { transform: translateX(0); } }
 
+  .hero__portrait { position: absolute; left: 50%; top: 200px; transform: translateX(-50%); width: 480px; height: 600px; overflow: hidden; }
+  .hero__portrait img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.05) saturate(0.95); }
+  .hero__scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 350px;
+    background: linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0.72) 55%, rgba(10,10,10,0.93) 100%); }
+  .hero__scan { position: absolute; inset: 0;
+    background: repeating-linear-gradient(180deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 25px); }
+  .hero__pgrid { position: absolute; inset: 0;
+    background: repeating-linear-gradient(90deg, transparent 0 159px, rgba(255,255,255,0.07) 159px 160px); }
+  .hero__frame { position: absolute; inset: 0; border: 1px solid rgba(255,255,255,0.18); }
+  .hero__bar { position: absolute; left: 0; top: 0; width: 56px; height: 3px; background: var(--accent); }
 
+  .hero__title { position: absolute; left: 6.25%; top: 66%; display: flex; flex-direction: column;
+    font-family: var(--font-display); font-weight: 700; font-size: 34px; line-height: 36px;
+    letter-spacing: -0.01em; color: #fff; }
+  .hero__title-c { color: var(--accent); }
+
+  .hero__hud { position: absolute; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--accent-blue); }
+  .hero__hud--tl { left: 16px; top: 16px; }
+  .hero__hud--tr { right: 16px; top: 16px; color: var(--accent); }
+  .hero__hud--bl { left: 16px; top: 34px; color: var(--dim-d); }
+  .hero__hud--br { right: 16px; bottom: 17px; display: flex; align-items: flex-end; gap: 4px; }
+  .hero__hud--br i { display: block; width: 5px; background: var(--accent-blue); }
+  .hero__hud--br i:nth-child(1) { height: 5px; }
+  .hero__hud--br i:nth-child(2) { height: 8px; }
+  .hero__hud--br i:nth-child(3) { height: 11px; }
+  .hero__hud--br i:nth-child(4) { height: 14px; }
+  .hero__hud--br i:nth-child(5) { height: 17px; }
+  .hero__hud--br i:nth-child(6) { height: 20px; }
+  .hero__hud--foot { left: 6.25%; top: 91%; font-size: 9px; color: rgba(255,255,255,0.6); }
+
+  .hero__top { position: absolute; left: 64px; top: 48px; display: flex; flex-direction: column; gap: 6px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; }
+  .hero__top .u-dim { letter-spacing: 1px; }
+  .hero__bottom { position: absolute; right: 64px; top: 884px; display: flex; flex-direction: column;
+    align-items: flex-end; gap: 6px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; }
+  .hero__scroll { letter-spacing: 2px; color: var(--dim-d); }
+
+  /* ── About ── */
+  .about__statement { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 4.4vw, 64px); line-height: 1.05; letter-spacing: -0.03em; max-width: 20ch; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 56px 0; }
+  .stats__item { border: 1px solid var(--line-l); padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+  .stats__n { font-family: var(--font-display); font-weight: 700; font-size: clamp(32px, 3.5vw, 52px); color: var(--accent-blue); letter-spacing: -0.03em; }
+  .stats__l { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--dim-l); }
+  .about__grid { display: grid; grid-template-columns: 320px 1fr; gap: 48px; align-items: start; }
+  .about__portrait img { width: 100%; height: auto; }
+  .about__bio { display: flex; flex-direction: column; gap: 16px; }
+  .about__cap { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--dim-l); }
+  .about__note { font-family: var(--font-body); font-size: 14px; color: var(--dim-l); }
+  .about__resume { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1.5px; color: var(--accent); margin-top: 8px; }
+  .about__sub { color: var(--dim-l); }
+
+  .caps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 72px; }
+  .cap { border: 1px solid var(--line-l); padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+  .cap__n { font-family: var(--font-mono); font-size: 11px; }
+  .cap__d { font-family: var(--font-body); font-size: 14px; color: var(--dim-l); }
+  .cap__list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .cap__list li { font-family: var(--font-mono); font-size: 12px; color: var(--ink); border-top: 1px solid var(--line-l); padding-top: 8px; }
+
+  .proc { margin-top: 72px; border: 1px solid var(--line-l); padding: 40px; background: var(--paper-2); }
+  .proc__label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; color: var(--dim-l); }
+  .proc__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 24px; }
+  .proc__n { font-family: var(--font-mono); font-size: 11px; }
+  .proc__t { font-family: var(--font-display); font-weight: 500; font-size: 20px; margin: 8px 0; }
+  .proc__d { font-family: var(--font-body); font-size: 13px; color: var(--dim-l); }
+
+  /* ── Work ── */
+  .work__count { font-family: var(--font-mono); font-size: 12px; color: var(--dim-d); }
+  .accordion { border-top: 1px solid var(--line-d2); }
+  .acc { border-bottom: 1px solid var(--line-d2); }
+  .acc__head { width: 100%; display: grid; grid-template-columns: 48px 1fr auto auto 40px; align-items: center; gap: 20px; padding: 28px 0; text-align: left; }
+  .acc__n { font-family: var(--font-mono); font-size: 12px; }
+  .acc__tag { font-family: var(--font-mono); font-size: 11px; color: var(--dim-d); letter-spacing: 1px; }
+  .acc__yr { font-family: var(--font-mono); font-size: 11px; }
+  .acc__ic { font-size: 22px; color: var(--accent); text-align: right; }
+  .acc__body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+  .acc.is-open .acc__body { grid-template-rows: 1fr; }
+  .acc__panel { overflow: hidden; display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; }
+  .acc__panel > * { margin-bottom: 32px; }
+  .acc__img { width: 100%; height: auto; border: 1px solid var(--line-d2); }
+  .acc__img--ph { aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 12px; color: var(--dim-d); }
+  .acc__info { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+  .acc__fl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; }
+  .acc__desc { font-family: var(--font-body); font-size: 15px; color: #cfcfcf; }
+  .acc__metric { font-family: var(--font-mono); font-size: 12px; color: var(--green); }
+  .acc__cta { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1.5px; color: var(--accent); }
+  .work__all { display: inline-block; margin-top: 40px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 2px; color: #fff; }
+
+  /* ── Path ── */
+  /* Title left, sub + filled blue resume button right; 620/72/620 rows that
+     alternate sides around a centre spine. All content hugs the spine. */
+  .path__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; }
+  .path__hright { display: flex; flex-direction: column; align-items: flex-end; gap: 18px; width: 380px; }
+  .path__sub { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--dim-l); }
+  .path__btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px;
+    background: var(--accent-blue); border-radius: var(--radius);
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; color: #fff; }
+
+  .path { position: relative; margin-top: 64px; }
+  .path::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--line-l); }
+
+  .path__item { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 72px;
+    padding: 46px 0; border-top: 1px solid var(--line-l); }
+
+  .path__year { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: 10px;
+    align-items: flex-end; text-align: right; }
+  .path__y { font-family: var(--font-display); font-weight: 700; font-size: 88px;
+    line-height: 1; letter-spacing: -3.5px; }
+  .path__k { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; }
+
+  .path__card { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; gap: 12px;
+    padding: 40px 36px; background: #fff; border: 1px solid var(--line-l); border-radius: var(--radius); }
+  .path__t { font-family: var(--font-display); font-weight: 500; font-size: 28px; letter-spacing: -1px; }
+  .path__d { font-family: var(--font-body); font-size: 15px; line-height: 1.65; color: var(--dim-l); }
+  .path__tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .path__tags span { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.5px;
+    border: 1px solid var(--line-l); border-radius: var(--radius); padding: 6px 12px; color: var(--ink); }
+
+  /* mirrored row: card left (text hugging the spine), year right */
+  .path__item--flip .path__year { grid-column: 2; align-items: flex-start; text-align: left; }
+  .path__item--flip .path__card { grid-column: 1; text-align: right; }
+  .path__item--flip .path__tags { justify-content: flex-end; }
+
+  .path__node { position: absolute; left: 50%; top: 115px; transform: translateX(-50%);
+    width: 12px; height: 12px; border-radius: 50%; background: var(--paper);
+    border: 2px solid var(--accent-blue); z-index: 1; }
+  .path__item.is-open .path__node { border-color: var(--accent); background: var(--accent); }
+  .path__tick { position: absolute; left: calc(50% + 7px); top: 120px; width: 35px; height: 1px; background: var(--line-l); }
+  .path__item--flip .path__tick { left: auto; right: calc(50% + 7px); }
+
+  /* ── Toolbox ── */
+  .bench { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
+  .bench__radar svg { width: 100%; max-width: 420px; }
+  .bench__axis { font-family: var(--font-mono); font-size: 9px; fill: var(--dim-d); letter-spacing: 1px; }
+  .bench__panel { border: 1px solid var(--line-d2); padding: 32px; display: flex; flex-direction: column; gap: 12px; }
+  .bench__pl { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; }
+  .bench__pv { font-family: var(--font-display); font-weight: 700; font-size: 40px; }
+  #benchList { display: flex; flex-direction: column; gap: 8px; }
+  #benchList li { font-family: var(--font-mono); font-size: 12px; color: #cfcfcf; border-top: 1px solid var(--line-d2); padding-top: 8px; }
+  .tools { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 56px; }
+  .tool { border: 1px solid var(--line-d2); padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .tool__m { font-family: var(--font-display); font-weight: 700; font-size: 22px; color: var(--accent); }
+  .tool__n { font-family: var(--font-mono); font-size: 11px; color: var(--dim-d); }
+
+  /* ── Life ── */
+  .life__all { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1.5px; color: var(--accent); }
+  .life__strip { margin: 24px 0; }
+  .life__track { display: flex; gap: 16px; animation-duration: 50s; }
+  .life__track img { height: 260px; width: auto; object-fit: cover; }
+  .life__ticker { border-top: 1px solid var(--line-l); padding: 16px 0; }
+  .life__ttrack { gap: 40px; }
+  .life__ttrack span { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; color: var(--dim-l); white-space: nowrap; }
+
+  /* ── Responsive ── */
+  /* ── Hero below the fixed 1440 composition: becomes a flow layout ── */
+  @media (max-width: 1100px) {
+    .hero { height: auto; padding: 28px 0 40px; display: flex; flex-direction: column; gap: 26px; }
+    .hero__vline { display: none; }
+    .hero__marquees { position: static; }
+    .hero__row { height: 56px; }
+    .hero__track { gap: 24px; }
+    .hero__track span { font-size: 32px; letter-spacing: -1px; }
+    .hero__top { position: static; padding-inline: var(--pad); }
+    .hero__portrait { position: relative; left: auto; top: auto; transform: none;
+      margin-inline: auto; width: min(480px, calc(100% - 2 * var(--pad))); height: auto; aspect-ratio: 480 / 600; }
+    .hero__bottom { position: static; align-items: flex-start; padding-inline: var(--pad); }
+    .hero__title { font-size: 26px; line-height: 28px; }
+    .hero__hud { font-size: 9px; }
+  }
+
+  @media (max-width: 560px) {
+    .hero__title { font-size: 18px; line-height: 20px; }
+    .hero__hud--bl { display: none; }
+  }
+
+  @media (max-width: 900px) {
+    .sec { padding: 64px 0; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .about__grid { grid-template-columns: 1fr; }
+    .caps { grid-template-columns: 1fr; }
+    .proc__grid { grid-template-columns: 1fr 1fr; }
+    .acc__head { grid-template-columns: 32px 1fr 40px; }
+    .acc__tag, .acc__yr { display: none; }
+    .acc__panel { grid-template-columns: 1fr; }
+    .path__head { flex-direction: column; gap: 24px; }
+    .path__hright { align-items: flex-start; width: 100%; }
+    .path::before, .path__node, .path__tick { display: none; }
+    .path__item { display: grid; grid-template-columns: 1fr; gap: 16px; padding: 32px 0; }
+    .path__year, .path__item--flip .path__year {
+      grid-column: 1; grid-row: auto; align-items: flex-start; text-align: left; }
+    .path__card, .path__item--flip .path__card {
+      grid-column: 1; grid-row: auto; text-align: left; }
+    .path__item--flip .path__tags { justify-content: flex-start; }
+    .path__y { font-size: 56px; letter-spacing: -2px; }
+    .bench { grid-template-columns: 1fr; }
+    .tools { grid-template-columns: repeat(3, 1fr); }
+    .life__track img { height: 180px; }
+  }
+</style>
+
+<script>
+  // Work accordion
+  document.querySelectorAll('[data-acc] .acc__head').forEach((head) => {
+    head.addEventListener('click', () => {
+      const item = head.closest('[data-acc]');
+      const open = item?.classList.contains('is-open');
+      document.querySelectorAll('[data-acc]').forEach((a) => {
+        a.classList.remove('is-open');
+        a.querySelector('.acc__head')?.setAttribute('aria-expanded', 'false');
+      });
+      if (!open && item) {
+        item.classList.add('is-open');
+        head.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // Toolbox radar hover → swap panel
+  const radar = [
+    { label: 'UI/UX DESIGN', v: 88, items: ['Design systems in Figma', 'Wireframes & prototyping', 'Micro-interactions', 'Accessibility (WCAG AA)'] },
+    { label: 'WORDPRESS', v: 92, items: ['Custom themes & blocks', 'ACF Pro & CPTs', 'Headless REST/GraphQL', 'WooCommerce'] },
+    { label: 'AI / LLM', v: 80, items: ['LLM agents', 'RAG & vector search', 'Prompt engineering', 'Automation'] },
+    { label: 'FRONTEND', v: 78, items: ['Astro / Next.js', 'React', 'Tailwind', 'Core Web Vitals'] },
+    { label: 'BACKEND', v: 74, items: ['PHP / MySQL', 'REST APIs', 'cPanel / Cloudflare', 'Docker'] },
+  ];
+  const pl = document.querySelector('.bench__pl');
+  const pv = document.querySelector('.bench__pv');
+  const bl = document.getElementById('benchList');
+  document.querySelectorAll('.bench__axis').forEach((el) => {
+    const activate = () => {
+      const i = Number(el.getAttribute('data-axis'));
+      const r = radar[i];
+      if (!r || !pl || !pv || !bl) return;
+      pl.textContent = r.label;
+      pv.textContent = r.v + '%';
+      bl.innerHTML = r.items.map((t) => `<li>${t}</li>`).join('');
+    };
+    el.addEventListener('mouseenter', activate);
+    el.addEventListener('click', activate);
+  });
+</script>

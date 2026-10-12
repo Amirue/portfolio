@@ -1,0 +1,134 @@
+---
+import '@fontsource/space-grotesk/latin-400.css';
+import '@fontsource/space-grotesk/latin-500.css';
+import '@fontsource/space-grotesk/latin-700.css';
+import '@fontsource/inter/latin-400.css';
+import '@fontsource/inter/latin-500.css';
+import '@fontsource/jetbrains-mono/latin-400.css';
+import '@fontsource/jetbrains-mono/latin-500.css';
+import '@fontsource/jetbrains-mono/latin-700.css';
+
+import '../../styles/tokens.css';
+import '../../styles/base.css';
+
+import Marquee from './Marquee.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: string;
+  current?: string;
+}
+
+const {
+  title,
+  description = 'Amiruan — web developer and AI specialist based in Kuala Lumpur. I design, I build, I ship.',
+  canonical = Astro.url.pathname,
+  ogImage = '/assets/images/hero-1.png',
+  ogType = 'website',
+  current = '',
+} = Astro.props;
+
+const site = 'https://amiruan.site';
+const canonicalURL = new URL(canonical, site).href;
+const ogURL = new URL(ogImage, site).href;
+
+const marqueeText =
+  'Web Dev on a slow day · Currently arguing with CSS · This ships rough on purpose · Built with caffeine and spite · If it looks half-done, it probably is · Designers never finish their own portfolio · Open to work (and snacks) · Yes, I built this myself';
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Muhammad Amiruddin',
+  alternateName: 'Amiruan',
+  url: site,
+  jobTitle: 'Web Developer & AI Specialist',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Kuala Lumpur',
+    addressCountry: 'MY',
+  },
+  sameAs: [
+    'https://github.com/Amirue',
+    'https://www.linkedin.com/in/amiruddin-zulkifli-9485a2261',
+    'https://www.instagram.com/amiruan_12',
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0A0A0A" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogURL} />
+    <meta property="og:site_name" content="Amiruan" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogURL} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to content</a>
+    <Marquee text={marqueeText} variant="top" />
+    <Header current={current} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <style is:global>
+      .skip {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+      }
+      .skip:focus {
+        left: 8px;
+        top: 8px;
+        z-index: 100;
+        background: var(--accent);
+        color: #fff;
+        padding: 10px 16px;
+        border-radius: var(--radius);
+        font-family: var(--font-mono);
+        font-size: 12px;
+      }
+    </style>
+
+    <script>
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-in');
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
+      );
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

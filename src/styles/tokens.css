@@ -1,0 +1,44 @@
+/* ============================================================
+   Amiruan V6 — Design tokens
+   Source: design/HANDOFF.md §3
+   No hardcoded hex in components — use these variables only.
+   ============================================================ */
+
+:root {
+  /* surfaces */
+  --ink: #0A0A0A;        /* dark section bg + light-mode text */
+  --paper: #F7F6F3;      /* light section bg */
+  --paper-2: #EDECE8;
+  --marquee: #050505;
+  --tile: #131318;       /* dark card */
+  --line-d: #1C1C1C;     /* hairline on dark */
+  --line-d2: #2A2A33;    /* card border on dark */
+  --line-l: #DCDBD6;     /* hairline on light */
+
+  /* accents — exactly two, plus one semantic */
+  --accent: #FF3B30;       /* ACTION + emphasis only */
+  --accent-blue: #4DB8FF;  /* METADATA + structure only */
+  --green: #2ECC71;        /* the ● AVAILABLE dot, nothing else */
+  --orange: #FF7A1A;       /* reserved, barely used */
+
+  /* text */
+  --dim-d: #6B6B6B;      /* secondary on dark */
+  --dim-l: #5A5A5A;      /* secondary on light */
+
+  /* type */
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --radius: 2px;         /* global. never larger */
+
+  /* layout */
+  --wrap: 1440px;
+  --pad: 64px;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --pad: 20px;
+  }
+}
