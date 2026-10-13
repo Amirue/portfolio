@@ -49,7 +49,9 @@ Both:
 - Footer socials final four.
 - Resume file for DOWNLOAD RESUME (#).
 - Work slugs: design 6 vs WP 6, only 2 overlap.
-- Accordion expanded panel still WP featured image (not kiosk mock).
+- (resolved) Accordion kiosk UI mock built: `src/components/KioskMock.astro` (620x412, #0D0D12) shown for
+  slug `ai-kiosk-interface` in the Work accordion panel; other projects keep image/PREVIEW SOON.
+  Verified 1440: 620x412, 35 wave bars, "KIOSK · TABLE 04", "CONFIRM ORDER", "RM 15.50"; 390: 310x412, docW 390.
 - Dead weight in public/: assets/css/styles.css, gallery.css, assets/js/main.js, gallery.js.
 - (resolved) mobile `.tool[hidden]` fix applied + verified.
 

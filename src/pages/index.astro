@@ -1,6 +1,7 @@
 ﻿---
 import Base from '../components/layout/Base.astro';
 import Glow from '../components/layout/Glow.astro';
+import KioskMock from '../components/KioskMock.astro';
 import { fetchWorksData } from '../lib/wordpress';
 import { axes } from '../data/toolbox';
 
@@ -221,9 +222,11 @@ const lifePhotos = [
             </button>
             <div class="acc__body">
               <div class="acc__panel">
-                {w.image
-                  ? <img class="acc__img" src={w.image} alt={w.title} loading="lazy" />
-                  : <div class="acc__img acc__img--ph">KIOSK · PREVIEW</div>}
+                {w.slug === 'ai-kiosk-interface'
+                  ? <KioskMock />
+                  : w.image
+                    ? <img class="acc__img" src={w.image} alt={w.title} loading="lazy" />
+                    : <div class="acc__img acc__img--ph">PREVIEW SOON</div>}
                 <div class="acc__info">
                   <span class="acc__fl u-blue">FEATURED PROJECT</span>
                   <p class="acc__desc">{w.subtitle}</p>

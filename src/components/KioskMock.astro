@@ -1,0 +1,106 @@
+---
+const bars = [10, 16, 26, 40, 52, 38, 24, 14, 9, 18, 32, 46, 54, 40, 26, 15, 9, 20, 34, 48, 42, 28, 18, 11, 22, 38, 50, 34, 20, 13, 26, 44, 30, 18, 12];
+const order = [
+  { i: '2 × Nasi Lemak', p: 'RM 12.00' },
+  { i: '1 × Teh Tarik', p: 'RM 3.50' },
+];
+---
+
+<div class="kiosk">
+  <div class="kiosk__bar">
+    <span class="kiosk__tl">KIOSK · TABLE 04</span>
+    <span class="kiosk__sb"><span class="kiosk__dot" aria-hidden="true"></span>LISTENING</span>
+  </div>
+  <div class="kiosk__body">
+    <div class="kiosk__wave" aria-hidden="true">
+      {bars.map((h) => <span class="kiosk__wave-i" style={`height:${h}px`} />)}
+    </div>
+    <p class="kiosk__q">"I'd like two nasi lemak and a teh tarik please"</p>
+    <div class="kiosk__order">
+      {order.map((r) => (
+        <div class="kiosk__row"><span class="kiosk__i">{r.i}</span><span class="kiosk__p">{r.p}</span></div>
+      ))}
+      <div class="kiosk__rule"></div>
+      <div class="kiosk__row"><span class="kiosk__t">TOTAL</span><span class="kiosk__v">RM 15.50</span></div>
+    </div>
+    <div class="kiosk__btn">CONFIRM ORDER</div>
+  </div>
+</div>
+
+<style>
+  /* Kiosk UI mock — geometry + surfaces from design/PHASE3.md §4 (620 x 412, #0D0D12). */
+  .kiosk {
+    --kiosk-bg: #0D0D12;  /* design surface, not a token */
+    --kiosk-bar: #15151C;
+    width: 100%;
+    max-width: 620px;
+    min-height: 412px;
+    display: flex;
+    flex-direction: column;
+    background: var(--kiosk-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .kiosk__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--kiosk-bar);
+  }
+  .kiosk__tl,
+  .kiosk__sb {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+  }
+  .kiosk__tl { color: var(--dim-d); }
+  .kiosk__sb { display: inline-flex; align-items: center; gap: 7px; color: var(--accent); }
+  .kiosk__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+  .kiosk__body {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 26px 24px;
+  }
+
+  .kiosk__wave {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    height: 58px;
+  }
+  .kiosk__wave-i { width: 3px; background: var(--accent); border-radius: 2px; flex: none; }
+
+  .kiosk__q {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 24px;
+    color: #fff;
+  }
+
+  .kiosk__order { display: flex; flex-direction: column; gap: 9px; width: 100%; }
+  .kiosk__row { display: flex; align-items: center; justify-content: space-between; }
+  .kiosk__i { font-family: var(--font-body); font-size: 14px; color: var(--dim-d); }
+  .kiosk__p { font-family: var(--font-mono); font-size: 13px; color: #fff; white-space: nowrap; }
+  .kiosk__rule { height: 1px; background: var(--line-d2); }
+  .kiosk__t { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: var(--dim-d); }
+  .kiosk__v { font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--accent); }
+
+  .kiosk__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 0;
+    background: var(--accent);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #fff;
+  }
+</style>
