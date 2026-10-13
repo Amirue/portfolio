@@ -113,7 +113,7 @@ crawl 16/16; no console errors. Decisions: Work stays WP-driven (user edits WP l
 - **What I do (3 cards):** UI/UX Design · WordPress & Web Development · AI-Assisted Development.
 - **Education & Experience (7 pentry):** 2020 UTM SE → 2022 Orchestra Instructor (SM Sains Raja Tun Azlan Shah,
   Taiping) → 2023 Lumen7 internship (Shah Alam; Theta Edge/Sime Darby/AEON) → 2024 Graduated CGPA 3.80
-  (Dean's List ×7, Sembang Kamus FYP) → 2024 Junior Web Dev & Designer, Light Up 7 → 2024 Freelance Chess
+  (Dean's List ×7, Sembang Kamus FYP) → 2024 Junior Web Dev & Designer, Light Up 7 → 2025 Freelance Chess
   Coach, XChess Academy → NEXT.
 - **Workbench (toolbox.ts):** WordPress→Breakdance/Divi/Elementor (Breakdance leads the WP builder list);
   Frontend→HTML5/CSS3/JavaScript (logos added, replaced Next/React/Tailwind); Backend items PHP & MySQL /
