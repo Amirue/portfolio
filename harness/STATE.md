@@ -126,6 +126,9 @@ crawl 16/16; no console errors. Decisions: Work stays WP-driven (user edits WP l
   fixed 1000px box on laptops. Verified 1366x768 (centre y423) and 1440x900 (centre y489) = centre
   of the visible area below the header. Portrait shrunk 30% to **336x420** (was 480x600); scrim 245px;
   hud--foot anchored bottom:10px so it clears the headline.
+- **Images:** hero portrait -> `https://wp.amiruan.site/wp-content/uploads/2026/10/amiruan-1.jpg`;
+  About profile -> `https://wp.amiruan.site/wp-content/uploads/2026/10/profile.jpg` (both https, 200 image/jpeg;
+  hero loads 1000x1261, profile is lazy below the fold).
 - NOT changed: Work/Selected Work (WP), hero TextLoop jokes, hero marquee text, `design/`.
 
 ## Commits (branch v6-redesign, NOT pushed)
