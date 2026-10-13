@@ -44,7 +44,8 @@ Both:
   (`#axesGrid .tool[data-axis]`, `.pathpin.is-pinned`).
 
 ## Open (do NOT guess)
-- Contact email (design hello@amiruan.site vs build amiruan12@gmail.com).
+- (resolved) Contact email: user confirmed `amiruan12@gmail.com`. Build already uses it on all
+  surfaces (contact.astro:6, ClosingCTA.astro:8, Footer.astro:8) — no code change.
 - Keep/drop Ask AI terminal + UX Pathfinder.
 - Footer socials final four.
 - Resume file for DOWNLOAD RESUME (#).
@@ -52,7 +53,10 @@ Both:
 - (resolved) Accordion kiosk UI mock built: `src/components/KioskMock.astro` (620x412, #0D0D12) shown for
   slug `ai-kiosk-interface` in the Work accordion panel; other projects keep image/PREVIEW SOON.
   Verified 1440: 620x412, 35 wave bars, "KIOSK · TABLE 04", "CONFIRM ORDER", "RM 15.50"; 390: 310x412, docW 390.
-- Dead weight in public/: assets/css/styles.css, gallery.css, assets/js/main.js, gallery.js.
+- (resolved) Dead weight in public/: legacy css/gallery.css/js dropped in `cef621e`. Remaining
+  dead images `public/assets/images/gallery/g01–g12.svg` were referenced ONLY by the deleted
+  `public/assets/js/data/posts.js` (also `cef621e`) — removed this session; build 15 pages PASS.
+  `hero-1/2/3.png`, `profile.png`, `wc-1/2/3.jpg` are all still referenced (index.astro, Base.astro).
 - (resolved) mobile `.tool[hidden]` fix applied + verified.
 
 ## Commits (branch v6-redesign, NOT pushed)
@@ -66,6 +70,8 @@ Both:
 - `30791dc` fix(footer): match design height (gap 40, drop extra mid padding) — footer 321->273, band 1153.
 
 ## Next
-- Remaining open items above (contact email, socials, resume, slugs, public/ images dead weight).
+- Remaining open items all need a human decision (contact email, socials, resume file, work slugs) —
+  contact email is the highest-impact (design vs build disagree, affects every contact surface).
+- public/ image dead weight resolved this session (g01–g12.svg removed; build PASS).
 - PHASE3 §5 closing/footer heights now match. About (WFacts/Process) + Toolbox (3x5) already built by design agent.
 - Nothing else verified outstanding from Job 1.
