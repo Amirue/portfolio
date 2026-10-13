@@ -1,544 +1,296 @@
-﻿---
-import { fetchWorkSlugs, fetchWorkBySlug } from '../../lib/wordpress';
+---
+import Base from '../../components/layout/Base.astro';
+import Glow from '../../components/layout/Glow.astro';
+import { fetchWorksData, fetchWorkBySlug } from '../../lib/wordpress';
 
 export async function getStaticPaths() {
-  const slugs = await fetchWorkSlugs();
-  return slugs.map((slug) => ({ params: { slug } }));
+  const works = await fetchWorksData();
+  return works.map((w) => ({ params: { slug: w.slug } }));
 }
 
 const { slug } = Astro.params;
-const work = await fetchWorkBySlug(slug!);
+const work = await fetchWorkBySlug(slug ?? '');
 
 if (!work) {
-  return Astro.redirect('/404');
+  return Astro.redirect('/work');
 }
 
-const title = work.title;
-const subtitle = work.subtitle;
-const role = work.role;
-const year = work.year;
-const context = work.context;
-const workProcess = work.process;
-const tools = work.tools;
-const metric = work.metric;
-const demoUrl = work.demoUrl;
-const images = work.images;
-const content = work.content;
-const typeLabel = work.type === 'uiux' ? 'UI/UX' : work.type === 'wordpress' ? 'WordPress' : 'AI';
+const typeLabel = (t: string) =>
+  t === 'uiux' ? 'UI/UX' : t === 'wordpress' ? 'WordPress' : t === 'ai' ? 'AI' : t.toUpperCase();
+
+const metaLine = [work.role ? `UX + ${typeLabel(work.type).toUpperCase()}` : typeLabel(work.type).toUpperCase(), work.year, typeLabel(work.type)]
+  .filter(Boolean)
+  .join('   ·   ');
+
+// Strip tags from the rendered post body for the "result" paragraph.
+const strip = (html: string) =>
+  html
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const result = strip(work.content || '');
+const images = work.images.length ? work.images : work.image ? [work.image] : [];
+
+const metaRows = [
+  { k: 'ROLE', v: work.role },
+  { k: 'YEAR', v: work.year },
+  { k: 'STACK', v: work.tools.join(' · ') },
+  { k: 'TYPE', v: 'Client work' },
+].filter((r) => r.v);
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content={`${title} — ${subtitle}`}>
-  <title>{title} — Amiruan</title>
-  <link rel="stylesheet" href="/assets/css/styles.css">
-  <style>
-    /* ── Page shell ── */
-    .work-page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+<Base
+  title={`${work.title} — Amiruan`}
+  description={work.subtitle || `${work.title} — a case study by Amiruan.`}
+  current="work"
+  cta={false}
+>
+  <section class="case">
+    <!-- Info -->
+    <div class="case__info">
+      <a class="case__back" href="/work">←&nbsp;&nbsp;BACK TO WORK</a>
+      <span class="case__meta">{metaLine}</span>
+      <h1 class="case__title">{work.title}</h1>
+      {work.subtitle && <p class="case__sub">{work.subtitle}</p>}
 
-    /* ── Split-screen layout ── */
-    .work-detail {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      flex: 1;
-      min-height: calc(100vh - 80px);
-    }
-
-    /* ── LEFT: light content panel ── */
-    .work-detail__content {
-      padding: 8rem 3rem 4rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      max-width: 640px;
-      margin-left: auto;
-      width: 100%;
-    }
-
-    .work-detail__label {
-      font-family: var(--font-mono, monospace);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent-coral, #E84848);
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
-
-    .work-detail__label:hover { opacity: 0.7; }
-
-    .work-detail__title {
-      font-family: var(--font-display, sans-serif);
-      font-size: 2.5rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.12;
-      color: var(--text-main, #111);
-      margin: 0;
-    }
-
-    .work-detail__subtitle {
-      font-size: 1.2rem;
-      color: var(--text-muted, #666);
-      line-height: 1.6;
-      margin: -0.5rem 0 0;
-    }
-
-    .work-detail__meta {
-      display: flex;
-      gap: 1.5rem;
-      font-family: var(--font-mono, monospace);
-      font-size: 0.8rem;
-      color: var(--text-dim, #9CA3AF);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--border-subtle, rgba(0,0,0,0.08));
-    }
-
-    .work-detail__meta strong {
-      color: var(--text-main, #111);
-    }
-
-    .work-detail__section h2 {
-      font-family: var(--font-display, sans-serif);
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: var(--text-main, #111);
-    }
-
-    .work-detail__section p {
-      color: var(--text-muted, #666);
-      line-height: 1.8;
-      font-size: 0.95rem;
-    }
-
-    .work-detail__tools {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .work-detail__tool {
-      font-family: var(--font-mono, monospace);
-      font-size: 0.75rem;
-      padding: 0.35rem 0.85rem;
-      border-radius: 100px;
-      background: rgba(0,0,0,0.05);
-      color: var(--text-main, #111);
-    }
-
-    .work-detail__metric {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: 100px;
-      background: rgba(77, 124, 58, 0.1);
-      color: var(--accent-sage, #4D7C3A);
-      font-family: var(--font-mono, monospace);
-      font-size: 0.85rem;
-      font-weight: 600;
-      width: fit-content;
-    }
-
-    .work-detail__body {
-      color: var(--text-muted, #666);
-      line-height: 1.8;
-    }
-
-    /* ── RIGHT: dark demo panel ── */
-    .work-detail__demo {
-      background: #111111;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 3rem;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* ── Professional preview frame ── */
-    .preview {
-      width: 100%;
-      max-width: 560px;
-    }
-
-    .preview__bar {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1rem;
-      background: #1e1e1e;
-      border: 1px solid #2a2a2a;
-      border-bottom: none;
-      border-radius: 10px 10px 0 0;
-    }
-
-    .preview__dots {
-      display: flex;
-      gap: 5px;
-    }
-
-    .preview__dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-
-    .preview__dot--r { background: #ff5f57; }
-    .preview__dot--y { background: #ffbd2e; }
-    .preview__dot--g { background: #28c840; }
-
-    .preview__url {
-      flex: 1;
-      margin-left: 0.5rem;
-      padding: 0.35rem 0.75rem;
-      border-radius: 6px;
-      background: #111;
-      color: rgba(255,255,255,0.4);
-      font-family: var(--font-mono, monospace);
-      font-size: 0.7rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .preview__viewport {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 10;
-      overflow: hidden;
-      background: #0a0a0a;
-      border: 1px solid #2a2a2a;
-      border-top: none;
-      border-radius: 0 0 10px 10px;
-    }
-
-    .preview__viewport iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .preview__viewport img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* ── Carousel in dark panel ── */
-    .dark-carousel {
-      width: 100%;
-      max-width: 560px;
-    }
-
-    .dark-carousel__track {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .dark-carousel__track::-webkit-scrollbar { display: none; }
-
-    .dark-carousel__slide {
-      flex: 0 0 100%;
-      scroll-snap-align: start;
-    }
-
-    .dark-carousel__slide img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .dark-carousel__nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.15);
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      font-size: 1.1rem;
-      color: #fff;
-      z-index: 2;
-      transition: background 0.2s;
-    }
-
-    .dark-carousel__nav:hover { background: rgba(255,255,255,0.2); }
-    .dark-carousel__nav--prev { left: 0.75rem; }
-    .dark-carousel__nav--next { right: 0.75rem; }
-
-    .dark-carousel__dots {
-      display: flex;
-      justify-content: center;
-      gap: 0.4rem;
-      margin-top: 1.25rem;
-    }
-
-    .dark-carousel__dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .dark-carousel__dot.is-active {
-      background: var(--accent-coral, #E84848);
-      width: 20px;
-      border-radius: 4px;
-    }
-
-    .dark-carousel__wrapper {
-      position: relative;
-    }
-
-    /* ── Empty state ── */
-    .preview__empty {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      color: rgba(255,255,255,0.3);
-      font-family: var(--font-mono, monospace);
-      font-size: 0.85rem;
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .work-detail {
-        grid-template-columns: 1fr;
-      }
-
-      .work-detail__content {
-        padding: 6rem 1.5rem 2rem;
-        max-width: 100%;
-      }
-
-      .work-detail__demo {
-        position: static;
-        height: auto;
-        padding: 2rem 1.5rem;
-      }
-
-      .work-detail__title {
-        font-size: 1.85rem;
-      }
-    }
-  </style>
-</head>
-<body class="work-page">
-
-  <!-- Header -->
-  <header class="header" id="header">
-    <div class="container header__inner">
-      <a href="/" class="brand" aria-label="Amiruan home">
-        Amiruan<span class="brand__dot" aria-hidden="true"></span>
-      </a>
-      <nav class="nav" aria-label="Primary navigation">
-        <a href="/#about" class="nav__link">About</a>
-        <a href="/#projects" class="nav__link">Work</a>
-        <a href="/#stack" class="nav__link">Stack</a>
-        <a href="/#experience" class="nav__link">Experience</a>
-        <a href="/gallery" class="nav__link">Gallery</a>
-        <a href="/#contact" class="nav__link">Contact</a>
-      </nav>
-      <div class="header__actions">
-        <button class="header__tool" id="uxPathfinderToggle" aria-label="Open UX Pathfinder">
-          <span>UX Pathfinder</span>
-        </button>
-        <button class="header__tool header__tool--coral" id="aiToggle" aria-label="Open AI command terminal">
-          <span>Ask AI</span>
-        </button>
-        <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-    <a href="/#about" class="nav__link">About</a>
-    <a href="/#projects" class="nav__link">Work</a>
-    <a href="/#stack" class="nav__link">Stack</a>
-    <a href="/#experience" class="nav__link">Experience</a>
-    <a href="/gallery" class="nav__link">Gallery</a>
-    <a href="/#contact" class="nav__link">Contact</a>
-  </div>
-
-  <main class="work-detail">
-    <!-- LEFT: scrollable light content -->
-    <div class="work-detail__content">
-      <a href="/#projects" class="work-detail__label">&larr; Back to work</a>
-
-      <h1 class="work-detail__title">{title}</h1>
-      <p class="work-detail__subtitle">{subtitle}</p>
-
-      <div class="work-detail__meta">
-        <span><strong>{role}</strong></span>
-        <span>{year}</span>
-        <span>{typeLabel}</span>
-      </div>
-
-      {context && (
-        <section class="work-detail__section">
-          <h2>The Context</h2>
-          <p>{context}</p>
-        </section>
-      )}
-
-      {workProcess && (
-        <section class="work-detail__section">
-          <h2>The Process</h2>
-          <p>{workProcess}</p>
-        </section>
-      )}
-
-      {tools.length > 0 && (
-        <section class="work-detail__section">
-          <h2>Tools</h2>
-          <div class="work-detail__tools">
-            {tools.map((tool) => <span class="work-detail__tool">{tool}</span>)}
-          </div>
-        </section>
-      )}
-
-      {metric && (
-        <div class="work-detail__metric">✓ {metric}</div>
-      )}
-
-      {content && (
-        <section class="work-detail__body" set:html={content}></section>
-      )}
-    </div>
-
-    <!-- RIGHT: dark demo panel -->
-    <div class="work-detail__demo">
-      {demoUrl ? (
-        <div class="preview">
-          <div class="preview__bar">
-            <div class="preview__dots">
-              <span class="preview__dot preview__dot--r"></span>
-              <span class="preview__dot preview__dot--y"></span>
-              <span class="preview__dot preview__dot--g"></span>
-            </div>
-            <span class="preview__url">{demoUrl}</span>
-          </div>
-          <div class="preview__viewport">
-            <iframe src={demoUrl} title="Live demo — {title}" loading="lazy"></iframe>
-          </div>
+      {work.context && (
+        <div class="case__block">
+          <span class="case__lbl">THE CONTEXT</span>
+          <p class="case__txt">{work.context}</p>
         </div>
-      ) : images.length > 0 ? (
-        <div class="dark-carousel" id="workCarousel">
-          <div class="dark-carousel__wrapper">
-            <div class="dark-carousel__track" id="workCarouselTrack">
-              {images.map((img, i) => (
-                <div class="dark-carousel__slide" data-index={i}>
-                  <img src={img} alt={`${title} — screenshot ${i + 1}`} loading="lazy">
-                </div>
-              ))}
-            </div>
+      )}
+
+      {work.process && (
+        <div class="case__block">
+          <span class="case__lbl">THE PROCESS</span>
+          <p class="case__txt">{work.process}</p>
+        </div>
+      )}
+
+      {work.tools.length > 0 && (
+        <div class="case__block">
+          <span class="case__lbl">TOOLS</span>
+          <ul class="case__tools">
+            {work.tools.map((t) => <li>{t}</li>)}
+          </ul>
+        </div>
+      )}
+
+      {work.metric && <span class="case__metric">✓&nbsp;&nbsp;{work.metric}</span>}
+      {result && (
+        <div class="case__block">
+          <span class="case__lbl">THE RESULT</span>
+          <p class="case__txt">{result}</p>
+        </div>
+      )}
+
+      {work.demoUrl && (
+        <a class="case__demo" href={work.demoUrl} target="_blank" rel="noopener">VIEW LIVE →</a>
+      )}
+    </div>
+
+    <!-- Visual -->
+    <div class="case__visual" data-gallery>
+      <Glow variant="dark" />
+
+      {images.length > 0 ? (
+        <>
+          <div class="case__stage">
+            {images.map((src, i) => (
+              <img
+                class={`case__img ${i === 0 ? 'is-active' : ''}`}
+                src={src}
+                alt={`${work.title} — capture ${i + 1}`}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                data-slide={i}
+              />
+            ))}
+          </div>
+
+          <div class="case__hud">
+            <span class="case__count" data-count>{`1 / ${images.length}`}</span>
             {images.length > 1 && (
-              <>
-                <button class="dark-carousel__nav dark-carousel__nav--prev" id="carouselPrev" aria-label="Previous">&#8249;</button>
-                <button class="dark-carousel__nav dark-carousel__nav--next" id="carouselNext" aria-label="Next">&#8250;</button>
-              </>
+              <span class="case__nav">
+                <button class="case__arrow" data-prev aria-label="Previous image">‹</button>
+                <button class="case__arrow" data-next aria-label="Next image">›</button>
+              </span>
             )}
           </div>
-          {images.length > 1 && (
-            <div class="dark-carousel__dots" id="carouselDots">
-              {images.map((_, i) => (
-                <button class={`dark-carousel__dot ${i === 0 ? 'is-active' : ''}`} data-index={i} aria-label={`Image ${i + 1}`}></button>
-              ))}
-            </div>
-          )}
-        </div>
+
+          <div class="case__cap">
+            <span class="case__st">CAPTURE</span>
+            <span class="case__capTxt" data-cap>{`CAPTURE 1 OF ${images.length}`}</span>
+          </div>
+        </>
       ) : (
-        <div class="preview">
-          <div class="preview__bar">
-            <div class="preview__dots">
-              <span class="preview__dot preview__dot--r"></span>
-              <span class="preview__dot preview__dot--y"></span>
-              <span class="preview__dot preview__dot--g"></span>
-            </div>
-            <span class="preview__url">Preview</span>
-          </div>
-          <div class="preview__viewport">
-            <div class="preview__empty">No preview available</div>
-          </div>
+        <div class="case__stage case__stage--empty">
+          <span class="case__nophoto">NO CAPTURES</span>
         </div>
       )}
     </div>
-  </main>
+  </section>
 
-  <!-- Footer -->
-  <footer class="footer" id="footer">
-    <div class="container">
-      <div class="footer__bottom">
-        <p>&copy; {new Date().getFullYear()} Amiruan. Built with precision.</p>
-        <p><a href="/" class="footer__back">&larr; Back to home</a></p>
+  <!-- Meta -->
+  {metaRows.length > 0 && (
+    <section class="cmeta">
+      <div class="wrap cmeta__row">
+        {metaRows.map((r) => (
+          <div class="cmeta__item">
+            <span class="cmeta__k">{r.k}</span>
+            <span class="cmeta__v">{r.v}</span>
+          </div>
+        ))}
       </div>
-    </div>
-  </footer>
+    </section>
+  )}
+</Base>
 
-  <script is:inline>
-    (function() {
-      const track = document.getElementById('workCarouselTrack');
-      const prev = document.getElementById('carouselPrev');
-      const next = document.getElementById('carouselNext');
-      const dots = document.querySelectorAll('.dark-carousel__dot');
+<style>
+  .case {
+    display: grid;
+    grid-template-columns: 560px 1fr;
+    min-height: 900px;
+    background: var(--ink);
+  }
 
-      if (!track) return;
+  /* ── Info column ── */
+  .case__info {
+    padding: 80px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    align-items: flex-start;
+  }
+  .case__back { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--accent); }
+  .case__meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--accent-blue); }
+  .case__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    color: #fff;
+  }
+  .case__sub { font-family: var(--font-body); font-size: 17px; line-height: 1.5; color: #8a8a9a; }
 
-      let idx = 0;
-      const slides = track.querySelectorAll('.dark-carousel__slide');
-      const total = slides.length;
+  .case__block { display: flex; flex-direction: column; gap: 10px; }
+  .case__lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; color: var(--accent-blue); }
+  .case__txt { font-family: var(--font-body); font-size: 15px; line-height: 1.65; color: #a8a8b3; }
 
-      function goTo(i) {
-        idx = Math.max(0, Math.min(total - 1, i));
-        track.scrollTo({ left: idx * track.clientWidth, behavior: 'smooth' });
-        dots.forEach((d, j) => d.classList.toggle('is-active', j === idx));
-      }
+  .case__tools { display: flex; flex-wrap: wrap; gap: 8px; }
+  .case__tools li {
+    padding: 6px 12px;
+    border: 1px solid var(--line-d2);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    color: #fff;
+  }
 
-      if (prev) prev.addEventListener('click', () => goTo(idx - 1));
-      if (next) next.addEventListener('click', () => goTo(idx + 1));
-      dots.forEach((d) => d.addEventListener('click', () => goTo(parseInt(d.dataset.index))));
+  .case__metric { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.5px; color: var(--accent); }
+  .case__demo {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #fff;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 4px;
+  }
 
-      let scrollTimer;
-      track.addEventListener('scroll', () => {
-        clearTimeout(scrollTimer);
-        scrollTimer = setTimeout(() => {
-          idx = Math.round(track.scrollLeft / track.clientWidth);
-          dots.forEach((d, j) => d.classList.toggle('is-active', j === idx));
-        }, 100);
-      }, { passive: true });
-    })();
-  </script>
+  /* ── Visual column ── */
+  .case__visual {
+    position: relative;
+    overflow: hidden;
+    padding: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--ink);
+  }
+  .case__visual > :not(:global(.glow)) { position: relative; z-index: 1; }
 
-  <script is:inline src="/assets/js/main.js"></script>
-</body>
-</html>
+  .case__stage {
+    flex: 1;
+    position: relative;
+    border: 1px solid var(--line-d2);
+    border-radius: var(--radius);
+    background: #0d0d12;
+    overflow: hidden;
+    min-height: 420px;
+  }
+  .case__stage--empty { display: flex; align-items: center; justify-content: center; }
+  .case__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .case__img.is-active { opacity: 1; }
+  .case__nophoto { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; color: var(--dim-d); }
+
+  .case__hud { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .case__count { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: #fff; }
+  .case__nav { display: flex; gap: 8px; }
+  .case__arrow {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line-d2);
+    border-radius: var(--radius);
+    font-size: 20px;
+    line-height: 1;
+    color: #fff;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .case__arrow:hover { border-color: var(--accent); color: var(--accent); }
+
+  .case__cap { display: flex; flex-direction: column; gap: 6px; }
+  .case__st { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: #fff; }
+  .case__capTxt { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--accent-blue); }
+
+  /* ── Meta strip ── */
+  .cmeta { background: var(--ink); padding: 32px 0; border-top: 1px solid var(--line-d2); }
+  .cmeta__row { display: flex; gap: 32px; flex-wrap: wrap; }
+  .cmeta__item { display: flex; flex-direction: column; gap: 6px; }
+  .cmeta__k { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; color: var(--accent-blue); }
+  .cmeta__v { font-family: var(--font-body); font-size: 14px; color: #fff; }
+
+  @media (max-width: 1100px) {
+    .case { grid-template-columns: 1fr; min-height: 0; }
+    .case__info { padding: 56px var(--pad); gap: 26px; }
+    .case__title { font-size: 32px; letter-spacing: -1px; }
+    .case__visual { padding: 32px var(--pad); min-height: 0; }
+    .case__stage { min-height: 300px; }
+    .cmeta { padding: 24px 0; }
+    .cmeta__row { gap: 20px; }
+  }
+</style>
+
+<script>
+  // Simple capture carousel for the case-study visual.
+  const root = document.querySelector('[data-gallery]');
+  if (root) {
+    const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-slide]'));
+    if (slides.length > 1) {
+      const count = root.querySelector('[data-count]');
+      const cap = root.querySelector('[data-cap]');
+      let i = 0;
+      const show = (n: number) => {
+        i = (n + slides.length) % slides.length;
+        slides.forEach((s, idx) => s.classList.toggle('is-active', idx === i));
+        if (count) count.textContent = `${i + 1} / ${slides.length}`;
+        if (cap) cap.textContent = `CAPTURE ${i + 1} OF ${slides.length}`;
+      };
+      root.querySelector('[data-prev]')?.addEventListener('click', () => show(i - 1));
+      root.querySelector('[data-next]')?.addEventListener('click', () => show(i + 1));
+    }
+  }
+</script>

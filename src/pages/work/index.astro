@@ -1,0 +1,293 @@
+---
+import Base from '../../components/layout/Base.astro';
+import Glow from '../../components/layout/Glow.astro';
+import { fetchWorksData } from '../../lib/wordpress';
+
+const works = await fetchWorksData();
+
+// Order matters — mirrors the filter row in the design.
+const ORDER = ['ai', 'wordpress', 'uiux', 'backend'];
+const present = ORDER.filter((t) => works.some((w) => w.type === t));
+const FILTERS = [{ key: 'all', label: 'ALL' }, ...present.map((t) => ({ key: t, label: typeLabel(t) }))];
+
+function typeLabel(t: string) {
+  if (t === 'uiux') return 'UI/UX';
+  if (t === 'wordpress') return 'WORDPRESS';
+  if (t === 'ai') return 'AI';
+  return t.toUpperCase();
+}
+
+const pad = (n: number) => String(n).padStart(2, '0');
+const years = works.map((w) => Number(w.year)).filter(Boolean);
+const range = years.length ? `${Math.min(...years)} — ${Math.max(...years)}` : '';
+---
+
+<Base
+  title="Work — Amiruan"
+  description="Selected projects by Amiruan — AI interfaces, headless WordPress builds and product design. Six projects, 2023 to 2026."
+  current="work"
+  cta={false}
+>
+  <!-- Hero -->
+  <section class="whero">
+    <Glow variant="a" />
+    <div class="wrap whero__top">
+      <h1 class="whero__title">Work</h1>
+    </div>
+
+    <div class="whero__band" aria-hidden="true">
+      <div class="marquee whero__row">
+        <div class="marquee__track whero__track whero__track--l">
+          {[0, 1, 2, 3].map(() => <span>// THINGS I ACTUALLY BUILT</span>)}
+        </div>
+      </div>
+      <div class="marquee whero__row">
+        <div class="marquee__track whero__track whero__track--r">
+          {[0, 1, 2, 3].map(() => <span class="whero__outline">AI · WORDPRESS · UI/UX · FRONTEND</span>)}
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap whero__foot">
+      <span class="whero__meta">{`${pad(works.length)} PROJECTS${range ? `   ·   ${range}` : ''}`}</span>
+      <span class="whero__scroll">SCROLL ↓</span>
+    </div>
+  </section>
+
+  <!-- Grid -->
+  <section class="wgridsec">
+    <div class="wrap">
+      <div class="wfilter" data-filter-row>
+        <div class="wfilter__list" role="tablist" aria-label="Filter projects">
+          {FILTERS.map((f, i) => (
+            <button
+              class={`wfilter__btn ${i === 0 ? 'is-active' : ''}`}
+              role="tab"
+              aria-selected={i === 0 ? 'true' : 'false'}
+              data-filter={f.key}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+        <span class="wfilter__count" data-filter-count>{`${pad(works.length)} PROJECTS`}</span>
+      </div>
+
+      <div class="wgrid" data-grid>
+        {works.map((w, i) => (
+          <a class="wcard" href={`/work/${w.slug}/`} data-type={w.type}>
+            <div class="wcard__vis">
+              {w.image ? (
+                <img src={w.image} alt={w.title} loading={i < 2 ? 'eager' : 'lazy'} width="642" height="392" />
+              ) : (
+                <span class="wcard__novis" aria-hidden="true" />
+              )}
+              <span class="wcard__scrim" aria-hidden="true" />
+              <span class="wcard__num">{pad(i + 1)}</span>
+              <span class="wcard__cat">{typeLabel(w.type)}</span>
+            </div>
+
+            <div class="wcard__info">
+              <div class="wcard__r1">
+                <h2 class="wcard__t">{w.title}</h2>
+                {w.year && <span class="wcard__y">{w.year}</span>}
+              </div>
+              {w.subtitle && <p class="wcard__d">{w.subtitle}</p>}
+              <div class="wcard__br">
+                {w.metric && <span class="wcard__m">↑ {w.metric}</span>}
+                <span class="wcard__l">VIEW CASE</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      {works.length === 0 && (
+        <p class="wempty">No projects came back from WordPress. Check <code>PUBLIC_WP_API_URL</code>.</p>
+      )}
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ── Hero: 620px, shader, title + 2 marquee rows + meta ── */
+  .whero { position: relative; height: 620px; overflow: hidden; background: var(--ink); }
+  .whero > .wrap { position: relative; z-index: 1; }
+
+  .whero__top { position: absolute; left: 0; right: 0; top: 90px; }
+  .whero__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 88px;
+    line-height: 1.05;
+    letter-spacing: -3px;
+    color: #fff;
+  }
+
+  .whero__band { position: absolute; left: 0; right: 0; top: 273px; }
+  .whero__row { height: 78px; overflow: hidden; }
+  .whero__track { gap: 40px; align-items: center; height: 100%; }
+  .whero__track span {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 52px;
+    letter-spacing: -2px;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .whero__outline { color: transparent !important; -webkit-text-stroke: 1px rgba(77, 184, 255, 0.28); }
+  .whero__track--l { animation: marquee 58s linear infinite; }
+  .whero__track--r { animation: marqueeR 58s linear infinite; }
+  @keyframes marqueeR { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+
+  .whero__foot {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 509px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+  .whero__meta { color: var(--accent-blue); letter-spacing: 1.5px; }
+  .whero__scroll { color: var(--dim-d); font-size: 10px; letter-spacing: 2px; }
+
+  /* ── Grid section ── */
+  .wgridsec { background: var(--paper); color: var(--ink); padding: 100px 0; }
+  .wgridsec > .wrap { position: relative; z-index: 1; }
+
+  .wfilter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line-l);
+  }
+  .wfilter__list { display: flex; gap: 10px; flex-wrap: wrap; }
+  .wfilter__btn {
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    background: transparent;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--dim-l);
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .wfilter__btn:hover { border-color: var(--line-l); color: var(--ink); }
+  .wfilter__btn.is-active { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .wfilter__count { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; color: var(--accent-blue); }
+
+  .wgrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    margin-top: 44px;
+  }
+
+  .wcard { display: flex; flex-direction: column; }
+  .wcard[hidden] { display: none; }
+
+  .wcard__vis {
+    position: relative;
+    height: 392px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--tile);
+  }
+  .wcard__vis img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .wcard__novis { display: block; width: 100%; height: 100%; background: var(--tile); }
+  .wcard__scrim {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 140px;
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.85) 100%);
+  }
+  .wcard__num,
+  .wcard__cat {
+    position: absolute;
+    top: 18px;
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+  }
+  .wcard__num { left: 18px; font-size: 11px; color: #fff; }
+  .wcard__cat { right: 18px; font-size: 9px; letter-spacing: 1.5px; color: var(--accent-blue); }
+
+  .wcard__info { padding-top: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .wcard__r1 { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+  .wcard__t {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -1.2px;
+    color: var(--ink);
+  }
+  .wcard__y { flex: none; font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: var(--accent-blue); }
+  .wcard__d { font-family: var(--font-body); font-size: 15px; line-height: 1.55; color: var(--dim-l); }
+  .wcard__br { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .wcard__m { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--accent); }
+  .wcard__l { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; color: var(--ink); }
+  .wcard:hover .wcard__l { color: var(--accent); }
+  .wcard__t { transition: color 0.2s ease; }
+  .wcard:hover .wcard__t { color: var(--accent); }
+
+  .wempty { margin-top: 40px; font-family: var(--font-mono); font-size: 12px; color: var(--dim-l); }
+
+  @media (max-width: 1100px) {
+    .whero { height: auto; padding: 48px 0 40px; display: flex; flex-direction: column; gap: 28px; }
+    .whero__top, .whero__band, .whero__foot { position: static; }
+    .whero__title { font-size: 56px; letter-spacing: -2px; }
+    .whero__row { height: 48px; }
+    .whero__track span { font-size: 30px; letter-spacing: -1px; }
+    .wgridsec { padding: 64px 0; }
+    .wgrid { gap: 20px; margin-top: 32px; }
+    .wcard__vis { height: 260px; }
+    .wcard__t { font-size: 24px; letter-spacing: -0.8px; }
+  }
+
+  @media (max-width: 760px) {
+    .wgrid { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>
+
+<script>
+  // Client-side filtering. Cards are in the DOM already; we only toggle visibility.
+  const row = document.querySelector('[data-filter-row]');
+  const grid = document.querySelector('[data-grid]');
+  const count = document.querySelector('[data-filter-count]');
+
+  if (row && grid) {
+    const buttons = row.querySelectorAll<HTMLButtonElement>('[data-filter]');
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-type]'));
+
+    const apply = (key: string) => {
+      let shown = 0;
+      for (const card of cards) {
+        const match = key === 'all' || card.dataset.type === key;
+        card.hidden = !match;
+        if (match) shown++;
+      }
+      if (count) count.textContent = `${String(shown).padStart(2, '0')} PROJECT${shown === 1 ? '' : 'S'}`;
+    };
+
+    for (const btn of buttons) {
+      btn.addEventListener('click', () => {
+        for (const b of buttons) {
+          const on = b === btn;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        }
+        apply(btn.dataset.filter || 'all');
+      });
+    }
+  }
+</script>

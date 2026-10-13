@@ -1,6 +1,4 @@
 ---
-import Glow from './Glow.astro';
-
 const year = new Date().getFullYear();
 
 const socials = [
@@ -12,7 +10,6 @@ const socials = [
 ---
 
 <footer class="ft">
-  <Glow variant="a" />
   <div class="ft__top wrap">
     <div class="ft__logo">AMIRUAN</div>
     <nav class="ft__social" aria-label="Social links">
@@ -39,12 +36,12 @@ const socials = [
 </footer>
 
 <style>
+  /* Transparent: the shared shader lives in ClosingBand.astro. */
   .ft {
     position: relative;
-    background: var(--ink);
+    background: transparent;
     border-top: 1px solid var(--line-d);
     padding: 64px 0 40px;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     gap: 44px;

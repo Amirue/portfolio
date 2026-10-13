@@ -1,0 +1,142 @@
+---
+import Base from '../components/layout/Base.astro';
+import ClosingBand from '../components/layout/ClosingBand.astro';
+
+const methods = [
+  { k: 'EMAIL', v: 'amiruan12@gmail.com', href: 'mailto:amiruan12@gmail.com', external: false },
+  { k: 'INSTAGRAM', v: '@amiruan_12', href: 'https://www.instagram.com/amiruan_12', external: true },
+  {
+    k: 'LINKEDIN',
+    v: 'in/amiruddin-zulkifli',
+    href: 'https://www.linkedin.com/in/amiruddin-zulkifli-9485a2261',
+    external: true,
+  },
+];
+---
+
+<Base
+  title="Contact — Amiruan"
+  description="Get in touch with Amiruan. Currently open to new work, usually replying within a day. Based in Kuala Lumpur / Selangor, remote or hybrid."
+  current="contact"
+  cta={false}
+  band="none"
+>
+  {/* The hero lives inside the band so one gradient runs behind it, the marquee
+      bar and the footer — the same treatment as the homepage CTA. */}
+  <ClosingBand withCta={false}>
+    <section class="chero">
+      <div class="wrap chero__inner">
+      <span class="chero__label">CONTACT</span>
+
+      <h1 class="chero__lines">
+        <span class="chero__l1">Let&rsquo;s</span>
+        <span class="chero__l2">talk.</span>
+      </h1>
+
+      <div class="chero__blurb">
+        <span class="chero__kicker">GOT A PROJECT IN MIND?</span>
+        <p class="chero__note">
+          Currently open to new work. Usually reply within a day. Based in Kuala Lumpur / Selangor —
+          remote / hybrid.
+        </p>
+      </div>
+
+      <ul class="cmethods">
+        {methods.map((m) => (
+          <li class="cmethod">
+            <span class="cmethod__k">{m.k}</span>
+            <a
+              class="cmethod__v"
+              href={m.href}
+              {...(m.external ? { target: '_blank', rel: 'noopener' } : {})}
+            >
+              {m.v}
+            </a>
+          </li>
+        ))}
+      </ul>
+      </div>
+    </section>
+  </ClosingBand>
+</Base>
+
+<style>
+  /* Transparent — the shared gradient comes from ClosingBand. */
+  .chero {
+    position: relative;
+    overflow: hidden;
+    background: transparent;
+  }
+  .chero__inner {
+    position: relative;
+    z-index: 1;
+    padding: 110px var(--pad);
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+    min-height: 773px;
+  }
+
+  .chero__label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: var(--accent-blue);
+  }
+
+  .chero__lines {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 124px;
+    line-height: 0.95;
+    letter-spacing: -5px;
+  }
+  .chero__l1 { color: #fff; }
+  .chero__l2 { color: var(--accent); }
+
+  .chero__blurb { display: flex; flex-direction: column; gap: 8px; max-width: 680px; }
+  .chero__kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--accent-blue);
+  }
+  .chero__note { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--dim-d); }
+
+  .cmethods {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: auto;
+  }
+  .cmethod {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-d2);
+  }
+  .cmethod__k {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--accent-blue);
+  }
+  .cmethod__v {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.8px;
+    color: #fff;
+    transition: color 0.2s ease;
+  }
+  .cmethod__v:hover { color: var(--accent); }
+
+  @media (max-width: 1000px) {
+    .chero__inner { padding: 64px var(--pad); min-height: 0; gap: 32px; }
+    .chero__lines { font-size: 64px; letter-spacing: -2.5px; }
+    .cmethods { grid-template-columns: 1fr; gap: 24px; }
+  }
+</style>

@@ -1,6 +1,5 @@
 ---
 import Marquee from './Marquee.astro';
-import Glow from './Glow.astro';
 
 interface Props {
   email?: string;
@@ -10,12 +9,11 @@ const { email = 'amiruan12@gmail.com', ctaHref = '/contact' } = Astro.props;
 ---
 
 <section class="closing">
-  <Glow variant="a" />
   <div class="closing__inner wrap">
     <div class="closing__lines">
-      <span class="closing__line closing__line--w">I design,</span>
-      <span class="closing__line closing__line--b">I build,</span>
-      <span class="closing__line closing__line--c">I ship.</span>
+      <span class="closing__mask reveal" style="--i:0"><span class="closing__line closing__line--w">I design,</span></span>
+      <span class="closing__mask reveal" style="--i:2"><span class="closing__line closing__line--b">I build,</span></span>
+      <span class="closing__mask reveal" style="--i:4"><span class="closing__line closing__line--c">I ship.</span></span>
     </div>
 
     <div class="closing__row">
@@ -31,13 +29,13 @@ const { email = 'amiruan12@gmail.com', ctaHref = '/contact' } = Astro.props;
 </section>
 
 <style>
+  /* Transparent: the shared shader lives in ClosingBand.astro so one gradient
+     runs continuously behind the CTA, the marquee bar and the footer. */
   .closing {
     position: relative;
-    background: var(--ink);
-    overflow: hidden;
+    background: transparent;
   }
 
-  /* Shader: glow-a.glsl, rendered by Glow.astro */
   .closing__inner { position: relative; z-index: 1; }
 
   .closing__inner {
@@ -54,13 +52,31 @@ const { email = 'amiruan12@gmail.com', ctaHref = '/contact' } = Astro.props;
     flex-direction: column;
   }
 
+  /* Each line rises out of its own mask, one after another (--i 0/2/4 = 0/160/320ms). */
+  .closing__mask {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.08em; /* room for descenders on the comma */
+  }
+  /* The mask itself must not move — only the line inside it rises. */
+  .closing__mask.reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
   .closing__line {
+    display: block;
     font-family: var(--font-display);
     font-weight: 700;
     font-size: clamp(44px, 8.6vw, 124px);
     line-height: 0.94;
     letter-spacing: -0.04em;
+    transform: translateY(115%);
+    transition: transform 0.85s cubic-bezier(0.22, 0.9, 0.24, 1);
+    transition-delay: calc(var(--i, 0) * 80ms);
   }
+  .closing__mask.is-in .closing__line { transform: translateY(0); }
   .closing__line--w { color: #fff; }
   .closing__line--b { color: var(--accent-blue); }
   .closing__line--c { color: var(--accent); }

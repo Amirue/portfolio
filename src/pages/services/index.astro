@@ -1,0 +1,111 @@
+---
+import Base from '../../components/layout/Base.astro';
+import Glow from '../../components/layout/Glow.astro';
+import { services } from '../../data/services';
+
+const title = 'Services — Amiruan';
+const description =
+  'What I can build for you: custom WordPress and web development, UI/UX design, and practical AI integration. Pick the one that fits, or tell me the problem.';
+---
+
+<Base title={title} description={description} current="services">
+  <!-- Hero -->
+  <section class="shero">
+    <Glow variant="a" />
+    <div class="wrap shero__inner">
+      <span class="shero__label">SERVICES</span>
+      <h1 class="shero__title">What I can build for you</h1>
+      <p class="shero__sub">
+        Three things I do well. Pick the one that fits — or tell me the problem and I&rsquo;ll figure out
+        the rest.
+      </p>
+    </div>
+  </section>
+
+  <!-- List -->
+  <section class="slist">
+    <div class="wrap">
+      {services.map((s) => (
+        <article class="srow">
+          <div class="srow__left">
+            <span class="srow__n">{s.n}</span>
+            <h2 class="srow__t">{s.title}</h2>
+            <p class="srow__d">{s.tagline}</p>
+            <a class="srow__l" href={`/services/${s.slug}/`}>EXPLORE →</a>
+          </div>
+          <div class="srow__right">
+            {s.offerings.map((o) => (
+              <div class="offer">
+                <h3 class="offer__t">{o.title}</h3>
+                <p class="offer__d">{o.desc}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .shero { position: relative; overflow: hidden; background: var(--ink); }
+  .shero__inner {
+    position: relative;
+    z-index: 1;
+    padding: 110px var(--pad);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-height: 418px;
+  }
+  .shero__label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 4px; color: var(--accent-blue); }
+  .shero__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 80px;
+    line-height: 1.02;
+    letter-spacing: -3px;
+    color: #fff;
+    max-width: 850px;
+  }
+  .shero__sub { font-family: var(--font-body); font-size: 18px; line-height: 1.6; color: var(--dim-d); max-width: 720px; }
+
+  .slist { background: var(--paper); color: var(--ink); padding: 0 0 100px; }
+  .slist > .wrap { padding-inline: var(--pad); }
+
+  .srow {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 48px;
+    padding: 56px 0;
+    border-top: 1px solid var(--line-l);
+  }
+  .srow__left { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+  .srow__n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; color: var(--accent-blue); }
+  .srow__t {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    color: var(--ink);
+  }
+  .srow__d { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--dim-l); }
+  .srow__l { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; color: var(--accent); }
+
+  .srow__right { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px 28px; align-content: start; }
+  .offer { display: flex; flex-direction: column; gap: 6px; }
+  .offer__t { font-family: var(--font-display); font-weight: 500; font-size: 18px; color: var(--ink); }
+  .offer__d { font-family: var(--font-body); font-size: 14px; line-height: 1.55; color: var(--dim-l); }
+
+  @media (max-width: 1000px) {
+    .shero__inner { padding: 64px var(--pad); min-height: 0; }
+    .shero__title { font-size: 44px; letter-spacing: -1.6px; }
+    .shero__sub { font-size: 16px; }
+    .slist { padding-bottom: 64px; }
+    .srow { grid-template-columns: 1fr; gap: 28px; padding: 40px 0; }
+    .srow__t { font-size: 30px; letter-spacing: -1px; }
+    .srow__right { grid-template-columns: 1fr; gap: 20px; }
+  }
+</style>

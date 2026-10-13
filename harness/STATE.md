@@ -1,0 +1,57 @@
+# Harness — STATE
+
+Source of truth for the V6 verification/commit session. Update after every step.
+
+## Environment
+- Repo: `C:/Users/light/Documents/New OpenCode Project/portfolio-astro` (branch `v6-redesign`, do NOT push/deploy).
+- Dev server: `node harness/dev.mjs start|stop|restart|status` (detached; kills :4321 first). URL http://localhost:4321.
+- Local WP (Laragon): MySQL `mysqld` + Apache `httpd`; root `C:/laragon/www/portfolio-wp`;
+  API `http://localhost/portfolio-wp/wp-json/wp/v2`; work slugs (6): ai-kiosk-interface, headless-commerce,
+  fintech-dashboard, ai-knowledge-assistant, automated-printing, brand-website-redesign.
+- Tools: `harness/check.mjs` (health, <=10 lines), `harness/probe-html.mjs` (static counts),
+  `harness/crawl.mjs` (link crawl). Logs -> `harness/logs/`.
+
+## Job 1 — verification results
+Desktop 1440 (browser, emulate 1440x900): w=1440 docW=1425
+- `/` 200; glow=4; tiles 15/15 visible; `.tooltabs` display:none; `.what__grid` = 389.6px x3 (3 col);
+  5 `.pentry`; hover `.bench__axis[4]` -> 15/15 visible + label "BACKEND" + row `.is-active`=[4];
+  `.pathpin.is-pinned`=true; `.pathpin__stage` position=sticky; exactly 1 `.pentry.is-active`. ALL PASS.
+
+Mobile 390 (emulate 390x844): w=390 docW=390
+- `.pathpin.is-pinned`=true; wrapper height 3798px; `.pathpin__stage` 844px, sticky;
+- `.what__grid` scrollable (scrollW 894 > clientW 350); first card left=20 (flush);
+- `.tooltabs` display:flex; CTA line transition-delay 0s / 0.16s / 0.32s; no horiz overflow. PASS.
+- Panel wiring PASS: axis2 -> "AI / LLM" + tab 2; axis4 -> "BACKEND" + tab 4; tab1 -> "WORDPRESS".
+- **FAIL — mobile tool tiles: 15 visible, expected 3 (active axis only).**
+  Root cause: `.tool { display:flex }` (index.astro:666) overrides the `[hidden]` attribute that the JS sets
+  correctly (`t.hidden`). Other components define a `[hidden]` rule (gallery `.post[hidden]`,
+  header `.hd__menu[hidden]`, work `.wcard[hidden]`) but index.astro has none for `.tool`.
+  Fix (NOT applied — user said report only): add `.tool[hidden] { display:none; }` (or !important) near line 666.
+
+Both:
+- `/contact`: glow=1, .band=1, .chero=1, .closing=0, .ft=1. PASS (CTA removed; hero/marquee/footer share gradient).
+- CTA stagger PASS: forcing `.is-in` -> t120 line0=72.7 / others 133.86; t240 28.9/97.9/133.86;
+  t360 10.3/35.8/114.6; done 0/0/0. Different times + different mid-flight transforms.
+- Dead links PASS: crawl 16 links, 16 ok / 0 fail (seeds /, /work, /gallery, /services, /contact, /work/ai-kiosk-interface/).
+- Old design PASS: no `<!DOCTYPE` in src/pages; no refs to assets/css|js legacy files; all 8 pages import layout/Base.astro.
+- Build PASS: `npm run build` exit 0, 15 pages.
+
+## Notes / caveats
+- Embedded browser (pencil) cannot scroll (window.scrollTo + wheel both no-op; no lock class) — an
+  embedding artifact, not a page bug. Reveal/animation verified by firing `.is-in` directly.
+- Earlier work-detail 404s = stale module graph (server started while WP down); fixed by WP up + dev restart.
+- `data-axis` (20) and `is-pinned` (18) static string counts are noisy; use real selectors
+  (`#axesGrid .tool[data-axis]`, `.pathpin.is-pinned`).
+
+## Open (do NOT guess)
+- Contact email (design hello@amiruan.site vs build amiruan12@gmail.com).
+- Keep/drop Ask AI terminal + UX Pathfinder.
+- Footer socials final four.
+- Resume file for DOWNLOAD RESUME (#).
+- Work slugs: design 6 vs WP 6, only 2 overlap.
+- Accordion expanded panel still WP featured image (not kiosk mock).
+- Dead weight in public/: assets/css/styles.css, gallery.css, assets/js/main.js, gallery.js.
+- **Mobile `.tool[hidden]` fix pending (the one Job-1 FAIL).**
+
+## Next
+- Job 2: commit (include 6 untracked paths + harness/; do NOT push/deploy). `git add -A`.

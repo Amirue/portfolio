@@ -1,0 +1,86 @@
+---
+import Base from '../components/layout/Base.astro';
+import Glow from '../components/layout/Glow.astro';
+---
+
+<Base
+  title="Page not found — Amiruan"
+  description="That page does not exist or has moved. No dead ends — head back to the work."
+  cta={false}
+>
+  <section class="nf">
+    <Glow variant="a" />
+    <div class="nf__inner">
+      <span class="nf__code">404</span>
+      <span class="nf__label">PAGE NOT FOUND</span>
+      <p class="nf__msg">That page does not exist or has moved. No dead ends — let&rsquo;s get you back.</p>
+      <a href="/" class="nf__btn">← BACK TO HOME</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+    min-height: 908px;
+    display: flex;
+  }
+  .nf__inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 110px var(--pad);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    text-align: center;
+  }
+
+  .nf__code {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 200px;
+    line-height: 0.9;
+    letter-spacing: -6px;
+    color: var(--accent);
+  }
+  .nf__label {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--accent-blue);
+  }
+  .nf__msg {
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--dim-d);
+    max-width: 560px;
+  }
+  .nf__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+    padding: 18px 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .nf__btn:hover { background: #ff564b; transform: translateY(-2px); }
+
+  @media (max-width: 700px) {
+    .nf { min-height: 0; }
+    .nf__inner { padding: 72px var(--pad); }
+    .nf__code { font-size: 120px; letter-spacing: -4px; }
+    .nf__msg { font-size: 16px; }
+  }
+</style>

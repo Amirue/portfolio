@@ -1,0 +1,46 @@
+---
+/**
+ * The closing band: CTA + black marquee bar + footer over ONE shared shader.
+ *
+ * In the design this is a single frame (`Home · 08 Closing` / `rDdCu`) with the
+ * glow-a shader as its fill, containing the CTA (880), the marquee (78) and the
+ * footer (276) — all transparent, so one continuous gradient runs behind all three.
+ *
+ * `withCta={false}` for pages whose design has no CTA above the footer
+ * (Work Index, Gallery, 404).
+ */
+import Glow from './Glow.astro';
+import ClosingCTA from './ClosingCTA.astro';
+import Footer from './Footer.astro';
+
+interface Props {
+  withCta?: boolean;
+}
+const { withCta = true } = Astro.props;
+---
+
+<div class="band">
+  <Glow variant="a" />
+  <slot />
+  {withCta && <ClosingCTA />}
+  <Footer />
+</div>
+
+<style>
+  .band {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .band > :global(.closing),
+  .band > :global(.ft) {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+  }
+  /* Slot content (e.g. the Contact hero) sits above the shared gradient too. */
+  .band > :global(section) {
+    position: relative;
+    z-index: 1;
+  }
+</style>

@@ -1,6 +1,5 @@
 ﻿---
 import Base from '../components/layout/Base.astro';
-import ClosingCTA from '../components/layout/ClosingCTA.astro';
 import Glow from '../components/layout/Glow.astro';
 import { fetchWorksData } from '../lib/wordpress';
 import { axes } from '../data/toolbox';
@@ -45,11 +44,11 @@ const process = [
 ];
 
 const path = [
-  { y: '2020', k: 'EDUCATION', t: 'Started the degree', d: 'Entered university and learned the fundamentals — along with the fact that I would rather be building than reading about it.', x: ['React', 'Figma'] },
-  { y: '2023', k: 'EXPERIENCE', t: 'Internship', d: 'First industry role. Shipped real work, sat in real reviews, and learned how a team actually operates.', x: ['WordPress', 'JavaScript'] },
-  { y: '2024', k: 'EDUCATION', t: 'Graduated, First Class', d: 'Finished with a First Class degree. Final year spent on interface design and prototyping.', x: ['Figma', 'Research'] },
-  { y: '2024', k: 'EXPERIENCE', t: 'Junior Web Developer', d: 'First full-time role. WordPress builds, frontend work, and a lot of shipping.', x: ['WordPress', 'PHP'] },
-  { y: 'NEXT', k: 'OPEN', t: 'Your team?', d: 'Currently open to new work. Maybe the next line on this list is with you.', x: ["Let's talk"] },
+  { y: '2020', k: 'EDUCATION', t: 'Started the degree', d: 'Entered university and learned the fundamentals — along with the fact that I would rather be building than reading about it.', x: ['React', 'Figma'], img: '/assets/images/hero-1.png' },
+  { y: '2023', k: 'EXPERIENCE', t: 'Internship', d: 'First industry role. Shipped real work, sat in real reviews, and learned how a team actually operates.', x: ['WordPress', 'JavaScript'], img: '/assets/images/wc-2.jpg' },
+  { y: '2024', k: 'EDUCATION', t: 'Graduated, First Class', d: 'Finished with a First Class degree. Final year spent on interface design and prototyping.', x: ['Figma', 'Research'], img: '/assets/images/hero-3.png' },
+  { y: '2024', k: 'EXPERIENCE', t: 'Junior Web Developer', d: 'First full-time role. WordPress builds, frontend work, and a lot of shipping.', x: ['WordPress', 'PHP'], img: '/assets/images/wc-1.jpg' },
+  { y: 'NEXT', k: 'OPEN', t: 'Your team?', d: 'Currently open to new work. Maybe the next line on this list is with you.', x: ["Let's talk"], img: '/assets/images/hero-2.png' },
 ];
 
 const radar = axes.map((a) => ({ k: a.short, v: a.v, label: a.label, items: a.items }));
@@ -130,43 +129,51 @@ const lifePhotos = [
   </section>
 
   <!-- 03 About -->
-  <section class="sec sec--paper on-paper" id="about">
-    <div class="wrap">
-      <p class="reveal about__statement">A designer who codes, and a developer who cares how it looks.</p>
+  <section class="about" id="about">
+    <!-- WhoIAm -->
+    <div class="who wrap">
+      <div class="who__top">
+        <p class="reveal who__statement">A designer who codes, and a developer who cares how it looks.</p>
+        <a href="#" class="reveal who__resume">DOWNLOAD RESUME</a>
+      </div>
 
-      <div class="stats">
+      <div class="who__facts">
         {stats.map((s, i) => (
-          <div class="stats__item reveal" style={`--i:${i}`}>
-            <span class="stats__n">{s.n}</span>
-            <span class="stats__l">{s.label}</span>
+          <div class="fact reveal" style={`--i:${i}`}>
+            <span class="fact__n" data-count={s.n}>{s.n}</span>
+            <span class="fact__l">{s.label}</span>
           </div>
         ))}
       </div>
 
-      <div class="about__grid">
-        <figure class="about__portrait reveal">
-          <img src="/assets/images/profile.png" alt="Amiruan" width="480" height="600" loading="lazy" />
-        </figure>
-        <div class="about__bio">
-          <p class="reveal about__cap">KUALA LUMPUR, MALAYSIA · 03.1390° N, 101.6869° E</p>
-          <p class="reveal about__note">Currently taking on freelance work and open to full-time roles. Usually reply within a day.</p>
+      <div class="who__body">
+        <div class="who__left">
+          <figure class="reveal who__portrait">
+            <img src="/assets/images/profile.png" alt="Amiruan" width="520" height="340" loading="lazy" />
+          </figure>
+          <p class="reveal who__cap">KUALA LUMPUR, MALAYSIA · 03.1390° N, 101.6869° E</p>
+          <p class="reveal who__note">Currently taking on freelance work and open to full-time roles. Usually reply within a day.</p>
+        </div>
+        <div class="who__right">
           <p class="reveal t-body">I got into this because I was curious why some websites feel easy to use and others feel like homework. That curiosity turned into a career.</p>
           <p class="reveal t-body">I design interfaces, build WordPress systems, and plug in AI where it actually helps. I work with founders, agencies and product teams who want something clean and fast. Not trendy for the sake of it.</p>
           <p class="reveal t-body">Off the clock I am usually reading about typography or poking at some new tool. I care about the small details that make software feel like someone actually thought about the person using it.</p>
-          <a href="#" class="about__resume reveal">DOWNLOAD RESUME →</a>
         </div>
       </div>
+    </div>
 
-      <header class="sec-head">
-        <h2 class="t-h2 reveal">What I do</h2>
-        <p class="reveal t-body about__sub">Three things, done properly. Most projects end up using two of them.</p>
+    <!-- WhatIDo -->
+    <div class="what wrap">
+      <header class="what__head reveal">
+        <h2 class="what__title">What I do</h2>
+        <p class="what__sub">Three things, done properly. Most projects end up using two of them.</p>
       </header>
 
-      <div class="caps">
+      <div class="what__grid" data-slider>
         {capabilities.map((c, i) => (
           <article class="cap reveal" style={`--i:${i}`}>
-            <span class="cap__n u-blue">{c.n}</span>
-            <h3 class="t-card">{c.title}</h3>
+            <span class="cap__n">{c.n}</span>
+            <h3 class="cap__t">{c.title}</h3>
             <p class="cap__d">{c.desc}</p>
             <ul class="cap__list">
               {c.items.map((it) => <li>{it}</li>)}
@@ -175,11 +182,11 @@ const lifePhotos = [
         ))}
       </div>
 
-      <div class="proc reveal">
+      <div class="proc">
         <span class="proc__label">HOW IT USUALLY GOES</span>
         <div class="proc__steps">
-          {process.map((p) => (
-            <div class="proc__step">
+          {process.map((p, i) => (
+            <div class="proc__step reveal" style={`--i:${i}`}>
               <span class="proc__n">{p.n}</span>
               <span class="proc__dot" aria-hidden="true"></span>
               <div class="proc__body">
@@ -233,37 +240,61 @@ const lifePhotos = [
     </div>
   </section>
 
-  <!-- 05 Path -->
-  <section class="sec sec--paper on-paper" id="experience">
-    <div class="wrap">
-      <div class="path__head reveal">
-        <h2 class="t-h2">Education &amp; Experience</h2>
-        <div class="path__hright">
-          <p class="path__sub">Where I have worked and what I did there. Short version: I have been at this since 2018.</p>
-          <a href="#" class="path__btn">
-            <span>DOWNLOAD RESUME</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
-          </a>
+  <!-- 05 Path — pinned scroll: the section holds, the entries swap -->
+  <section class="pathsec on-paper" id="experience">
+    <div class="pathpin" data-pin style={`--n:${path.length}`}>
+      <div class="pathpin__stage">
+        <div class="wrap pathpin__inner">
+          <div class="path__head reveal">
+            <h2 class="t-h2">Education &amp; Experience</h2>
+            <div class="path__hright">
+              <p class="path__sub">Where I have worked and what I did there. Short version: I have been at this since 2018.</p>
+              <a href="#" class="path__btn">
+                <span>DOWNLOAD RESUME</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="pathstage" data-pathstage>
+            {path.map((p, i) => (
+              <article
+                class={`pentry ${i % 2 ? 'pentry--flip' : ''} ${p.k === 'OPEN' ? 'is-open' : ''}`}
+                data-pentry={i}
+                data-img={p.img}
+                data-label="1 PHOTO"
+              >
+                <span class="pentry__node" aria-hidden="true"></span>
+                <span class="pentry__tick" aria-hidden="true"></span>
+                <div class="pentry__year">
+                  <span class={`pentry__y ${p.k === 'OPEN' ? 'u-accent' : 'u-blue'}`}>{p.y}</span>
+                  <span class={`pentry__k ${p.k === 'EDUCATION' ? 'u-blue' : 'u-dim-l'}`}>{p.k}</span>
+                </div>
+                <div class="pentry__card">
+                  <h3 class="pentry__t">{p.t}</h3>
+                  <p class="pentry__d">{p.d}</p>
+                  <div class="pentry__tags">{p.x.map((t) => <span>{t}</span>)}</div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div class="pathdots" data-pathdots aria-hidden="true">
+            {path.map((p, i) => <span class={`pathdot ${i === 0 ? 'is-active' : ''}`} data-pathdot={i}></span>)}
+          </div>
         </div>
       </div>
+    </div>
 
-      <ol class="path">
-        {path.map((p, i) => (
-          <li class={`path__item reveal ${i % 2 ? 'path__item--flip' : ''} ${p.k === 'OPEN' ? 'is-open' : ''}`} style={`--i:${i}`}>
-            <span class="path__node" aria-hidden="true"></span>
-            <span class="path__tick" aria-hidden="true"></span>
-            <div class="path__year">
-              <span class={`path__y ${p.k === 'OPEN' ? 'u-accent' : 'u-blue'}`}>{p.y}</span>
-              <span class={`path__k ${p.k === 'EDUCATION' ? 'u-blue' : 'u-dim-l'}`}>{p.k}</span>
-            </div>
-            <div class="path__card">
-              <h3 class="path__t">{p.t}</h3>
-              <p class="path__d">{p.d}</p>
-              <div class="path__tags">{p.x.map((t) => <span>{t}</span>)}</div>
-            </div>
-          </li>
-        ))}
-      </ol>
+    <!-- Cursor card: trails the pointer with spring physics (design z8JT6T) -->
+    <div class="pcursor" data-cursor aria-hidden="true">
+      <div class="pcursor__inner">
+        <div class="pcursor__photo"><img data-cursor-img src={path[0].img} alt="" width="241" height="167" /></div>
+        <div class="pcursor__foot">
+          <span data-cursor-label>1 PHOTO</span>
+          <span class="pcursor__cta">CLICK TO SEE MORE →</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -306,6 +337,19 @@ const lifePhotos = [
         </div>
       </div>
 
+      <div class="tooltabs" role="tablist" aria-label="Filter tools">
+        {axes.map((a, ai) => (
+          <button
+            class={`tooltab ${ai === 0 ? 'is-active' : ''}`}
+            role="tab"
+            aria-selected={ai === 0 ? 'true' : 'false'}
+            data-tooltab={ai}
+          >
+            {a.short}
+          </button>
+        ))}
+      </div>
+
       <div class="axes" id="axesGrid">
         {axes.flatMap((a, ai) => a.tools.map((t) => (
           <div class={`tool ${ai === 0 ? 'is-active' : ''}`} data-axis={ai}>
@@ -346,7 +390,6 @@ const lifePhotos = [
     </div>
   </section>
 
-  <ClosingCTA />
 </Base>
 
 <style>
@@ -412,28 +455,55 @@ const lifePhotos = [
     align-items: flex-end; gap: 6px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; }
   .hero__scroll { letter-spacing: 2px; color: var(--dim-d); }
 
-  /* ── About ── */
-  .about__statement { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 4.4vw, 64px); line-height: 1.05; letter-spacing: -0.03em; max-width: 20ch; }
-  /* WFacts — dark tiles, coral numerals */
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 56px 0; }
-  .stats__item { background: var(--tile); border: 1px solid var(--line-d2); border-radius: var(--radius);
-    padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; }
-  .stats__n { font-family: var(--font-display); font-weight: 700; font-size: 42px; line-height: 1; color: var(--accent); letter-spacing: -1px; }
-  .stats__l { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; color: var(--dim-d); }
-  .about__grid { display: grid; grid-template-columns: 320px 1fr; gap: 48px; align-items: start; }
-  .about__portrait img { width: 100%; height: auto; }
-  .about__bio { display: flex; flex-direction: column; gap: 16px; }
-  .about__cap { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--dim-l); }
-  .about__note { font-family: var(--font-body); font-size: 14px; color: var(--dim-l); }
-  .about__resume { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1.5px; color: var(--accent); margin-top: 8px; }
-  .about__sub { color: var(--dim-l); }
+  /* ── About: WhoIAm + WhatIDo ── */
+  .about { background: var(--paper); color: var(--ink); }
+  .who { padding: 160px var(--pad) 80px; }
+  .what { padding: 80px var(--pad) 160px; }
 
-  .caps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 72px; }
-  .cap { border: 1px solid var(--line-l); padding: 28px; display: flex; flex-direction: column; gap: 12px; }
-  .cap__n { font-family: var(--font-mono); font-size: 11px; }
-  .cap__d { font-family: var(--font-body); font-size: 14px; color: var(--dim-l); }
-  .cap__list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-  .cap__list li { font-family: var(--font-mono); font-size: 12px; color: var(--ink); border-top: 1px solid var(--line-l); padding-top: 8px; }
+  .who__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 48px; }
+  /* Design: 58px in a 1020px box lands on exactly 2 lines — no orphaned word. */
+  .who__statement {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 58px; line-height: 1.04; letter-spacing: -2.5px;
+    max-width: 1020px;
+  }
+  .who__resume {
+    flex: none; display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 24px; background: var(--accent-blue); border-radius: var(--radius);
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; color: #fff;
+  }
+
+  /* WFacts — dark tiles sitting flush between two rules, as in the design. */
+  .who__facts {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin-top: 40px;
+    border-top: 1px solid var(--line-l);
+    border-bottom: 1px solid var(--line-l);
+  }
+  .fact { background: var(--tile); padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; }
+  .fact__n { font-family: var(--font-display); font-weight: 700; font-size: 42px; line-height: 1; color: var(--accent); letter-spacing: -1px; font-variant-numeric: tabular-nums; }
+  .fact__l { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; color: var(--dim-d); }
+
+  .who__body { display: grid; grid-template-columns: 520px 1fr; gap: 80px; margin-top: 64px; align-items: start; }
+  .who__left { display: flex; flex-direction: column; gap: 18px; }
+  .who__portrait { height: 340px; border-radius: var(--radius); overflow: hidden; }
+  .who__portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .who__cap { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--dim-l); }
+  .who__note { font-family: var(--font-body); font-size: 14px; line-height: 1.55; color: var(--dim-l); }
+  .who__right { display: flex; flex-direction: column; gap: 22px; }
+
+  /* Heading hard left, supporting line hard right and bottom-aligned (design WhatHead). */
+  .what__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 72px; }
+  .what__title { font-family: var(--font-display); font-weight: 700; font-size: 80px; line-height: 1; letter-spacing: -3px; }
+  .what__sub { width: 380px; max-width: 100%; font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--dim-l); }
+
+  .what__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 64px; }
+  .cap { border-top: 1px solid var(--line-d); padding-top: 36px; display: flex; flex-direction: column; gap: 20px; }
+  .cap__n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: var(--accent-blue); }
+  .cap__t { font-family: var(--font-display); font-weight: 500; font-size: 28px; line-height: 1.15; letter-spacing: -1px; }
+  .cap__d { font-family: var(--font-body); font-size: 15px; line-height: 1.55; color: var(--dim-l); }
+  .cap__list { display: flex; flex-direction: column; }
+  .cap__list li { font-family: var(--font-body); font-size: 13.5px; color: var(--dim-l); border-top: 1px solid var(--line-l); padding: 11px 0; }
 
   /* Process — dark card, horizontal rail with coral node dots */
   .proc { margin-top: 72px; background: var(--tile); border: 1px solid var(--line-d2); border-radius: var(--radius);
@@ -473,8 +543,10 @@ const lifePhotos = [
   .work__all { display: inline-block; margin-top: 40px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 2px; color: #fff; }
 
   /* ── Path ── */
-  /* Title left, sub + filled blue resume button right; 620/72/620 rows that
-     alternate sides around a centre spine. All content hugs the spine. */
+  /* Title left; sub + filled blue resume button hard right, all top-aligned
+     with the section (design: section pad-top 160, PathHead at y160). */
+  .pathsec { background: var(--paper); color: var(--ink); padding: 160px 0 100px; }
+  .pathsec > .wrap { position: relative; z-index: 1; }
   .path__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; }
   .path__hright { display: flex; flex-direction: column; align-items: flex-end; gap: 18px; width: 380px; }
   .path__sub { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--dim-l); }
@@ -482,37 +554,91 @@ const lifePhotos = [
     background: var(--accent-blue); border-radius: var(--radius);
     font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; color: #fff; }
 
-  .path { position: relative; margin-top: 64px; }
-  .path::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--line-l); }
+  /* ── Path stage ─────────────────────────────────────────────────────────────
+     Default (mobile / reduced-motion / no JS) is a plain stacked list.
+     .is-pinned turns it into a sticky stage where entries cross-fade + slide. */
+  .pathstage { position: relative; margin-top: 64px; display: flex; flex-direction: column; gap: 24px; }
 
-  .path__item { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 72px;
+  .pentry { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 72px;
     padding: 46px 0; border-top: 1px solid var(--line-l); }
 
-  .path__year { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: 10px;
+  .pentry__year { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: 10px;
     align-items: flex-end; text-align: right; }
-  .path__y { font-family: var(--font-display); font-weight: 700; font-size: 88px;
-    line-height: 1; letter-spacing: -3.5px; }
-  .path__k { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; }
+  .pentry__y { font-family: var(--font-display); font-weight: 700; font-size: 88px;
+    line-height: 1; letter-spacing: -3.5px; font-variant-numeric: tabular-nums; }
+  .pentry__k { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; }
 
-  .path__card { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; gap: 12px;
+  .pentry__card { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; gap: 12px;
     padding: 40px 36px; background: #fff; border: 1px solid var(--line-l); border-radius: var(--radius); }
-  .path__t { font-family: var(--font-display); font-weight: 500; font-size: 28px; letter-spacing: -1px; }
-  .path__d { font-family: var(--font-body); font-size: 15px; line-height: 1.65; color: var(--dim-l); }
-  .path__tags { display: flex; gap: 8px; flex-wrap: wrap; }
-  .path__tags span { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.5px;
+  .pentry__t { font-family: var(--font-display); font-weight: 500; font-size: 28px; letter-spacing: -1px; }
+  .pentry__d { font-family: var(--font-body); font-size: 15px; line-height: 1.65; color: var(--dim-l); }
+  .pentry__tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pentry__tags span { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.5px;
     border: 1px solid var(--line-l); border-radius: var(--radius); padding: 6px 12px; color: var(--ink); }
 
-  /* mirrored row: card left (text hugging the spine), year right */
-  .path__item--flip .path__year { grid-column: 2; align-items: flex-start; text-align: left; }
-  .path__item--flip .path__card { grid-column: 1; text-align: right; }
-  .path__item--flip .path__tags { justify-content: flex-end; }
+  /* mirrored entry: card left (text hugging the spine), year right */
+  .pentry--flip .pentry__year { grid-column: 2; align-items: flex-start; text-align: left; }
+  .pentry--flip .pentry__card { grid-column: 1; text-align: right; }
+  .pentry--flip .pentry__tags { justify-content: flex-end; }
 
-  .path__node { position: absolute; left: 50%; top: 115px; transform: translateX(-50%);
+  .pentry__node { position: absolute; left: 50%; top: 115px; transform: translateX(-50%);
     width: 12px; height: 12px; border-radius: 50%; background: var(--paper);
     border: 2px solid var(--accent-blue); z-index: 1; }
-  .path__item.is-open .path__node { border-color: var(--accent); background: var(--accent); }
-  .path__tick { position: absolute; left: calc(50% + 7px); top: 120px; width: 35px; height: 1px; background: var(--line-l); }
-  .path__item--flip .path__tick { left: auto; right: calc(50% + 7px); }
+  .pentry.is-open .pentry__node { border-color: var(--accent); background: var(--accent); }
+  .pentry__tick { position: absolute; left: calc(50% + 7px); top: 120px; width: 35px; height: 1px; background: var(--line-l); }
+  .pentry--flip .pentry__tick { left: auto; right: calc(50% + 7px); }
+
+  .pathdots { display: flex; gap: 8px; justify-content: center; margin-top: 40px; }
+  .pathdot { width: 26px; height: 2px; background: var(--line-l); transition: background 0.3s ease, transform 0.3s ease; }
+  .pathdot.is-active { background: var(--accent); transform: scaleY(2); }
+
+  /* ── Pinned mode: section holds, entries swap ── */
+  .pathpin.is-pinned { height: calc(var(--n) * 90vh); }
+  .pathpin.is-pinned .pathpin__stage {
+    position: sticky; top: 0; height: 100vh; display: flex; align-items: center; overflow: hidden;
+  }
+  .pathpin.is-pinned .pathpin__inner { width: 100%; }
+  .pathpin.is-pinned .pathstage { margin-top: 56px; display: grid; }
+  /* Discrete slides, not a continuous morph: entries sit in three states and CSS
+     animates between them. Both directions move the same way, so scrolling down
+     reads as a swipe up and scrolling up reads as a swipe down, automatically.
+     Grid overlap (1/1) means the stage is as tall as the tallest entry — no
+     fixed height, so it works at every breakpoint. */
+  .pathpin.is-pinned .pentry {
+    grid-area: 1 / 1; border-top: none; padding: 0;
+    opacity: 0; transform: translateY(56px);
+    transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.22, 0.9, 0.24, 1);
+    will-change: transform, opacity; backface-visibility: hidden;
+  }
+  /* Outgoing leaves immediately; incoming waits a beat so you see it arrive. */
+  .pathpin.is-pinned .pentry.is-active {
+    opacity: 1; transform: translateY(0); transition-delay: 110ms;
+  }
+  .pathpin.is-pinned .pentry.is-past {
+    opacity: 0; transform: translateY(-56px); transition-delay: 0ms;
+  }
+  .pathpin.is-pinned .pathdot { display: block; }
+  .pathpin:not(.is-pinned) .pathdots { display: none; }
+
+  /* ── Cursor card: trails the pointer on a spring (design z8JT6T) ──
+     Sized to 90% of the design's 268x222. */
+  .pcursor { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; will-change: transform; }
+  .pcursor__inner {
+    width: 241px; border-radius: 3px; overflow: hidden; background: #0a0a0a;
+    opacity: 0; transform: scale(0.3); transform-origin: 0 0;
+    transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.22, 0.9, 0.24, 1);
+  }
+  .pcursor.is-on .pcursor__inner { opacity: 1; transform: scale(1); }
+  .pcursor__photo { height: 167px; }
+  .pcursor__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pcursor__foot {
+    height: 32px; padding: 11px 13px; display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px;
+  }
+  .pcursor__foot > span:first-child { color: var(--dim-d); }
+  .pcursor__cta { color: var(--accent); }
+  @media (hover: none), (pointer: coarse) { .pcursor { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .pcursor { display: none; } }
 
   /* ── Toolbox ── */
   /* Radar left (480), tools right at ~60% as a 3x5 grid — one axis per row. */
@@ -536,6 +662,7 @@ const lifePhotos = [
   .bench__bar i { position: absolute; left: 0; top: 0; height: 3px; background: var(--accent); }
 
   .axes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .tooltabs { display: none; }
   .tool { height: 148px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;
     background: transparent; outline: 1px solid var(--line-d2); outline-offset: -0.5px; border-radius: var(--radius);
     transition: background 0.2s ease, outline-color 0.2s ease; }
@@ -584,22 +711,69 @@ const lifePhotos = [
 
   @media (max-width: 900px) {
     .sec { padding: 64px 0; }
-    .stats { grid-template-columns: repeat(2, 1fr); }
-    .about__grid { grid-template-columns: 1fr; }
-    .caps { grid-template-columns: 1fr; }
+    .who { padding: 64px var(--pad) 48px; }
+    .what { padding: 48px var(--pad) 96px; }
+    .who__top { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .who__statement { font-size: 34px; line-height: 1.08; letter-spacing: -1.4px; }
+    .who__facts { grid-template-columns: repeat(2, 1fr); margin-top: 32px; }
+    .who__body { grid-template-columns: 1fr; gap: 40px; margin-top: 48px; }
+    .who__portrait { height: 260px; }
+    .what__head { flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 40px; }
+    .what__title { font-size: 44px; letter-spacing: -1.6px; }
+    .what__sub { width: 100%; }
+
+    /* WhatGrid becomes a swipeable slider on mobile. Kept deliberately simple:
+       no negative-margin edge bleed and proximity (not mandatory) snapping, both
+       of which were fighting the initial position. */
+    .what__grid {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 6px;
+      touch-action: pan-x pan-y;
+    }
+    .what__grid::-webkit-scrollbar { display: none; }
+    .cap { flex: 0 0 82%; scroll-snap-align: start; }
+
     .acc__head { grid-template-columns: 32px 1fr 40px; }
     .acc__tag, .acc__yr { display: none; }
     .acc__panel { grid-template-columns: 1fr; }
+    .pathsec { padding: 64px 0; }
     .path__head { flex-direction: column; gap: 24px; }
     .path__hright { align-items: flex-start; width: 100%; }
-    .path::before, .path__node, .path__tick { display: none; }
-    .path__item { display: grid; grid-template-columns: 1fr; gap: 16px; padding: 32px 0; }
-    .path__year, .path__item--flip .path__year {
+    .pathstage { margin-top: 40px; gap: 16px; }
+    .pentry { grid-template-columns: 1fr; gap: 16px; padding: 32px 0; }
+    .pentry__year, .pentry--flip .pentry__year {
       grid-column: 1; grid-row: auto; align-items: flex-start; text-align: left; }
-    .path__card, .path__item--flip .path__card {
+    .pentry__card, .pentry--flip .pentry__card {
       grid-column: 1; grid-row: auto; text-align: left; }
-    .path__item--flip .path__tags { justify-content: flex-start; }
-    .path__y { font-size: 56px; letter-spacing: -2px; }
+    .pentry--flip .pentry__tags { justify-content: flex-start; }
+    .pentry__node, .pentry__tick { display: none; }
+    .pentry__y { font-size: 56px; letter-spacing: -2px; }
+
+    /* Pinned mode on mobile: compact enough to fit one viewport. */
+    .pathpin.is-pinned .pathpin__stage { padding: 24px 0; }
+    .pathpin.is-pinned .pathstage { margin-top: 28px; }
+    .pathpin.is-pinned .pentry { gap: 12px; }
+    .pathpin.is-pinned .pentry__y { font-size: 40px; letter-spacing: -1.6px; }
+    .pathpin.is-pinned .pentry__card { padding: 22px 20px; gap: 10px; }
+    .pathpin.is-pinned .pentry__t { font-size: 20px; letter-spacing: -0.6px; }
+    .pathpin.is-pinned .pentry__d { font-size: 14px; line-height: 1.55; }
+    .pathpin.is-pinned .pathdots { margin-top: 22px; }
+
+    /* Toolbox on mobile: tabs, and only the active axis's tools. */
+    .tooltabs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+    .tooltab {
+      padding: 8px 12px; border: 1px solid var(--line-d2); border-radius: var(--radius);
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--dim-d);
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+    .tooltab.is-active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .axes { margin-top: 20px; }
     .toolbox { padding: 96px 0; }
     .bench { grid-template-columns: 1fr; gap: 40px; }
     .bench__radar { width: 100%; max-width: 480px; margin-inline: auto; }
@@ -619,6 +793,192 @@ const lifePhotos = [
 </style>
 
 <script define:vars={{ panelData }}>
+  // Animated counters for WFacts. Keeps any prefix/suffix ("60+", "08").
+  const counters = document.querySelectorAll('[data-count]');
+  if (counters.length) {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const run = (el) => {
+      const raw = el.getAttribute('data-count') || el.textContent || '';
+      const m = raw.match(/^(\D*)(\d+)(.*)$/);
+      if (!m) return;
+      const [, pre, digits, post] = m;
+      const target = Number(digits);
+      const width = digits.length;
+      if (reduce) {
+        el.textContent = pre + String(target).padStart(width, '0') + post;
+        return;
+      }
+      const dur = 900;
+      const t0 = performance.now();
+      const step = (t) => {
+        const p = Math.min(1, (t - t0) / dur);
+        // ease-out cubic
+        const e = 1 - Math.pow(1 - p, 3);
+        const val = Math.round(target * e);
+        el.textContent = pre + String(val).padStart(width, '0') + post;
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            run(e.target);
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { threshold: 0.5 }
+    );
+    counters.forEach((c) => io.observe(c));
+  }
+
+  // ── Path: pinned scroll. The section holds; entries cross-fade + slide. ──
+  const pin = document.querySelector('[data-pin]');
+  const pathStage = document.querySelector('[data-pathstage]');
+  let pathActive = 0;
+  if (pin && pathStage) {
+    const entries = Array.from(pathStage.querySelectorAll('[data-pentry]'));
+    const dots = Array.from(document.querySelectorAll('[data-pathdot]'));
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canPin = () => !reduceMotion && entries.length > 1;
+    const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+
+    let pinned = false;
+    let current = 0;
+    let pending = -1;
+    let dwell = null;
+
+    const paint = (idx) => {
+      entries.forEach((el, i) => {
+        el.classList.toggle('is-active', i === idx);
+        el.classList.toggle('is-past', i < idx);
+        el.style.pointerEvents = i === idx ? 'auto' : 'none';
+      });
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+      pathActive = idx;
+    };
+
+    const setPinned = (on) => {
+      if (on === pinned) return;
+      pinned = on;
+      pin.classList.toggle('is-pinned', on);
+      clearTimeout(dwell);
+      pending = -1;
+      if (on) {
+        current = 0;
+        paint(0);
+      } else {
+        for (const el of entries) {
+          el.classList.remove('is-active', 'is-past');
+          el.style.pointerEvents = '';
+        }
+      }
+    };
+
+    const renderPath = () => {
+      setPinned(canPin());
+      if (!pinned) return;
+
+      const rect = pin.getBoundingClientRect();
+      const total = pin.offsetHeight - window.innerHeight;
+      const p = total > 0 ? clamp01(-rect.top / total) : 0;
+
+      // Stepped, not interpolated: each entry owns an equal slice of the scroll.
+      const idx = Math.min(entries.length - 1, Math.floor(p * entries.length));
+      if (idx === current) return;
+
+      // Small dwell, so a fast flick lands on the right card without playing
+      // every intermediate transition, but a slow scroll shows each one arrive.
+      if (idx !== pending) {
+        pending = idx;
+        clearTimeout(dwell);
+        dwell = setTimeout(() => {
+          current = pending;
+          paint(current);
+        }, 130);
+      }
+    };
+
+    let ticking = false;
+    const onPathScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        renderPath();
+        ticking = false;
+      });
+    };
+
+    renderPath();
+    window.addEventListener('scroll', onPathScroll, { passive: true });
+    window.addEventListener('resize', onPathScroll);
+  }
+
+  // ── Path: cursor card that trails the pointer on a spring (design z8JT6T) ──
+  const cursorEl = document.querySelector('[data-cursor]');
+  if (
+    cursorEl &&
+    pathStage &&
+    matchMedia('(hover: hover) and (pointer: fine)').matches &&
+    !matchMedia('(prefers-reduced-motion: reduce)').matches
+  ) {
+    const cImg = cursorEl.querySelector('[data-cursor-img]');
+    const cLabel = cursorEl.querySelector('[data-cursor-label]');
+    const entries = Array.from(pathStage.querySelectorAll('[data-pentry]'));
+    let tx = 0, ty = 0, x = 0, y = 0, vx = 0, vy = 0;
+    let on = false;
+    let running = false;
+
+    const applyEntry = (el) => {
+      if (!el) return;
+      const src = el.getAttribute('data-img');
+      const lbl = el.getAttribute('data-label');
+      if (src && cImg && cImg.getAttribute('src') !== src) cImg.setAttribute('src', src);
+      if (lbl && cLabel) cLabel.textContent = lbl;
+    };
+
+    const tick = () => {
+      // Stiff, tightly-damped spring — minimal lag and almost no overshoot.
+      vx = (vx + (tx - x) * 0.32) * 0.68;
+      vy = (vy + (ty - y) * 0.32) * 0.68;
+      x += vx;
+      y += vy;
+      cursorEl.style.transform = `translate3d(${(x + 18).toFixed(1)}px, ${(y + 18).toFixed(1)}px, 0)`;
+      if (on || Math.abs(vx) > 0.1 || Math.abs(vy) > 0.1) {
+        requestAnimationFrame(tick);
+      } else {
+        running = false;
+      }
+    };
+
+    pathStage.addEventListener('pointermove', (e) => {
+      tx = e.clientX;
+      ty = e.clientY;
+      if (!on) {
+        on = true;
+        x = tx;
+        y = ty;
+        vx = 0;
+        vy = 0;
+        cursorEl.classList.add('is-on');
+        applyEntry(entries[pathActive] || entries[0]);
+        if (!running) {
+          running = true;
+          requestAnimationFrame(tick);
+        }
+      }
+      const hit = e.target && e.target.closest ? e.target.closest('[data-pentry]') : null;
+      if (hit) applyEntry(hit);
+    });
+
+    pathStage.addEventListener('pointerleave', () => {
+      on = false;
+      cursorEl.classList.remove('is-on');
+    });
+  }
+
   // Work accordion
   document.querySelectorAll('[data-acc] .acc__head').forEach((head) => {
     head.addEventListener('click', () => {
@@ -635,24 +995,64 @@ const lifePhotos = [
     });
   });
 
-  // Toolbox: hover a radar axis → update the panel + light that axis's row
+  // Toolbox: one active axis drives the panel, the radar labels, the tabs and the tools.
   const cols = document.querySelectorAll('[data-axis]');
   const bLabel = document.getElementById('benchLabel');
   const bPct = document.getElementById('benchPct');
   const bList = document.getElementById('benchList');
+  const toolTabs = Array.from(document.querySelectorAll('[data-tooltab]'));
+  const toolTiles = Array.from(document.querySelectorAll('.tool[data-axis]'));
+  const isNarrow = () => window.innerWidth <= 900;
+
+  let currentAxis = 0;
+
+  // On mobile only the active axis's tools are shown — otherwise the section is
+  // needlessly tall. On desktop all 15 stay, with the active row highlighted.
+  const applyTools = (i) => {
+    if (!isNarrow()) {
+      toolTiles.forEach((t) => (t.hidden = false));
+      return;
+    }
+    toolTiles.forEach((t) => {
+      t.hidden = Number(t.getAttribute('data-axis')) !== i;
+    });
+  };
+
   const activateAxis = (i) => {
     const a = panelData[i];
     if (!a) return;
+    currentAxis = i;
+
     cols.forEach((c) => c.classList.toggle('is-active', Number(c.getAttribute('data-axis')) === i));
-    document.querySelectorAll('.bench__axis').forEach((el) => el.classList.toggle('is-active', Number(el.getAttribute('data-axis')) === i));
+
+    toolTabs.forEach((t) => {
+      const on = Number(t.getAttribute('data-tooltab')) === i;
+      t.classList.toggle('is-active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+
     if (bLabel) bLabel.textContent = a.label;
     if (bPct) bPct.textContent = a.v + '%';
     if (bList) bList.innerHTML = a.items.map((t) => `<li><span>${t}</span><span class="bench__bar"><i style="width:${a.v}%"></i></span></li>`).join('');
+
+    applyTools(i);
   };
+
+  // Radar labels drive it on hover and on tap.
   document.querySelectorAll('.bench__axis').forEach((el) => {
     const i = Number(el.getAttribute('data-axis'));
     el.addEventListener('mouseenter', () => activateAxis(i));
     el.addEventListener('click', () => activateAxis(i));
   });
-  cols.forEach((c, i) => c.addEventListener('mouseenter', () => activateAxis(i)));
+  // Tabs drive it on tap (mobile).
+  toolTabs.forEach((t) => {
+    t.addEventListener('click', () => activateAxis(Number(t.getAttribute('data-tooltab'))));
+  });
+  // Hovering a tool lights its own axis too — by data-axis, not list index.
+  toolTiles.forEach((t) => {
+    t.addEventListener('mouseenter', () => activateAxis(Number(t.getAttribute('data-axis'))));
+  });
+
+  activateAxis(0);
+  window.addEventListener('resize', () => activateAxis(currentAxis));
 </script>

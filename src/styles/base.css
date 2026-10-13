@@ -110,10 +110,12 @@ h1, h2, h3, h4, h5, h6, p, figure {
 .u-dim { color: var(--dim-d); }
 .u-dim-l { color: var(--dim-l); }
 
-/* ── Reveal utility: IntersectionObserver adds .is-in ── */
+/* ── Reveal utility: IntersectionObserver adds .is-in ──
+   Motion spec (design frame us02j): fade in + slide up 32px, 0.5s ease-out,
+   80ms stagger between siblings. */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(32px);
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   transition-delay: calc(var(--i, 0) * 80ms);
   will-change: opacity, transform;

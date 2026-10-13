@@ -13,7 +13,7 @@ import '../../styles/base.css';
 
 import Marquee from './Marquee.astro';
 import Header from './Header.astro';
-import Footer from './Footer.astro';
+import ClosingBand from './ClosingBand.astro';
 
 interface Props {
   title: string;
@@ -22,6 +22,11 @@ interface Props {
   ogImage?: string;
   ogType?: string;
   current?: string;
+  /** Set false on pages whose design has no CTA above the footer (Work Index, Gallery, 404). */
+  cta?: boolean;
+  /** 'none' lets a page compose its own ClosingBand (used by Contact, whose hero
+      shares one gradient with the marquee bar and footer). */
+  band?: 'auto' | 'none';
 }
 
 const {
@@ -31,6 +36,8 @@ const {
   ogImage = '/assets/images/hero-1.png',
   ogType = 'website',
   current = '',
+  cta = true,
+  band = 'auto',
 } = Astro.props;
 
 const site = 'https://amiruan.site';
@@ -95,7 +102,7 @@ const personLd = {
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    {band === 'auto' && <ClosingBand withCta={cta} />}
 
     <style is:global>
       .skip {

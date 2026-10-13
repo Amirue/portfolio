@@ -56,11 +56,14 @@ const items = Array.from({ length: 6 });
     color: var(--orange);
   }
 
+  /* Black bar between the CTA and the footer, over the shared gradient.
+     Opaque #0A0A0A with a #2A2A33 top rule, content inset by --pad (design: pad [0,64]). */
   .mq--closing {
     border-top: 1px solid var(--line-d2);
     border-bottom: none;
     background: var(--ink);
     height: 78px;
+    padding: 0 var(--pad);
     display: flex;
     align-items: center;
   }

@@ -1,0 +1,220 @@
+---
+import Base from '../../components/layout/Base.astro';
+import Glow from '../../components/layout/Glow.astro';
+import { services, serviceBySlug } from '../../data/services';
+import { fetchWorksData } from '../../lib/wordpress';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug } }));
+}
+
+const { slug } = Astro.params;
+const service = serviceBySlug(slug ?? '');
+
+if (!service) {
+  return Astro.redirect('/services');
+}
+
+const allWorks = await fetchWorksData();
+// Pull real posts by type rather than hardcoding designed slugs — some of the
+// slugs in the design don't exist in WordPress (see design/HANDOFF.md §6).
+const related = allWorks.filter((w) => w.type === service.workType).slice(0, 3);
+const others = services.filter((s) => s.slug !== service.slug);
+
+const pad = (n: number) => String(n).padStart(2, '0');
+const typeLabel = (t: string) =>
+  t === 'uiux' ? 'UI/UX' : t === 'wordpress' ? 'WORDPRESS' : t === 'ai' ? 'AI' : t.toUpperCase();
+---
+
+<Base
+  title={`${service.title} — Amiruan`}
+  description={`${service.title}: ${service.tagline} Based in Kuala Lumpur, working with founders, agencies and product teams.`}
+  current="services"
+>
+  <!-- Hero -->
+  <section class="dhero">
+    <Glow variant="a" />
+    <div class="wrap dhero__inner">
+      <span class="dhero__label">{`${service.n} / ${typeLabel(service.workType)}`}</span>
+      <h1 class="dhero__title">{service.title}</h1>
+      <p class="dhero__sub">{service.tagline}</p>
+      <ul class="dchips">
+        {service.chips.map((c) => <li class="dchip">{c}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Body -->
+  <section class="dbody">
+    <div class="wrap">
+      <div class="dblock">
+        <h2 class="dblock__h">What I do</h2>
+        <div class="dgrid">
+          {service.offerings.map((o) => (
+            <div class="offer">
+              <h3 class="offer__t">{o.title}</h3>
+              <p class="offer__d">{o.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="dblock">
+        <div class="dblock__head">
+          <h2 class="dblock__h">Selected work</h2>
+          <a class="dblock__all" href="/work">ALL WORK →</a>
+        </div>
+
+        {related.length > 0 ? (
+          <ul class="wlist">
+            {related.map((w, i) => (
+              <li class="wrow">
+                <a class="wrow__link" href={`/work/${w.slug}/`}>
+                  <span class="wrow__n">{pad(i + 1)}</span>
+                  <span class="wrow__t">{w.title}</span>
+                  <span class="wrow__d">{w.subtitle}</span>
+                  {w.year && <span class="wrow__y">{w.year}</span>}
+                  <span class="wrow__ic" aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="dblock__empty">
+            Nothing published in this area yet — <a href="/contact">get in touch</a> and I&rsquo;ll walk
+            you through the closest work.
+          </p>
+        )}
+      </div>
+
+      <div class="dblock">
+        <h2 class="dblock__h">Other services</h2>
+        <div class="dothers">
+          {others.map((o) => (
+            <a class="dother" href={`/services/${o.slug}/`}>
+              <span class="dother__n">{o.n}</span>
+              <span class="dother__t">{o.title}</span>
+              <span class="dother__ic" aria-hidden="true">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .dhero { position: relative; overflow: hidden; background: var(--ink); }
+  .dhero__inner {
+    position: relative;
+    z-index: 1;
+    padding: 120px var(--pad);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: 471px;
+  }
+  .dhero__label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 4px; color: var(--accent-blue); }
+  .dhero__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 84px;
+    line-height: 1.02;
+    letter-spacing: -3.5px;
+    color: #fff;
+  }
+  .dhero__sub { font-family: var(--font-body); font-size: 19px; line-height: 1.55; color: var(--dim-d); max-width: 760px; }
+  .dchips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .dchip {
+    padding: 6px 14px;
+    border: 1px solid var(--line-d2);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--dim-d);
+  }
+
+  .dbody { background: var(--paper); color: var(--ink); padding: 80px 0; }
+  .dbody > .wrap { display: flex; flex-direction: column; gap: 64px; }
+
+  .dblock { display: flex; flex-direction: column; gap: 32px; }
+  .dblock__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .dblock__h {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    color: var(--ink);
+  }
+  .dblock__all { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; color: var(--accent); }
+  .dblock__empty { font-family: var(--font-body); font-size: 15px; color: var(--dim-l); }
+  .dblock__empty a { color: var(--accent); text-decoration: underline; }
+
+  .dgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .offer { display: flex; flex-direction: column; gap: 8px; }
+  .offer__t { font-family: var(--font-display); font-weight: 500; font-size: 18px; color: var(--ink); }
+  .offer__d { font-family: var(--font-body); font-size: 14px; line-height: 1.55; color: var(--dim-l); }
+
+  .wlist { border-top: 1px solid var(--line-l); }
+  .wrow { border-bottom: 1px solid var(--line-l); }
+  .wrow__link {
+    display: grid;
+    grid-template-columns: 48px minmax(220px, 1.1fr) 1fr auto 40px;
+    align-items: center;
+    gap: 24px;
+    padding: 26px 0;
+  }
+  .wrow__n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: var(--accent-blue); }
+  .wrow__t {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 28px;
+    letter-spacing: -0.8px;
+    color: var(--ink);
+    transition: color 0.2s ease;
+  }
+  .wrow__d { font-family: var(--font-body); font-size: 14px; color: var(--dim-l); }
+  .wrow__y { font-family: var(--font-mono); font-size: 11px; color: var(--accent-blue); }
+  .wrow__ic { font-family: var(--font-mono); font-size: 16px; color: var(--accent); text-align: right; }
+  .wrow__link:hover .wrow__t { color: var(--accent); }
+
+  .dothers { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .dother {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 24px;
+    background: var(--tile);
+    border: 1px solid var(--line-d2);
+    border-radius: var(--radius);
+  }
+  .dother__n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; color: var(--accent-blue); }
+  .dother__t {
+    flex: 1;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 20px;
+    letter-spacing: -0.6px;
+    color: #fff;
+    transition: color 0.2s ease;
+  }
+  .dother__ic { font-family: var(--font-mono); color: var(--accent); }
+  .dother:hover .dother__t { color: var(--accent); }
+
+  @media (max-width: 1000px) {
+    .dhero__inner { padding: 64px var(--pad); min-height: 0; gap: 20px; }
+    .dhero__title { font-size: 44px; letter-spacing: -1.8px; }
+    .dhero__sub { font-size: 16px; }
+    .dbody { padding: 56px 0; }
+    .dbody > .wrap { gap: 48px; }
+    .dblock__h { font-size: 30px; letter-spacing: -1px; }
+    .dgrid { grid-template-columns: 1fr; gap: 20px; }
+    .wrow__link { grid-template-columns: 32px 1fr auto; gap: 14px; }
+    .wrow__d, .wrow__y { display: none; }
+    .wrow__t { font-size: 20px; }
+    .dothers { grid-template-columns: 1fr; }
+  }
+</style>
