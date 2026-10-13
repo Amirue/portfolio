@@ -130,6 +130,10 @@ crawl 16/16; no console errors. Decisions: Work stays WP-driven (user edits WP l
 - **Images:** hero portrait -> `https://wp.amiruan.site/wp-content/uploads/2026/10/amiruan-1.jpg`;
   About profile -> `https://wp.amiruan.site/wp-content/uploads/2026/10/profile.jpg` (both https, 200 image/jpeg;
   hero loads 1000x1261, profile is lazy below the fold).
+- **Closing CTA:** the `g`/`p` descenders in "I design," / "I ship." were clipped by
+  `.closing__mask { overflow: hidden }` — its `padding-bottom: 0.08em` resolved against the mask's
+  16px font, not the 124px display line. Fixed: font-size moved onto the mask + `padding-bottom: 0.12em`
+  with `margin-bottom: -0.12em` (spacing stays 0.94em). Verified ~5px descender clearance at 124px.
 - NOT changed: Work/Selected Work (WP), hero TextLoop jokes, hero marquee text, `design/`.
 
 ## Commits (branch v6-redesign, NOT pushed)

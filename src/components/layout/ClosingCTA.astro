@@ -56,7 +56,12 @@ const { email = 'amiruan12@gmail.com', ctaHref = '/contact' } = Astro.props;
   .closing__mask {
     display: block;
     overflow: hidden;
-    padding-bottom: 0.08em; /* room for descenders on the comma */
+    /* Font-size is on the mask so the padding scales with the display face (the line
+       inherits it). 0.1em clears the 'g'/'p' descenders; the negative margin removes
+       the same amount again so the design's tight 0.94em line spacing is unchanged. */
+    font-size: clamp(44px, 8.6vw, 124px);
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
   }
   /* The mask itself must not move — only the line inside it rises. */
   .closing__mask.reveal {
