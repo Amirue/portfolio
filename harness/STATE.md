@@ -3,8 +3,14 @@
 Source of truth for the V6 verification/commit session. Update after every step.
 
 ## Environment
-- Repo: `C:/Users/light/Documents/New OpenCode Project/portfolio-astro` (branch `v6-redesign`, do NOT push/deploy).
-- Dev server: `node harness/dev.mjs start|stop|restart|status` (detached; kills :4321 first). URL http://localhost:4321.
+- Repo (CANONICAL): `C:/Users/light/Documents/New OpenCode Project/portfolio-clean` (branch `v6-redesign`, do NOT push/deploy).
+- RETIRED: `C:/Users/light/Documents/New OpenCode Project/portfolio-astro` was the earlier copy; it
+  diverged and is now renamed `portfolio-astro-ARCHIVED` (kept for history, do NOT re-adopt — all V6
+  work lives in portfolio-clean). Its only unique content (local-.docx resume links + `public/resume/`)
+  was superseded by portfolio-clean's WordPress-hosted PDF.
+- Dev server: `node harness/dev.mjs start|stop|restart|status` (detached; kills :4321 first, process-tree
+  kill + re-scan port up to 3x, prints one line "up <code>" / "failed: <reason>"). URL http://localhost:4321.
+  The user starts/stops it themselves now — don't manage it.
 - Local WP (Laragon): MySQL `mysqld` + Apache `httpd`; root `C:/laragon/www/portfolio-wp`;
   API `http://localhost/portfolio-wp/wp-json/wp/v2`; work slugs (6): ai-kiosk-interface, headless-commerce,
   fintech-dashboard, ai-knowledge-assistant, automated-printing, brand-website-redesign.
