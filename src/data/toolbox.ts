@@ -37,9 +37,9 @@ export const axes: Axis[] = [
     short: 'WORDPRESS',
     label: 'WORDPRESS',
     v: 92,
-    items: ['Elementor Pro', 'Bricks Builder', 'Divi', 'Custom themes & PHP'],
+    items: ['Breakdance', 'Elementor Pro', 'Divi', 'Custom themes & PHP'],
     tools: [
-      { n: '04', letter: 'Br', name: 'Bricks' },
+      { n: '04', letter: 'Bd', name: 'Breakdance' },
       { n: '05', letter: 'Dv', name: 'Divi' },
       { n: '06', letter: 'El', name: 'Elementor', logo: 'M12 0C5.372 0 0 5.372 0 12c0 6.626 5.372 12 12 12s12-5.372 12-12c0-6.626-5.372-12-12-12ZM9 17H7V7H9Zm8 0H11V15h6Zm0-4H11V11h6Zm0-4H11V7h6Z' },
     ],

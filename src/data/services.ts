@@ -26,12 +26,12 @@ export const services: Service[] = [
     n: '01',
     title: 'WordPress & Web Development',
     tagline: 'Custom builds and client platforms that hold up under real traffic.',
-    chips: ['WordPress', 'Elementor Pro', 'Bricks', 'Divi', 'PHP', 'MySQL'],
+    chips: ['WordPress', 'Breakdance', 'Elementor Pro', 'Divi', 'PHP', 'MySQL'],
     workType: 'wordpress',
     offerings: [
       {
         title: 'Custom themes & page builds',
-        desc: 'Bespoke WordPress themes and page-builder builds (Elementor Pro, Bricks, Divi) matched to your brand — not a one-size template.',
+        desc: 'Bespoke WordPress themes and page-builder builds (Breakdance, Elementor Pro, Divi) matched to your brand — not a one-size template.',
       },
       {
         title: 'Client sites & ongoing care',
