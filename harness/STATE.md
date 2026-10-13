@@ -60,7 +60,12 @@ Both:
   (batch from design agent + this session's harness; all 6 untracked paths staged).
 - `chore(harness): ignore harness/logs runtime output` — .gitignore `harness/logs/*` + `!harness/logs/.gitkeep`;
   untracked committed build.log/check.log.
+- `3b9ec59` fix(toolbox): hide inactive tool tiles on mobile.
+- `cef621e` chore: drop dead legacy assets (public/assets css + js; incl. orphan posts.js).
+- `dfcbc85` feat(work): kiosk UI mock in the featured Work accordion panel.
+- `30791dc` fix(footer): match design height (gap 40, drop extra mid padding) — footer 321->273, band 1153.
 
 ## Next
-- Remaining open items above (email, socials, resume, slugs, kiosk mock, public/ dead weight).
+- Remaining open items above (contact email, socials, resume, slugs, public/ images dead weight).
+- PHASE3 §5 closing/footer heights now match. About (WFacts/Process) + Toolbox (3x5) already built by design agent.
 - Nothing else verified outstanding from Job 1.
