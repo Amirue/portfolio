@@ -48,8 +48,8 @@ Both:
   surfaces (contact.astro:6, ClosingCTA.astro:8, Footer.astro:8) — no code change.
 - (resolved) "Ask AI" terminal + "UX Pathfinder": absent from src/ — already dropped in the V6 rebuild.
 - (resolved) Footer socials: build already matches the design's four — Instagram, LinkedIn, GitHub,
-  Email (Footer.astro:4-9). Caveat: GitHub href is `github.com/Amirue`; HANDOFF §5 says
-  `github.com/amiruan` — one is wrong, still needs confirmation.
+  Email (Footer.astro:4-9). GitHub href `github.com/Amirue` confirmed correct by user; HANDOFF §5's
+  `github.com/amiruan` is outdated (design/ is read-only, so left as-is).
 - (resolved) Resume: DOWNLOAD RESUME now points at the user-supplied PDF
   `https://wp.amiruan.site/wp-content/uploads/2026/10/Resume_Muhammad_Amiruddin_Bin_Zulkifli-1.pdf`
   (index.astro:138, :255). Verified 200 application/pdf over https; 2 links on `/`.
@@ -78,9 +78,7 @@ Both:
 - `87742ad` feat(home): wire DOWNLOAD RESUME to the real PDF (index.astro:138, :255).
 
 ## Next
-- All previously-open "do NOT guess" decisions are now resolved (contact email, socials, Ask AI /
-  UX Pathfinder, resume, work slugs).
-- Only loose end: footer GitHub href `github.com/Amirue` vs HANDOFF `github.com/amiruan` — confirm
-  which is the real account.
+- ALL previously-open "do NOT guess" decisions are now resolved (contact email, socials incl. GitHub,
+  Ask AI / UX Pathfinder, resume, work slugs). No open items remain.
 - PHASE3 §5 closing/footer heights now match. About (WFacts/Process) + Toolbox (3x5) already built by design agent.
 - Nothing else verified outstanding from Job 1. No push/deploy.
