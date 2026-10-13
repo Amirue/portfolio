@@ -46,10 +46,15 @@ Both:
 ## Open (do NOT guess)
 - (resolved) Contact email: user confirmed `amiruan12@gmail.com`. Build already uses it on all
   surfaces (contact.astro:6, ClosingCTA.astro:8, Footer.astro:8) — no code change.
-- Keep/drop Ask AI terminal + UX Pathfinder.
-- Footer socials final four.
-- Resume file for DOWNLOAD RESUME (#).
-- Work slugs: design 6 vs WP 6, only 2 overlap.
+- (resolved) "Ask AI" terminal + "UX Pathfinder": absent from src/ — already dropped in the V6 rebuild.
+- (resolved) Footer socials: build already matches the design's four — Instagram, LinkedIn, GitHub,
+  Email (Footer.astro:4-9). Caveat: GitHub href is `github.com/Amirue`; HANDOFF §5 says
+  `github.com/amiruan` — one is wrong, still needs confirmation.
+- (resolved) Resume: DOWNLOAD RESUME now points at the user-supplied PDF
+  `https://wp.amiruan.site/wp-content/uploads/2026/10/Resume_Muhammad_Amiruddin_Bin_Zulkifli-1.pdf`
+  (index.astro:138, :255). Verified 200 application/pdf over https; 2 links on `/`.
+- (resolved) Work slugs: user chose to KEEP the current WP 6 (no new posts, no redirects); crawl
+  was already green (no dead links).
 - (resolved) Accordion kiosk UI mock built: `src/components/KioskMock.astro` (620x412, #0D0D12) shown for
   slug `ai-kiosk-interface` in the Work accordion panel; other projects keep image/PREVIEW SOON.
   Verified 1440: 620x412, 35 wave bars, "KIOSK · TABLE 04", "CONFIRM ORDER", "RM 15.50"; 390: 310x412, docW 390.
@@ -70,10 +75,12 @@ Both:
 - `30791dc` fix(footer): match design height (gap 40, drop extra mid padding) — footer 321->273, band 1153.
 - `c9853e5` docs(harness): state after kiosk mock + footer height + asset cleanup.
 - `6a8d12e` chore: drop dead gallery placeholder svgs (g01-g12; orphaned by cef621e) + contact-email decision.
+- `87742ad` feat(home): wire DOWNLOAD RESUME to the real PDF (index.astro:138, :255).
 
 ## Next
-- Remaining open items all need a human decision (contact email, socials, resume file, work slugs) —
-  contact email is the highest-impact (design vs build disagree, affects every contact surface).
-- public/ image dead weight resolved this session (g01–g12.svg removed; build PASS).
+- All previously-open "do NOT guess" decisions are now resolved (contact email, socials, Ask AI /
+  UX Pathfinder, resume, work slugs).
+- Only loose end: footer GitHub href `github.com/Amirue` vs HANDOFF `github.com/amiruan` — confirm
+  which is the real account.
 - PHASE3 §5 closing/footer heights now match. About (WFacts/Process) + Toolbox (3x5) already built by design agent.
-- Nothing else verified outstanding from Job 1.
+- Nothing else verified outstanding from Job 1. No push/deploy.
