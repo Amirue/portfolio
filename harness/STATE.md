@@ -104,6 +104,22 @@ Dev CSS proven fresh first (base.css serves `translateX(-50%)` + `.tloop`). All 
 - **Flag:** `Marquee.astro` still carries dead `.mq--top` CSS (variant="top" no longer used anywhere;
   only `variant="closing"` is used, in ClosingCTA.astro:28). Harmless, but can be pruned.
 
+## Batch — resume content alignment (verified this session)
+User supplied their resume; rewrote static copy to follow it. Build 15 pages PASS; check 200/200;
+crawl 16/16; no console errors. Decisions: Work stays WP-driven (user edits WP later, label
+"Built at Light Up 7 · Client: …"); stats confirmed; services copy aligned.
+- **About stats:** `03` YEARS IN WORDPRESS · `20+` WEBSITES PUBLISHED · `80K` EMAILS HANDLED · `10+` EVENTS DELIVERED.
+- **About writeup:** UTM Software Engineering; Figma/WordPress/AI-assisted; badge-printing + 20k-student e-learning.
+- **What I do (3 cards):** UI/UX Design · WordPress & Web Development · AI-Assisted Development.
+- **Education & Experience (6 pentry):** 2020 UTM SE → 2022 Orchestra Instructor (SM Sains Raja Tun Azlan Shah,
+  Taiping) → 2023 Lumen7 internship (Shah Alam; Theta Edge/Sime Darby/AEON) → 2024 Graduated CGPA 3.80
+  (Dean's List ×7, Sembang Kamus FYP) → 2024 Junior Web Dev & Designer, Light Up 7 → NEXT.
+- **Workbench (toolbox.ts):** WordPress→Bricks/Divi/Elementor; Frontend→HTML5/CSS3/JavaScript (logos added,
+  replaced Next/React/Tailwind); Backend items PHP & MySQL / Node.js & PostgreSQL / cPanel & WHM / Cloudflare.
+- **services.ts:** offerings/chips rewritten (Elementor Pro/Bricks/WHM/Stripe/SendGrid; Figma/Affinity/Photoshop/
+  Illustrator; Replit/OpenCode/Node/PostgreSQL).
+- NOT changed: Work/Selected Work (WP), hero TextLoop jokes, hero marquee text, `design/`.
+
 ## Commits (branch v6-redesign, NOT pushed)
 - `d838136` feat(v6): closing band shared gradient, gallery + case study on V6, services/contact/404 routes
   (batch from design agent + this session's harness; all 6 untracked paths staged).

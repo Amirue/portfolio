@@ -24,30 +24,30 @@ const featured = works.slice(0, 3);
 
 // ── Static copy (declared here so a CPT swap later is a one-line change) ──
 const stats = [
-  { n: '08', label: 'YEARS BUILDING' },
-  { n: '60+', label: 'PROJECTS SHIPPED' },
-  { n: '12', label: 'COUNTRIES WORKED WITH' },
-  { n: '100', label: 'LIGHTHOUSE SCORE' },
+  { n: '03', label: 'YEARS IN WORDPRESS' },
+  { n: '20+', label: 'WEBSITES PUBLISHED' },
+  { n: '80K', label: 'EMAILS HANDLED' },
+  { n: '10+', label: 'EVENTS DELIVERED' },
 ];
 
 const capabilities = [
   {
     n: '01',
     title: 'UI/UX Design',
-    desc: 'Interfaces that are easy to use, look clean, and work on every screen.',
-    items: ['Design systems in Figma', 'Wireframes & prototypes', 'Micro-interactions & motion', 'Accessibility (WCAG AA)'],
+    desc: 'Interfaces that are easy to use, look clean, and hold up on every screen.',
+    items: ['Design systems in Figma', 'Wireframes & prototypes', 'Affinity · Photoshop · Illustrator', 'Accessibility (WCAG AA)'],
   },
   {
     n: '02',
-    title: 'WordPress & Frontend',
-    desc: 'Custom builds and frontends that hold up under real traffic.',
-    items: ['Custom themes & blocks', 'ACF Pro & custom post types', 'Headless (GraphQL / REST)', 'Core Web Vitals & speed'],
+    title: 'WordPress & Web Development',
+    desc: 'Custom builds and client platforms that survive real traffic.',
+    items: ['Elementor Pro, Bricks & Divi', 'HTML, CSS, JavaScript, PHP, MySQL', 'cPanel, WHM & Cloudflare', 'SendGrid & Stripe integrations'],
   },
   {
     n: '03',
-    title: 'AI Integration',
-    desc: 'Practical AI that solves a real problem, not a chatbot bolted on for show.',
-    items: ['LLM agents & prompting', 'RAG & vector search', 'Workflow automation', 'Realtime (WebSockets)'],
+    title: 'AI-Assisted Development',
+    desc: 'Practical AI and modern tooling that gets working software out faster.',
+    items: ['Replit & OpenCode', 'Node.js & PostgreSQL', 'LLM agents & prompting', 'Workflow automation'],
   },
 ];
 
@@ -59,10 +59,11 @@ const process = [
 ];
 
 const path = [
-  { y: '2020', k: 'EDUCATION', t: 'Started the degree', d: 'Entered university and learned the fundamentals — along with the fact that I would rather be building than reading about it.', x: ['React', 'Figma'], img: '/assets/images/hero-1.png' },
-  { y: '2023', k: 'EXPERIENCE', t: 'Internship', d: 'First industry role. Shipped real work, sat in real reviews, and learned how a team actually operates.', x: ['WordPress', 'JavaScript'], img: '/assets/images/wc-2.jpg' },
-  { y: '2024', k: 'EDUCATION', t: 'Graduated, First Class', d: 'Finished with a First Class degree. Final year spent on interface design and prototyping.', x: ['Figma', 'Research'], img: '/assets/images/hero-3.png' },
-  { y: '2024', k: 'EXPERIENCE', t: 'Junior Web Developer', d: 'First full-time role. WordPress builds, frontend work, and a lot of shipping.', x: ['WordPress', 'PHP'], img: '/assets/images/wc-1.jpg' },
+  { y: '2020', k: 'EDUCATION', t: 'UTM — Software Engineering', d: 'Started a Software Engineering degree at Universiti Teknologi Malaysia, Skudai, Johor.', x: ['Software Engineering', 'UTM'], img: '/assets/images/hero-1.png' },
+  { y: '2022', k: 'EXPERIENCE', t: 'Orchestra Instructor', d: 'Taught woodwind and ran rehearsals at SM Sains Raja Tun Azlan Shah, Taiping — including state-level performances.', x: ['Taiping, Perak'], img: '/assets/images/wc-2.jpg' },
+  { y: '2023', k: 'EXPERIENCE', t: 'Web Designer & Developer — Internship', d: 'At Lumen7, Shah Alam, shipped client sites — Theta Edge, Sime Darby Energy Solutions, AEON — and design systems in Figma.', x: ['WordPress', 'Figma'], img: '/assets/images/wc-1.jpg' },
+  { y: '2024', k: 'EDUCATION', t: 'Graduated — CGPA 3.80', d: 'First Class honours and Dean\u2019s List for seven semesters. Final year project: Sembang Kamus, an AI chatbot for DBP\u2019s dictionary.', x: ['Dean\u2019s List', 'AI'], img: '/assets/images/hero-3.png' },
+  { y: '2024', k: 'EXPERIENCE', t: 'Junior Web Developer & Designer', d: 'At Light Up 7, Kuala Lumpur — client WordPress platforms for Bank Negara Malaysia, FENetwork and PETRONAS/TFM, an event badge-printing system, and an e-learning platform serving 20,000+ students.', x: ['WordPress', 'Node.js'], img: '/assets/images/wc-3.jpg' },
   { y: 'NEXT', k: 'OPEN', t: 'Your team?', d: 'Currently open to new work. Maybe the next line on this list is with you.', x: ["Let's talk"], img: '/assets/images/hero-2.png' },
 ];
 
@@ -170,9 +171,9 @@ const lifePhotos = [
           <p class="reveal who__note">Currently taking on freelance work and open to full-time roles. Usually reply within a day.</p>
         </div>
         <div class="who__right">
-          <p class="reveal t-body">I got into this because I was curious why some websites feel easy to use and others feel like homework. That curiosity turned into a career.</p>
-          <p class="reveal t-body">I design interfaces, build WordPress systems, and plug in AI where it actually helps. I work with founders, agencies and product teams who want something clean and fast. Not trendy for the sake of it.</p>
-          <p class="reveal t-body">Off the clock I am usually reading about typography or poking at some new tool. I care about the small details that make software feel like someone actually thought about the person using it.</p>
+          <p class="reveal t-body">I am a web developer and designer from Kuala Lumpur with a Software Engineering degree from UTM. I build production websites — mostly on WordPress — and I care how they look as much as how they run.</p>
+          <p class="reveal t-body">Day to day I do everything from client site maintenance to shipping custom products: an automated badge-printing system for live events, an e-learning platform used by more than 20,000 students, and the design systems behind them. I work in Figma, build with WordPress and modern JavaScript, and lean on AI tooling where it genuinely speeds things up.</p>
+          <p class="reveal t-body">Off the clock I read about typography, play chess, and poke at whatever new tool caught my eye. I care about the small details that make software feel like someone actually thought about the person using it.</p>
         </div>
       </div>
     </div>
@@ -265,7 +266,7 @@ const lifePhotos = [
           <div class="path__head reveal">
             <h2 class="t-h2">Education &amp; Experience</h2>
             <div class="path__hright">
-              <p class="path__sub">Where I have worked and what I did there. Short version: I have been at this since 2018.</p>
+              <p class="path__sub">Where I studied and worked, and what I did there — from a UTM software engineering degree to full-time client work.</p>
               <a href="https://wp.amiruan.site/wp-content/uploads/2026/10/Resume_Muhammad_Amiruddin_Bin_Zulkifli-1.pdf" target="_blank" rel="noopener noreferrer" class="path__btn">
                 <span>DOWNLOAD RESUME</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
