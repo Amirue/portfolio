@@ -119,18 +119,12 @@ const lifePhotos = [
     </div>
 
     <figure class="hero__portrait">
-      <img src="https://wp.amiruan.site/wp-content/uploads/2026/10/amiruan-1.jpg" alt="Portrait of Amiruan" width="336" height="420" />
+      <img src="https://wp.amiruan.site/wp-content/uploads/2026/10/amiruan-1.jpg" alt="Portrait of Amiruan" width="370" height="462" />
       <span class="hero__scrim" aria-hidden="true"></span>
       <span class="hero__scan" aria-hidden="true"></span>
       <span class="hero__pgrid" aria-hidden="true"></span>
       <span class="hero__frame" aria-hidden="true"></span>
       <span class="hero__bar" aria-hidden="true"></span>
-      <span class="hero__hud hero__hud--tl">AMIRUAN_002.RAW</span>
-      <span class="hero__hud hero__hud--tr">● REC</span>
-      <span class="hero__hud hero__hud--bl">f/1.8 1/250 ISO 400</span>
-      <span class="hero__hud hero__hud--br" aria-hidden="true">
-        <i></i><i></i><i></i><i></i><i></i><i></i>
-      </span>
       <h1 class="hero__title">
         <span>I BUILD</span>{' '}
         <span>DIGITAL</span>{' '}
@@ -448,9 +442,9 @@ const lifePhotos = [
   .hero__track--l { animation: marquee 46s linear infinite; }
   .hero__track--r { animation: marqueeR 46s linear infinite; }
 
-  .hero__portrait { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 336px; height: 420px; overflow: hidden; }
+  .hero__portrait { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 370px; height: 462px; overflow: hidden; }
   .hero__portrait img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.05) saturate(0.95); }
-  .hero__scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 245px;
+  .hero__scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 270px;
     background: linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0.72) 55%, rgba(10,10,10,0.93) 100%); }
   .hero__scan { position: absolute; inset: 0;
     background: repeating-linear-gradient(180deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 25px); }
@@ -465,17 +459,6 @@ const lifePhotos = [
   .hero__title-c { color: var(--accent); }
 
   .hero__hud { position: absolute; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--accent-blue); }
-  .hero__hud--tl { left: 16px; top: 16px; }
-  .hero__hud--tr { right: 16px; top: 16px; color: var(--accent); }
-  .hero__hud--bl { left: 16px; top: 34px; color: var(--dim-d); }
-  .hero__hud--br { right: 16px; bottom: 17px; display: flex; align-items: flex-end; gap: 4px; }
-  .hero__hud--br i { display: block; width: 5px; background: var(--accent-blue); }
-  .hero__hud--br i:nth-child(1) { height: 5px; }
-  .hero__hud--br i:nth-child(2) { height: 8px; }
-  .hero__hud--br i:nth-child(3) { height: 11px; }
-  .hero__hud--br i:nth-child(4) { height: 14px; }
-  .hero__hud--br i:nth-child(5) { height: 17px; }
-  .hero__hud--br i:nth-child(6) { height: 20px; }
   .hero__hud--foot { left: 6.25%; bottom: 10px; font-size: 9px; color: rgba(255,255,255,0.6); }
 
   .hero__top { position: absolute; left: 64px; top: 48px; display: flex; flex-direction: column; gap: 6px;

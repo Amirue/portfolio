@@ -124,8 +124,9 @@ crawl 16/16; no console errors. Decisions: Work stays WP-driven (user edits WP l
 - **Hero:** height now tracks the space below the 76px header (clamp 680–1000) and the portrait +
   marquee band are vertically centred (top:50% + translateY(-50%)), so they no longer sit low in a
   fixed 1000px box on laptops. Verified 1366x768 (centre y423) and 1440x900 (centre y489) = centre
-  of the visible area below the header. Portrait shrunk 30% to **336x420** (was 480x600); scrim 245px;
-  hud--foot anchored bottom:10px so it clears the headline.
+  of the visible area below the header. Portrait 480x600 -> 336x420 -> **370x462**; scrim 270px;
+  hud--foot anchored bottom:10px. Removed the RAW / REC / exposure HUD text and the signal-bar
+  indicator (`.hero__hud--tl/--tr/--bl/--br`); only the "KUALA LUMPUR · 2026" foot line remains.
 - **Images:** hero portrait -> `https://wp.amiruan.site/wp-content/uploads/2026/10/amiruan-1.jpg`;
   About profile -> `https://wp.amiruan.site/wp-content/uploads/2026/10/profile.jpg` (both https, 200 image/jpeg;
   hero loads 1000x1261, profile is lazy below the fold).
