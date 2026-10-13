@@ -22,11 +22,11 @@ Mobile 390 (emulate 390x844): w=390 docW=390
 - `.what__grid` scrollable (scrollW 894 > clientW 350); first card left=20 (flush);
 - `.tooltabs` display:flex; CTA line transition-delay 0s / 0.16s / 0.32s; no horiz overflow. PASS.
 - Panel wiring PASS: axis2 -> "AI / LLM" + tab 2; axis4 -> "BACKEND" + tab 4; tab1 -> "WORDPRESS".
-- **FAIL — mobile tool tiles: 15 visible, expected 3 (active axis only).**
-  Root cause: `.tool { display:flex }` (index.astro:666) overrides the `[hidden]` attribute that the JS sets
-  correctly (`t.hidden`). Other components define a `[hidden]` rule (gallery `.post[hidden]`,
-  header `.hd__menu[hidden]`, work `.wcard[hidden]`) but index.astro has none for `.tool`.
-  Fix (NOT applied — user said report only): add `.tool[hidden] { display:none; }` (or !important) near line 666.
+- **(was FAIL, now FIXED) mobile tool tiles: 15 visible, expected 3 (active axis only).**
+  Root cause: `.tool { display:flex }` (index.astro:666) overrides the `[hidden]` attribute the JS sets.
+  Fix `.tool[hidden] { display:none; }` (index.astro:671) was added OUTSIDE this session (after the first
+  commit `d838136`, so it was NOT in that commit). Re-verified at 390: initial axis0 = 1 axis / 3 tiles,
+  hover axis2 -> 3 tiles, tab1 -> 3 tiles, docW 390 (no overflow). Committed as `fix(toolbox): …`.
 
 Both:
 - `/contact`: glow=1, .band=1, .chero=1, .closing=0, .ft=1. PASS (CTA removed; hero/marquee/footer share gradient).
@@ -51,7 +51,14 @@ Both:
 - Work slugs: design 6 vs WP 6, only 2 overlap.
 - Accordion expanded panel still WP featured image (not kiosk mock).
 - Dead weight in public/: assets/css/styles.css, gallery.css, assets/js/main.js, gallery.js.
-- **Mobile `.tool[hidden]` fix pending (the one Job-1 FAIL).**
+- (resolved) mobile `.tool[hidden]` fix applied + verified.
+
+## Commits (branch v6-redesign, NOT pushed)
+- `d838136` feat(v6): closing band shared gradient, gallery + case study on V6, services/contact/404 routes
+  (batch from design agent + this session's harness; all 6 untracked paths staged).
+- `chore(harness): ignore harness/logs runtime output` — .gitignore `harness/logs/*` + `!harness/logs/.gitkeep`;
+  untracked committed build.log/check.log.
 
 ## Next
-- Job 2: commit (include 6 untracked paths + harness/; do NOT push/deploy). `git add -A`.
+- Remaining open items above (email, socials, resume, slugs, kiosk mock, public/ dead weight).
+- Nothing else verified outstanding from Job 1.
