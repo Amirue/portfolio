@@ -126,7 +126,17 @@ h1, h2, h3, h4, h5, h6, p, figure {
   transform: none;
 }
 
-/* ── Marquee ── */
+/* ── Marquee ──
+   Seamless loop. The track holds an even number of identical items, and
+   `padding-right` equal to the gap makes its width an exact multiple of the item
+   period (w + gap). Shifting by -50% then lands precisely on the second half, so
+   the loop is invisible.
+
+   The old keyframe shifted -100% — the track's own full width — which dragged the
+   whole thing off-screen and left the tail empty before snapping back. That's the
+   "stops, then restarts" behaviour.
+
+   Each instance may override the spacing with `--mq-gap`. */
 .marquee {
   overflow: hidden;
   white-space: nowrap;
@@ -135,10 +145,9 @@ h1, h2, h3, h4, h5, h6, p, figure {
 
 .marquee__track {
   display: inline-flex;
-  gap: 44px;
+  gap: var(--mq-gap, 44px);
+  padding-right: var(--mq-gap, 44px);
   flex-shrink: 0;
-  min-width: 100%;
-  justify-content: space-around;
   animation: marquee var(--marquee-duration, 40s) linear infinite;
 }
 
@@ -146,9 +155,71 @@ h1, h2, h3, h4, h5, h6, p, figure {
   animation-play-state: paused;
 }
 
+/* Per-instance marquee spacing.
+   Declared HERE, next to the rule that consumes it, so `gap` and the seam-closing
+   `padding-right` can never drift apart — they must be equal or the -50% shift
+   lands mid-item and the loop visibly stutters.
+
+   (This previously lived in each page's scoped <style>. That split caused a real bug:
+   the page style set `gap: 40px` while `padding-right` fell back to its 44px default,
+   so the track width was 2px off a clean multiple and the seam jumped.) */
+.hero__track,
+.whero__track,
+.ghero__track,
+.life__ttrack {
+  --mq-gap: 40px;
+}
+.life__track {
+  --mq-gap: 16px;
+}
+@media (max-width: 1100px) {
+  .hero__track { --mq-gap: 24px; }
+}
+
 @keyframes marquee {
   from { transform: translateX(0); }
-  to   { transform: translateX(-100%); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Reverse direction. Must use the same -50% distance as the forward keyframe —
+   the old -100% dragged the track fully off-screen, which is why the reverse rows
+   (hero rows 2 and 4) still showed a gap after the forward rows were fixed. */
+@keyframes marqueeR {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+/* ── TextLoop ──
+   Cycles phrases one at a time with a vertical roll (design ref: motion-primitives
+   TextLoop). inline-grid + grid-area 1/1 so the box size is the WIDEST phrase —
+   absolute positioning would collapse it and normal flow would reflow on every swap. */
+.tloop {
+  display: inline-grid;
+  overflow: hidden;
+  height: 1.4em;
+  vertical-align: bottom;
+}
+
+.tloop__item {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(105%);
+  transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.tloop__item.is-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tloop__item.is-out {
+  opacity: 0;
+  transform: translateY(-105%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tloop__item { transition: none; }
 }
 
 /* ── Focus states (visible on dark and light) ── */

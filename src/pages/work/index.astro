@@ -38,12 +38,12 @@ const range = years.length ? `${Math.min(...years)} — ${Math.max(...years)}` :
     <div class="whero__band" aria-hidden="true">
       <div class="marquee whero__row">
         <div class="marquee__track whero__track whero__track--l">
-          {[0, 1, 2, 3].map(() => <span>// THINGS I ACTUALLY BUILT</span>)}
+          {[0, 1, 2, 3, 4, 5].map(() => <span>// THINGS I ACTUALLY BUILT</span>)}
         </div>
       </div>
       <div class="marquee whero__row">
         <div class="marquee__track whero__track whero__track--r">
-          {[0, 1, 2, 3].map(() => <span class="whero__outline">AI · WORDPRESS · UI/UX · FRONTEND</span>)}
+          {[0, 1, 2, 3, 4, 5].map(() => <span class="whero__outline">AI · WORDPRESS · UI/UX · FRONTEND</span>)}
         </div>
       </div>
     </div>
@@ -126,7 +126,7 @@ const range = years.length ? `${Math.min(...years)} — ${Math.max(...years)}` :
 
   .whero__band { position: absolute; left: 0; right: 0; top: 273px; }
   .whero__row { height: 78px; overflow: hidden; }
-  .whero__track { gap: 40px; align-items: center; height: 100%; }
+  .whero__track { align-items: center; height: 100%; }
   .whero__track span {
     font-family: var(--font-mono);
     font-weight: 700;
@@ -135,10 +135,10 @@ const range = years.length ? `${Math.min(...years)} — ${Math.max(...years)}` :
     color: #fff;
     white-space: nowrap;
   }
-  .whero__outline { color: transparent !important; -webkit-text-stroke: 1px rgba(77, 184, 255, 0.28); }
+  /* Design: faint solid blue, not an outline — #4DB8FF38 (22%). */
+  .whero__outline { color: rgba(77, 184, 255, 0.22) !important; }
   .whero__track--l { animation: marquee 58s linear infinite; }
   .whero__track--r { animation: marqueeR 58s linear infinite; }
-  @keyframes marqueeR { from { transform: translateX(-100%); } to { transform: translateX(0); } }
 
   .whero__foot {
     position: absolute;

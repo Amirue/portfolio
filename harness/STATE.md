@@ -8,10 +8,16 @@ Source of truth for the V6 verification/commit session. Update after every step.
   diverged and must NOT be re-adopted — all V6 work lives in portfolio-clean. Its only unique content
   (local-.docx resume links in `src/pages/index.astro` + untracked `public/resume/amiruddin-zulkifli-resume.docx`)
   was superseded by portfolio-clean's WordPress-hosted PDF; nothing unique remains.
-  **Rename to `portfolio-astro-ARCHIVED` is still PENDING** — it can't be done while OpenChamber runs:
-  both opencode hosts respawn Pen (`mcp-server-windows-x64.exe`, `--agent openCodeCLI`) with the old dir
-  as cwd, which holds the directory handle. Do it after closing OpenChamber/Pen:
-  `Rename-Item 'C:/Users/light/Documents/New OpenCode Project/portfolio-astro' 'portfolio-astro-ARCHIVED'`.
+  **NOT being renamed — decided 2026-10-13.** The earlier plan to rename it to
+  `portfolio-astro-ARCHIVED` is dropped; the folder is simply left as-is. (It also isn't
+  mechanically possible while OpenChamber runs: both opencode hosts respawn Pen
+  (`mcp-server-windows-x64.exe`, `--agent openCodeCLI`) with the old dir as cwd, which holds
+  the directory handle — and reopening the apps re-creates the hold rather than releasing it.)
+  A marker file `portfolio-astro/ARCHIVED.md` stands in its place and points readers here.
+
+  **WORKING CONVENTION: every session on this project uses `portfolio-clean` only.** If you
+  are an agent and your cwd or file path says `portfolio-astro`, you are in the wrong repo —
+  switch to `portfolio-clean` before doing anything.
 - Dev server: `node harness/dev.mjs start|stop|restart|status` (detached; kills :4321 first, process-tree
   kill + re-scan port up to 3x, prints one line "up <code>" / "failed: <reason>"). URL http://localhost:4321.
   The user starts/stops it themselves now — don't manage it.
@@ -73,6 +79,30 @@ Both:
   `public/assets/js/data/posts.js` (also `cef621e`) — removed this session; build 15 pages PASS.
   `hero-1/2/3.png`, `profile.png`, `wc-1/2/3.jpg` are all still referenced (index.astro, Base.astro).
 - (resolved) mobile `.tool[hidden]` fix applied + verified.
+
+## Batch — marquee loop / TextLoop / cap cards (verified this session)
+Dev CSS proven fresh first (base.css serves `translateX(-50%)` + `.tloop`). All via CDP on :4321.
+- **1 Marquee loop PASS.** Every `.marquee__track` (7 on `/`): computed `gap === padding-right`,
+  seam delta (item N/2 offset − half track width) = 0.00px. Ratios track/container: hero rows
+  2.54 / 6.84 / 2.10 / 4.17, life ticker 2.38, closing 2.97 — all ≥2. Mobile hero 24/24 seam 0.
+  Caveat: `.life__track` ratio is 0.71 **until its lazy images load** (then 3.43); it's off-screen
+  at first paint, so fine in practice but a pre-load gap exists.
+- **2 TextLoop PASS.** 8 `.tloop__item`, exactly one `.is-active` (0 non-single frames over 6s),
+  advance every ~2666ms, container width constant at 336px (inline-grid sized to widest phrase).
+  `mq--top` usage on `/` = 0; `CREATIVE DEVELOPER` gone from served HTML.
+- **3 Cap cards PASS.** 1440: 3 `.cap`, `is-active` count 0 (clears). Forced `:hover` →
+  `::before` opacity 1, bg `rgb(255,122,26)` (--orange); `--cap-n` rgba(10,10,10,.62),
+  `--cap-d` rgba(10,10,10,.74), `--cap-rule` rgba(10,10,10,.18). `hover:hover` matches; rule is
+  inside `@media (hover: hover)`. 390: slider scrollW 913 > clientW 350, exactly 1 `.is-active`
+  (idx 0), fill on, docW 390 no overflow.
+- **4 Marquee fills PASS.** Hero rows: 1/3 solid white; row2 rgba(255,255,255,.13)≈#FFFFFF21,
+  row4 rgba(255,255,255,.10)≈#FFFFFF1A. Work/Gallery band row2 rgba(77,184,255,.22)≈#4DB8FF38.
+  `webkitTextStrokeWidth` = 0px everywhere (gallery scanned all elements: no stroke).
+- **5 design/ re-export PASS.** desktop.html/mobile.html: `mq--top` 0, `CREATIVE DEVELOPER` 0,
+  loop's first phrase present. JrcX9.png re-exported 1172×8192; new `png-desktop/wL9Rl.png` 390×832.
+- **Regression:** check 200/200/6-6; crawl 16 ok/0 fail; build 15 pages; no console errors on `/`.
+- **Flag:** `Marquee.astro` still carries dead `.mq--top` CSS (variant="top" no longer used anywhere;
+  only `variant="closing"` is used, in ClosingCTA.astro:28). Harmless, but can be pruned.
 
 ## Commits (branch v6-redesign, NOT pushed)
 - `d838136` feat(v6): closing band shared gradient, gallery + case study on V6, services/contact/404 routes

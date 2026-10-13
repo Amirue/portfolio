@@ -1,9 +1,23 @@
 ﻿---
 import Base from '../components/layout/Base.astro';
 import Glow from '../components/layout/Glow.astro';
+import TextLoop from '../components/layout/TextLoop.astro';
 import KioskMock from '../components/KioskMock.astro';
 import { fetchWorksData } from '../lib/wordpress';
 import { axes } from '../data/toolbox';
+
+// Replaces the old top marquee ticker — same copy, cycled one phrase at a time in
+// the hero instead of scrolling across the navbar.
+const tickerPhrases = [
+  'Web dev on a slow day',
+  'Currently arguing with CSS',
+  'This ships rough on purpose',
+  'Built with caffeine and spite',
+  'If it looks half-done, it probably is',
+  'Designers never finish their own portfolio',
+  'Open to work (and snacks)',
+  'Yes, I built this myself',
+];
 
 const works = await fetchWorksData();
 const featured = works.slice(0, 3);
@@ -84,21 +98,21 @@ const lifePhotos = [
 
     <div class="hero__marquees" aria-hidden="true">
       <div class="hero__row marquee"><div class="marquee__track hero__track hero__track--l">
-        {[0,1,2,3].map(() => <span>// WEB DEVELOPER</span>)}
+        {[0,1,2,3,4,5].map(() => <span>// WEB DEVELOPER</span>)}
       </div></div>
       <div class="hero__row marquee"><div class="marquee__track hero__track hero__track--r">
-        {[0,1,2,3].map(() => <span class="hero__outline">UI/UX · WORDPRESS · AI INTEGRATION · CREATIVE</span>)}
+        {[0,1,2,3,4,5].map(() => <span class="hero__outline">UI/UX · WORDPRESS · AI INTEGRATION · CREATIVE</span>)}
       </div></div>
       <div class="hero__row marquee"><div class="marquee__track hero__track hero__track--l">
-        {[0,1,2,3].map(() => <span>// WEB DESIGN</span>)}
+        {[0,1,2,3,4,5].map(() => <span>// WEB DESIGN</span>)}
       </div></div>
       <div class="hero__row marquee"><div class="marquee__track hero__track hero__track--r">
-        {[0,1,2,3].map(() => <span class="hero__outline">KUALA LUMPUR · OPEN TO WORK</span>)}
+        {[0,1,2,3,4,5].map(() => <span class="hero__outline">KUALA LUMPUR · OPEN TO WORK</span>)}
       </div></div>
     </div>
 
     <div class="hero__top">
-      <span class="u-blue">CREATIVE DEVELOPER / AI SPECIALIST</span>
+      <TextLoop items={tickerPhrases} class="hero__ticker" />
       <span class="u-dim">Kuala Lumpur, Malaysia</span>
     </div>
 
@@ -381,14 +395,14 @@ const lifePhotos = [
     </div>
     <div class="life__strip marquee">
       <div class="marquee__track life__track">
-        {[...lifePhotos, ...lifePhotos].map((src) => (
+        {[...lifePhotos, ...lifePhotos, ...lifePhotos, ...lifePhotos].map((src) => (
           <img src={src} alt="Life lately" loading="lazy" />
         ))}
       </div>
     </div>
     <div class="life__ticker marquee mt">
       <div class="marquee__track life__ttrack">
-        {[0,1,2].map(() => <span>// 2025 — 2026 · 24 PHOTOS · WORDCAMP KL · STUDIO DAYS · TRIPS ·</span>)}
+        {[0,1,2,3,4,5].map(() => <span>// 2025 — 2026 · 24 PHOTOS · WORDCAMP KL · STUDIO DAYS · TRIPS ·</span>)}
       </div>
     </div>
   </section>
@@ -414,12 +428,15 @@ const lifePhotos = [
 
   .hero__marquees { position: absolute; left: 0; right: 0; top: 312px; display: flex; flex-direction: column; }
   .hero__row { height: 98px; overflow: hidden; }
-  .hero__track { gap: 40px; align-items: center; height: 100%; }
+  .hero__track { align-items: center; height: 100%; }
   .hero__track span { font-family: var(--font-mono); font-weight: 700; font-size: 62px; letter-spacing: -2px; color: #fff; white-space: nowrap; }
-  .hero__outline { color: transparent !important; -webkit-text-stroke: 1px rgba(77,184,255,0.55); }
+  /* Design rows 2 and 4 are faint SOLID white, not blue outlines:
+     row 2 = #FFFFFF21 (13%), row 4 = #FFFFFF1A (10%). The class name is historical. */
+  .hero__row:nth-child(2) { --row-fill: rgba(255, 255, 255, 0.129); }
+  .hero__row:nth-child(4) { --row-fill: rgba(255, 255, 255, 0.102); }
+  .hero__outline { color: var(--row-fill, rgba(255, 255, 255, 0.129)) !important; }
   .hero__track--l { animation: marquee 46s linear infinite; }
   .hero__track--r { animation: marqueeR 46s linear infinite; }
-  @keyframes marqueeR { from { transform: translateX(-100%); } to { transform: translateX(0); } }
 
   .hero__portrait { position: absolute; left: 50%; top: 200px; transform: translateX(-50%); width: 480px; height: 600px; overflow: hidden; }
   .hero__portrait img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.05) saturate(0.95); }
@@ -453,6 +470,7 @@ const lifePhotos = [
 
   .hero__top { position: absolute; left: 64px; top: 48px; display: flex; flex-direction: column; gap: 6px;
     font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; }
+  .hero__ticker { color: var(--accent-blue); letter-spacing: 2px; }
   .hero__top .u-dim { letter-spacing: 1px; }
   .hero__bottom { position: absolute; right: 64px; top: 884px; display: flex; flex-direction: column;
     align-items: flex-end; gap: 6px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; }
@@ -501,12 +519,55 @@ const lifePhotos = [
   .what__sub { width: 380px; max-width: 100%; font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--dim-l); }
 
   .what__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 64px; }
-  .cap { border-top: 1px solid var(--line-d); padding-top: 36px; display: flex; flex-direction: column; gap: 20px; }
-  .cap__n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: var(--accent-blue); }
+
+  /* Capability cards.
+     Hover (desktop) or active-slide (mobile) fills the card with --orange. The
+     fill is painted by ::before with a negative inset so it bleeds past the content
+     without changing layout — padding the card instead would shift the text on hover.
+     Text colours go through custom properties so one state switch recolours everything.
+     Ink at partial alpha keeps contrast on orange (full ink is ~7:1, dim grey ~2:1). */
+  .cap {
+    position: relative;
+    isolation: isolate;
+    border-top: 1px solid var(--line-d);
+    padding-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    --cap-n: var(--accent-blue);
+    --cap-d: var(--dim-l);
+    --cap-rule: var(--line-l);
+  }
+  .cap::before {
+    content: '';
+    position: absolute;
+    inset: -28px -20px -24px;
+    background: var(--orange);
+    border-radius: var(--radius);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    z-index: -1;
+  }
+  @media (hover: hover) {
+    .cap:hover::before { opacity: 1; }
+    .cap:hover {
+      --cap-n: rgba(10, 10, 10, 0.62);
+      --cap-d: rgba(10, 10, 10, 0.74);
+      --cap-rule: rgba(10, 10, 10, 0.18);
+    }
+  }
+  .cap.is-active::before { opacity: 1; }
+  .cap.is-active {
+    --cap-n: rgba(10, 10, 10, 0.62);
+    --cap-d: rgba(10, 10, 10, 0.74);
+    --cap-rule: rgba(10, 10, 10, 0.18);
+  }
+
+  .cap__n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: var(--cap-n); transition: color 0.25s ease; }
   .cap__t { font-family: var(--font-display); font-weight: 500; font-size: 28px; line-height: 1.15; letter-spacing: -1px; }
-  .cap__d { font-family: var(--font-body); font-size: 15px; line-height: 1.55; color: var(--dim-l); }
+  .cap__d { font-family: var(--font-body); font-size: 15px; line-height: 1.55; color: var(--cap-d); transition: color 0.25s ease; }
   .cap__list { display: flex; flex-direction: column; }
-  .cap__list li { font-family: var(--font-body); font-size: 13.5px; color: var(--dim-l); border-top: 1px solid var(--line-l); padding: 11px 0; }
+  .cap__list li { font-family: var(--font-body); font-size: 13.5px; color: var(--cap-d); border-top: 1px solid var(--cap-rule); padding: 11px 0; transition: color 0.25s ease, border-color 0.25s ease; }
 
   /* Process — dark card, horizontal rail with coral node dots */
   .proc { margin-top: 72px; background: var(--tile); border: 1px solid var(--line-d2); border-radius: var(--radius);
@@ -687,10 +748,9 @@ const lifePhotos = [
   /* ── Life ── */
   .life__all { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1.5px; color: var(--accent); }
   .life__strip { margin: 24px 0; }
-  .life__track { display: flex; gap: 16px; animation-duration: 50s; }
+  .life__track { display: flex; animation-duration: 50s; }
   .life__track img { height: 260px; width: auto; object-fit: cover; }
   .life__ticker { border-top: 1px solid var(--line-l); padding: 16px 0; }
-  .life__ttrack { gap: 40px; }
   .life__ttrack span { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; color: var(--dim-l); white-space: nowrap; }
 
   /* ── Responsive ── */
@@ -700,7 +760,6 @@ const lifePhotos = [
     .hero__vline { display: none; }
     .hero__marquees { position: static; }
     .hero__row { height: 56px; }
-    .hero__track { gap: 24px; }
     .hero__track span { font-size: 32px; letter-spacing: -1px; }
     .hero__top { position: static; padding-inline: var(--pad); }
     .hero__portrait { position: relative; left: auto; top: auto; transform: none;
@@ -983,6 +1042,40 @@ const lifePhotos = [
       on = false;
       cursorEl.classList.remove('is-on');
     });
+  }
+
+  // WhatIDo slider: mark whichever card is nearest the centre as active (mobile).
+  // Drives the orange fill; on desktop the grid isn't a scroller so it clears.
+  const capSlider = document.querySelector('[data-slider]');
+  if (capSlider) {
+    const caps = Array.from(capSlider.querySelectorAll('.cap'));
+    let capRaf = 0;
+    const markActiveCap = () => {
+      capRaf = 0;
+      if (window.innerWidth > 900 || capSlider.scrollWidth <= capSlider.clientWidth) {
+        caps.forEach((c) => c.classList.remove('is-active'));
+        return;
+      }
+      const box = capSlider.getBoundingClientRect();
+      const mid = box.left + box.width / 2;
+      let best = null;
+      let bestDist = Infinity;
+      for (const c of caps) {
+        const r = c.getBoundingClientRect();
+        const d = Math.abs(r.left + r.width / 2 - mid);
+        if (d < bestDist) {
+          bestDist = d;
+          best = c;
+        }
+      }
+      caps.forEach((c) => c.classList.toggle('is-active', c === best));
+    };
+    const onCapScroll = () => {
+      if (!capRaf) capRaf = requestAnimationFrame(markActiveCap);
+    };
+    capSlider.addEventListener('scroll', onCapScroll, { passive: true });
+    window.addEventListener('resize', onCapScroll);
+    markActiveCap();
   }
 
   // Work accordion

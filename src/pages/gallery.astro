@@ -38,12 +38,12 @@ const feedMeta = `${pad(posts.length)} POSTS${years.length ? `  ·  ${years.join
     <div class="ghero__band" aria-hidden="true">
       <div class="marquee ghero__row">
         <div class="marquee__track ghero__track ghero__track--l">
-          {[0, 1, 2, 3].map(() => <span>// LIFE LATELY</span>)}
+          {[0, 1, 2, 3, 4, 5, 6, 7].map(() => <span>// LIFE LATELY</span>)}
         </div>
       </div>
       <div class="marquee ghero__row">
         <div class="marquee__track ghero__track ghero__track--r">
-          {[0, 1, 2, 3].map(() => <span class="ghero__outline">MOMENTS · EVENTS · TRAVEL · STUDIO</span>)}
+          {[0, 1, 2, 3, 4, 5, 6, 7].map(() => <span class="ghero__outline">MOMENTS · EVENTS · TRAVEL · STUDIO</span>)}
         </div>
       </div>
     </div>
@@ -137,7 +137,7 @@ const feedMeta = `${pad(posts.length)} POSTS${years.length ? `  ·  ${years.join
 
   .ghero__band { position: absolute; left: 0; right: 0; top: 273px; }
   .ghero__row { height: 78px; overflow: hidden; }
-  .ghero__track { gap: 40px; align-items: center; height: 100%; }
+  .ghero__track { align-items: center; height: 100%; }
   .ghero__track span {
     font-family: var(--font-mono);
     font-weight: 700;
@@ -146,10 +146,10 @@ const feedMeta = `${pad(posts.length)} POSTS${years.length ? `  ·  ${years.join
     color: #fff;
     white-space: nowrap;
   }
-  .ghero__outline { color: transparent !important; -webkit-text-stroke: 1px rgba(77, 184, 255, 0.28); }
+  /* Design: faint solid blue, not an outline — #4DB8FF38 (22%). */
+  .ghero__outline { color: rgba(77, 184, 255, 0.22) !important; }
   .ghero__track--l { animation: marquee 58s linear infinite; }
   .ghero__track--r { animation: marqueeR 58s linear infinite; }
-  @keyframes marqueeR { from { transform: translateX(-100%); } to { transform: translateX(0); } }
 
   .ghero__foot {
     position: absolute;

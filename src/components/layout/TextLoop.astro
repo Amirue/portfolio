@@ -1,0 +1,29 @@
+---
+/**
+ * TextLoop — cycles through phrases one at a time, with a vertical roll.
+ * (Design ref: motion-primitives `TextLoop`.)
+ *
+ * The container is an inline-grid with every item in cell 1/1, so it sizes to the
+ * WIDEST phrase. That matters: with absolute positioning the box would collapse,
+ * and with normal flow it would reflow every time the phrase changed.
+ *
+ * Marked aria-hidden because it's decorative flavour copy that changes constantly —
+ * an aria-live region cycling this fast is noise for screen readers, and the real
+ * availability signal is in the hero footer and the site footer.
+ *
+ * Styling lives in styles/base.css so it HMRs reliably.
+ */
+interface Props {
+  items: string[];
+  class?: string;
+  /** ms between swaps */
+  interval?: number;
+}
+const { items, class: cls = '', interval = 2600 } = Astro.props;
+---
+
+<span class={`tloop ${cls}`} data-tloop data-interval={interval} aria-hidden="true">
+  {items.map((t, i) => (
+    <span class={`tloop__item ${i === 0 ? 'is-active' : ''}`}>{t}</span>
+  ))}
+</span>

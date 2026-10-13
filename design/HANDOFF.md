@@ -1,6 +1,6 @@
 # Amiruan V6 — Design → Code Handoff
 
-Design source: `untitled.pen` (pen.dev canvas).
+Design source: `portfolio.pen` (pen.dev canvas).
 This folder holds the exported reference. **Nothing here is implemented yet.**
 
 ---

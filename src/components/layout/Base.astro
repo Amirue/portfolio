@@ -11,7 +11,6 @@ import '@fontsource/jetbrains-mono/latin-700.css';
 import '../../styles/tokens.css';
 import '../../styles/base.css';
 
-import Marquee from './Marquee.astro';
 import Header from './Header.astro';
 import ClosingBand from './ClosingBand.astro';
 
@@ -43,9 +42,6 @@ const {
 const site = 'https://amiruan.site';
 const canonicalURL = new URL(canonical, site).href;
 const ogURL = new URL(ogImage, site).href;
-
-const marqueeText =
-  'Web Dev on a slow day · Currently arguing with CSS · This ships rough on purpose · Built with caffeine and spite · If it looks half-done, it probably is · Designers never finish their own portfolio · Open to work (and snacks) · Yes, I built this myself';
 
 const personLd = {
   '@context': 'https://schema.org',
@@ -97,7 +93,6 @@ const personLd = {
   </head>
   <body>
     <a href="#main" class="skip">Skip to content</a>
-    <Marquee text={marqueeText} variant="top" />
     <Header current={current} />
     <main id="main">
       <slot />
@@ -127,6 +122,27 @@ const personLd = {
       import { initGlow } from '../../scripts/glow.js';
 
       initGlow();
+
+      // TextLoop: advance one phrase at a time. Removing .is-out and forcing a
+      // reflow first makes the incoming phrase jump to its start position below
+      // the box while it's still invisible — without the reflow the browser
+      // coalesces both class changes and the roll-in is lost.
+      document.querySelectorAll('[data-tloop]').forEach((loop) => {
+        const items = Array.from(loop.querySelectorAll('.tloop__item'));
+        if (items.length < 2) return;
+        const gap = Number(loop.getAttribute('data-interval')) || 2600;
+        let i = 0;
+        setInterval(() => {
+          const prev = items[i];
+          i = (i + 1) % items.length;
+          const next = items[i];
+          prev.classList.remove('is-active');
+          prev.classList.add('is-out');
+          next.classList.remove('is-out');
+          void next.offsetWidth;
+          next.classList.add('is-active');
+        }, gap);
+      });
 
       const io = new IntersectionObserver(
         (entries) => {

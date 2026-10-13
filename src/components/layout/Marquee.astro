@@ -32,13 +32,11 @@ const items = Array.from({ length: 6 });
     align-items: center;
   }
 
+  /* Layout comes from .marquee__track in base.css — this only sets the pace.
+     Don't redeclare @keyframes marquee here: keyframe names aren't scoped, so a
+     second definition would silently override base.css for every marquee on the site. */
   .mq__track {
-    display: inline-flex;
-    gap: 44px;
-    flex-shrink: 0;
-    min-width: 100%;
-    justify-content: space-around;
-    animation: marquee 60s linear infinite;
+    animation-duration: 60s;
   }
 
   .mq:hover .mq__track {
@@ -78,11 +76,6 @@ const items = Array.from({ length: 6 });
 
   .mq--closing .mq__item.is-bright {
     color: #fff;
-  }
-
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-100%); }
   }
 
   @media (prefers-reduced-motion: reduce) {
