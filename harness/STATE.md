@@ -68,6 +68,8 @@ Both:
 - `cef621e` chore: drop dead legacy assets (public/assets css + js; incl. orphan posts.js).
 - `dfcbc85` feat(work): kiosk UI mock in the featured Work accordion panel.
 - `30791dc` fix(footer): match design height (gap 40, drop extra mid padding) — footer 321->273, band 1153.
+- `c9853e5` docs(harness): state after kiosk mock + footer height + asset cleanup.
+- `6a8d12e` chore: drop dead gallery placeholder svgs (g01-g12; orphaned by cef621e) + contact-email decision.
 
 ## Next
 - Remaining open items all need a human decision (contact email, socials, resume file, work slugs) —
