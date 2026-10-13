@@ -4,6 +4,11 @@ Source of truth for the V6 verification/commit session. Update after every step.
 
 ## Environment
 - Repo (CANONICAL): `C:/Users/light/Documents/New OpenCode Project/portfolio-clean` (branch `v6-redesign`, do NOT push/deploy).
+- Remote: `origin` = `https://github.com/Amirue/portfolio.git` (fixed this session — it was misconfigured
+  to the local retired repo). Live branch is **`master`**; pushing to master deploys amiruan.site via
+  Cloudflare Pages. `v6-redesign` is a descendant of master, so `git push origin v6-redesign:master`
+  is a clean fast-forward.
+- **DEPLOYED 2026-10-14:** `v6-redesign` fast-forwarded to master (`e9ae961..649fa58`, 26 commits).
 - RETIRED: `C:/Users/light/Documents/New OpenCode Project/portfolio-astro` was the earlier copy; it
   diverged and must NOT be re-adopted — all V6 work lives in portfolio-clean. Its only unique content
   (local-.docx resume links in `src/pages/index.astro` + untracked `public/resume/amiruddin-zulkifli-resume.docx`)
