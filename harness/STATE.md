@@ -5,9 +5,13 @@ Source of truth for the V6 verification/commit session. Update after every step.
 ## Environment
 - Repo (CANONICAL): `C:/Users/light/Documents/New OpenCode Project/portfolio-clean` (branch `v6-redesign`, do NOT push/deploy).
 - RETIRED: `C:/Users/light/Documents/New OpenCode Project/portfolio-astro` was the earlier copy; it
-  diverged and is now renamed `portfolio-astro-ARCHIVED` (kept for history, do NOT re-adopt — all V6
-  work lives in portfolio-clean). Its only unique content (local-.docx resume links + `public/resume/`)
-  was superseded by portfolio-clean's WordPress-hosted PDF.
+  diverged and must NOT be re-adopted — all V6 work lives in portfolio-clean. Its only unique content
+  (local-.docx resume links in `src/pages/index.astro` + untracked `public/resume/amiruddin-zulkifli-resume.docx`)
+  was superseded by portfolio-clean's WordPress-hosted PDF; nothing unique remains.
+  **Rename to `portfolio-astro-ARCHIVED` is still PENDING** — it can't be done while OpenChamber runs:
+  both opencode hosts respawn Pen (`mcp-server-windows-x64.exe`, `--agent openCodeCLI`) with the old dir
+  as cwd, which holds the directory handle. Do it after closing OpenChamber/Pen:
+  `Rename-Item 'C:/Users/light/Documents/New OpenCode Project/portfolio-astro' 'portfolio-astro-ARCHIVED'`.
 - Dev server: `node harness/dev.mjs start|stop|restart|status` (detached; kills :4321 first, process-tree
   kill + re-scan port up to 3x, prints one line "up <code>" / "failed: <reason>"). URL http://localhost:4321.
   The user starts/stops it themselves now — don't manage it.
