@@ -121,6 +121,10 @@ crawl 16/16; no console errors. Decisions: Work stays WP-driven (user edits WP l
 - **services.ts:** offerings/chips rewritten (Breakdance/Elementor Pro/WHM/Stripe/SendGrid; Figma/Affinity/
   Photoshop/Illustrator; Replit/OpenCode/Node/PostgreSQL).
 - **Header:** removed the `<A>` logo mark (wordmark-only) pending a real logo from the user.
+- **Hero:** height now tracks the space below the 76px header (clamp 680–1000) and the portrait +
+  marquee band are vertically centred (top:50% + translateY(-50%)), so they no longer sit low in a
+  fixed 1000px box on laptops. Verified 1366x768 (centre y423) and 1440x900 (centre y489) = centre
+  of the visible area below the header.
 - NOT changed: Work/Selected Work (WP), hero TextLoop jokes, hero marquee text, `design/`.
 
 ## Commits (branch v6-redesign, NOT pushed)

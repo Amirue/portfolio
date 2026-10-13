@@ -421,14 +421,22 @@ const lifePhotos = [
   .sec-head--row { flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
 
   /* ── Hero ── */
-  /* Fixed 1440x1000 composition: marquee band at y312, portrait 480x600 at y200
-     sitting on top of it, headline inside the portrait at y396. */
-  .hero { position: relative; background: var(--ink); height: 1000px; overflow: hidden; }
-  .hero__vline { position: absolute; top: 0; height: 960px; width: 1px; background: #161616; }
+  /* Composition: marquee band centred behind a 480x600 portrait, headline inside the
+     portrait. Height tracks the space below the 76px sticky header (clamped 680–1000)
+     so the portrait + marquee stay vertically centred on laptops instead of sitting low
+     in a fixed 1000px box. */
+  .hero {
+    position: relative;
+    background: var(--ink);
+    height: clamp(680px, calc(100vh - 76px), 1000px);
+    height: clamp(680px, calc(100svh - 76px), 1000px);
+    overflow: hidden;
+  }
+  .hero__vline { position: absolute; top: 0; height: calc(100% - 40px); width: 1px; background: #161616; }
   .hero__vline--l { left: 64px; }
   .hero__vline--r { right: 64px; }
 
-  .hero__marquees { position: absolute; left: 0; right: 0; top: 312px; display: flex; flex-direction: column; }
+  .hero__marquees { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; }
   .hero__row { height: 98px; overflow: hidden; }
   .hero__track { align-items: center; height: 100%; }
   .hero__track span { font-family: var(--font-mono); font-weight: 700; font-size: 62px; letter-spacing: -2px; color: #fff; white-space: nowrap; }
@@ -440,7 +448,7 @@ const lifePhotos = [
   .hero__track--l { animation: marquee 46s linear infinite; }
   .hero__track--r { animation: marqueeR 46s linear infinite; }
 
-  .hero__portrait { position: absolute; left: 50%; top: 200px; transform: translateX(-50%); width: 480px; height: 600px; overflow: hidden; }
+  .hero__portrait { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 480px; height: 600px; overflow: hidden; }
   .hero__portrait img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.05) saturate(0.95); }
   .hero__scrim { position: absolute; left: 0; right: 0; bottom: 0; height: 350px;
     background: linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0.72) 55%, rgba(10,10,10,0.93) 100%); }
@@ -474,7 +482,7 @@ const lifePhotos = [
     font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; }
   .hero__ticker { color: var(--accent-blue); letter-spacing: 2px; }
   .hero__top .u-dim { letter-spacing: 1px; }
-  .hero__bottom { position: absolute; right: 64px; top: 884px; display: flex; flex-direction: column;
+  .hero__bottom { position: absolute; right: 64px; bottom: 86px; display: flex; flex-direction: column;
     align-items: flex-end; gap: 6px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; }
   .hero__scroll { letter-spacing: 2px; color: var(--dim-d); }
 
