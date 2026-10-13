@@ -120,6 +120,7 @@ crawl 16/16; no console errors. Decisions: Work stays WP-driven (user edits WP l
   Node.js & PostgreSQL / cPanel & WHM / Cloudflare.
 - **services.ts:** offerings/chips rewritten (Breakdance/Elementor Pro/WHM/Stripe/SendGrid; Figma/Affinity/
   Photoshop/Illustrator; Replit/OpenCode/Node/PostgreSQL).
+- **Header:** removed the `<A>` logo mark (wordmark-only) pending a real logo from the user.
 - NOT changed: Work/Selected Work (WP), hero TextLoop jokes, hero marquee text, `design/`.
 
 ## Commits (branch v6-redesign, NOT pushed)
