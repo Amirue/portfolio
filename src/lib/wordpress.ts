@@ -154,10 +154,46 @@ export interface WorkCard {
   title: string;
   subtitle: string;
   type: string;
+  /** All work_type slugs on the post (WP allows several). */
+  types: string[];
   metric: string;
   tools: string[];
   year: string;
   image: string;
+}
+
+export interface WorkType {
+  slug: string;
+  name: string;
+}
+
+// Nicer labels than WP's auto-capitalised term names ("Ai", "Uiux"). Unknown
+// slugs (e.g. a new taxonomy term) fall back to the term's own name.
+const TYPE_LABELS: Record<string, string> = {
+  ai: 'AI',
+  uiux: 'UI/UX',
+  wordpress: 'WordPress',
+  backend: 'Backend',
+};
+
+export function workTypeLabel(slug: string, types: WorkType[] = []): string {
+  if (TYPE_LABELS[slug]) return TYPE_LABELS[slug];
+  return types.find((t) => t.slug === slug)?.name || slug.toUpperCase();
+}
+
+/** The work_type taxonomy terms, so new types added in WP show up without a code change. */
+export async function fetchWorkTypes(): Promise<WorkType[]> {
+  try {
+    const res = await fetch(`${WP_API}/work_type?per_page=100&_fields=slug,name`, {
+      signal: AbortSignal.timeout(10000),
+    });
+    const text = await res.text();
+    if (!text.trim().startsWith('[')) return [];
+    return JSON.parse(text);
+  } catch (e) {
+    console.error('Work types fetch failed:', e);
+    return [];
+  }
 }
 
 export interface WorkDetail extends WorkCard {
@@ -171,14 +207,21 @@ export interface WorkDetail extends WorkCard {
 
 function mapWorkPost(wp: WPWorkPost): WorkCard & { role: string; context: string; process: string; demoUrl: string; images: string[]; content: string } {
   const acf = wp.acf || {} as WPWorkAcf;
-  const type = (wp.work_type && wp.work_type[0]) || 'uiux';
-  const images = (acf.work_images || []).map((img) => img.url).filter(Boolean);
+  const types = wp.work_type || [];
+  const type = types[0] || 'uiux';
+  let images = (acf.work_images || []).map((img) => img.url).filter(Boolean);
+  // Fall back to images placed in the post body when the ACF gallery is empty,
+  // so pictures added in the editor still show in the case-study carousel.
+  if (!images.length && wp.content?.rendered) {
+    images = [...wp.content.rendered.matchAll(/<img[^>]+src="([^"]+)"/g)].map((m) => m[1]);
+  }
 
   return {
     slug: wp.slug,
     title: stripHtml(wp.title.rendered),
     subtitle: acf.subtitle || stripHtml(wp.excerpt.rendered),
     type,
+    types,
     metric: acf.metric || '',
     tools: acf.tools || [],
     year: acf.year || '',

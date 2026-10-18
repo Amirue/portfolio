@@ -1,7 +1,7 @@
 ---
 import Base from '../../components/layout/Base.astro';
 import Glow from '../../components/layout/Glow.astro';
-import { fetchWorksData, fetchWorkBySlug } from '../../lib/wordpress';
+import { fetchWorksData, fetchWorkBySlug, fetchWorkTypes, workTypeLabel } from '../../lib/wordpress';
 
 export async function getStaticPaths() {
   const works = await fetchWorksData();
@@ -10,17 +10,13 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const work = await fetchWorkBySlug(slug ?? '');
+const workTypes = await fetchWorkTypes();
 
 if (!work) {
   return Astro.redirect('/work');
 }
 
-const typeLabel = (t: string) =>
-  t === 'uiux' ? 'UI/UX' : t === 'wordpress' ? 'WordPress' : t === 'ai' ? 'AI' : t.toUpperCase();
-
-const metaLine = [work.role ? `UX + ${typeLabel(work.type).toUpperCase()}` : typeLabel(work.type).toUpperCase(), work.year, typeLabel(work.type)]
-  .filter(Boolean)
-  .join('   ·   ');
+const typeLabel = (t: string) => workTypeLabel(t, workTypes);
 
 // Strip tags from the rendered post body for the "result" paragraph.
 const strip = (html: string) =>
@@ -36,8 +32,7 @@ const images = work.images.length ? work.images : work.image ? [work.image] : []
 const metaRows = [
   { k: 'ROLE', v: work.role },
   { k: 'YEAR', v: work.year },
-  { k: 'STACK', v: work.tools.join(' · ') },
-  { k: 'TYPE', v: 'Client work' },
+  { k: 'TYPE', v: work.types.map((t) => typeLabel(t)).join(' · ') },
 ].filter((r) => r.v);
 ---
 
@@ -51,7 +46,6 @@ const metaRows = [
     <!-- Info -->
     <div class="case__info">
       <a class="case__back" href="/work">←&nbsp;&nbsp;BACK TO WORK</a>
-      <span class="case__meta">{metaLine}</span>
       <h1 class="case__title">{work.title}</h1>
       {work.subtitle && <p class="case__sub">{work.subtitle}</p>}
 
@@ -227,7 +221,7 @@ const metaRows = [
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     opacity: 0;
     transition: opacity 0.25s ease;
   }

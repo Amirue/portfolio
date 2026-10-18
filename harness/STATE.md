@@ -141,7 +141,23 @@ crawl 16/16; no console errors. Decisions: Work stays WP-driven (user edits WP l
   with `margin-bottom: -0.12em` (spacing stays 0.94em). Verified ~5px descender clearance at 124px.
 - NOT changed: Work/Selected Work (WP), hero TextLoop jokes, hero marquee text, `design/`.
 
-## Commits (branch v6-redesign, NOT pushed)
+## Batch — Work: dynamic types, image fit, case-study meta (this session)
+Answers to "why" + fixes. Prod WP now has work_type terms: ai, lu7 ("Light Up 7"), uiux, wordpress.
+- **Work filter** was hardcoded `ORDER = ['ai','wordpress','uiux','backend']`, so the new `lu7` never
+  appeared. Now derived from the posts' actual types (+ labels from the `work_type` taxonomy via
+  `fetchWorkTypes`/`workTypeLabel`). Shows ALL · AI · WordPress · Light Up 7.
+- **Case-study meta**: the "UX + AI · 2026 · AI" line came from `metaLine` (role + year + type) — removed.
+  The `TYPE` row was hardcoded `'Client work'` — now the post's real types (`AI · Light Up 7`). The
+  `STACK` row is removed. Rows now: ROLE · YEAR · TYPE.
+- **Carousel**: it reads the ACF gallery field `work_images`, not images placed in the editor. Added a
+  fallback to body `<img>`s when `work_images` is empty. `WorkCard.types` added; `data-types` on cards.
+- **Image fit**: `.wcard__vis img` and `.case__img` were `object-fit: cover` (crop) -> `contain`.
+- **Work card hover**: dark tile behind the card (like the "What I do" cards) via `::before` with a small
+  negative inset (no layout shift) + content `scale(0.98)`.
+- Verified with a prod-pointed build (14 pages; 5 works): filters/labels/chips correct, myeventqr shows
+  6 carousel images, no `case__meta`/`STACK`/`Client work`, both `object-fit: contain`, hover rule emitted.
+
+## Commits (branch v6-redesign)
 - `d838136` feat(v6): closing band shared gradient, gallery + case study on V6, services/contact/404 routes
   (batch from design agent + this session's harness; all 6 untracked paths staged).
 - `chore(harness): ignore harness/logs runtime output` — .gitignore `harness/logs/*` + `!harness/logs/.gitkeep`;
