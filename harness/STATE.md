@@ -159,6 +159,10 @@ Answers to "why" + fixes. Prod WP now has work_type terms: ai, lu7 ("Light Up 7"
   myeventqr shows 6 carousel images, no `case__meta`/`STACK`/`Client work`, both `object-fit: contain`,
   hover rule emitted. NOT deployed (user chose to hold).
 
+- **Filter bugfix (post-deploy):** renaming the card attr `data-type` -> `data-types` left the filter JS
+  querying `[data-type]`, so it collected 0 cards and every click was a no-op on live. Now queries
+  `[data-types]`. (Lesson: the filter JS selector and the card attribute must move together.)
+
 ## Commits (branch v6-redesign)
 - `d838136` feat(v6): closing band shared gradient, gallery + case study on V6, services/contact/404 routes
   (batch from design agent + this session's harness; all 6 untracked paths staged).

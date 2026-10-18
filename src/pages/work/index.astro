@@ -291,7 +291,7 @@ const range = years.length ? `${Math.min(...years)} — ${Math.max(...years)}` :
 
   if (row && grid) {
     const buttons = row.querySelectorAll<HTMLButtonElement>('[data-filter]');
-    const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-type]'));
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-types]'));
 
     const apply = (key: string) => {
       let shown = 0;
