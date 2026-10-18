@@ -85,7 +85,7 @@ const range = years.length ? `${Math.min(...years)} — ${Math.max(...years)}` :
               )}
               <span class="wcard__scrim" aria-hidden="true" />
               <span class="wcard__num">{pad(i + 1)}</span>
-              <span class="wcard__cat">{typeLabel(w.type)}</span>
+              <span class="wcard__cat">{(w.types.length ? w.types : [w.type]).map((t) => typeLabel(t)).join(' · ')}</span>
             </div>
 
             <div class="wcard__info">

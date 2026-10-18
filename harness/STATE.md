@@ -154,8 +154,10 @@ Answers to "why" + fixes. Prod WP now has work_type terms: ai, lu7 ("Light Up 7"
 - **Image fit**: `.wcard__vis img` and `.case__img` were `object-fit: cover` (crop) -> `contain`.
 - **Work card hover**: dark tile behind the card (like the "What I do" cards) via `::before` with a small
   negative inset (no layout shift) + content `scale(0.98)`.
-- Verified with a prod-pointed build (14 pages; 5 works): filters/labels/chips correct, myeventqr shows
-  6 carousel images, no `case__meta`/`STACK`/`Client work`, both `object-fit: contain`, hover rule emitted.
+- Verified with a prod-pointed build (14 pages; 5 works): filters/labels correct; the /work card
+  category chip now shows ALL of a post's types (e.g. `AI · Light Up 7`, `Light Up 7 · WordPress`);
+  myeventqr shows 6 carousel images, no `case__meta`/`STACK`/`Client work`, both `object-fit: contain`,
+  hover rule emitted. NOT deployed (user chose to hold).
 
 ## Commits (branch v6-redesign)
 - `d838136` feat(v6): closing band shared gradient, gallery + case study on V6, services/contact/404 routes
