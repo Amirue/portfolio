@@ -244,7 +244,11 @@ const range = years.length ? `${Math.min(...years)} — ${Math.max(...years)}` :
 
   @media (max-width: 1100px) {
     .whero { height: auto; padding: 48px 0 40px; display: flex; flex-direction: column; gap: 28px; }
-    .whero__top, .whero__band, .whero__foot { position: static; }
+    /* `top: auto` is the load-bearing part. `.whero > .wrap { position: relative }`
+       outranks `position: static` here (two classes vs one), so these stay relative
+       and keep their flow position — but a leftover `top` still offsets them.
+       Clearing `top` neutralises the desktop absolute placement either way. */
+    .whero__top, .whero__band, .whero__foot { position: static; top: auto; }
     .whero__title { font-size: 56px; letter-spacing: -2px; }
     .whero__row { height: 48px; }
     .whero__track span { font-size: 30px; letter-spacing: -1px; }

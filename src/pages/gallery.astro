@@ -274,7 +274,9 @@ const feedMeta = `${pad(posts.length)} POSTS${years.length ? `  ·  ${years.join
 
   @media (max-width: 1100px) {
     .ghero { height: auto; padding: 48px 0 40px; display: flex; flex-direction: column; gap: 28px; }
-    .ghero__top, .ghero__band, .ghero__foot { position: static; }
+    /* See work/index.astro — `.ghero > .wrap` wins on specificity, so `top: auto`
+       is what actually cancels the desktop absolute offsets. */
+    .ghero__top, .ghero__band, .ghero__foot { position: static; top: auto; }
     .ghero__title { font-size: 56px; letter-spacing: -2px; }
     .ghero__row { height: 48px; }
     .ghero__track span { font-size: 30px; letter-spacing: -1px; }

@@ -193,6 +193,17 @@ const lifePhotos = [
         ))}
       </div>
 
+      {/* Slide indicator — mobile only. A segmented bar (one segment per slide) plus a
+          mono counter, so it answers both "how many" and "where am I". */}
+      <div class="whatprog" data-slider-progress aria-hidden="true">
+        <span class="whatprog__segs">
+          {capabilities.map((c, i) => (
+            <span class={`whatprog__seg ${i === 0 ? 'is-active' : ''}`} data-prog={i}></span>
+          ))}
+        </span>
+        <span class="whatprog__count" data-prog-count>{`01 / ${String(capabilities.length).padStart(2, '0')}`}</span>
+      </div>
+
       <div class="proc">
         <span class="proc__label">HOW IT USUALLY GOES</span>
         <div class="proc__steps">
@@ -511,56 +522,92 @@ const lifePhotos = [
   .what__title { font-family: var(--font-display); font-weight: 700; font-size: 80px; line-height: 1; letter-spacing: -3px; }
   .what__sub { width: 380px; max-width: 100%; font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--dim-l); }
 
-  .what__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 64px; }
+  /* gap 16 + 28px padding each side = the design's 64px visual rhythm */
+  .what__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 
-  /* Capability cards.
-     Hover (desktop) or active-slide (mobile) fills the card with --orange. The
-     fill is painted by ::before with a negative inset so it bleeds past the content
-     without changing layout — padding the card instead would shift the text on hover.
-     Text colours go through custom properties so one state switch recolours everything.
-     Ink at partial alpha keeps contrast on orange (full ink is ~7:1, dim grey ~2:1). */
+  /* Capability cards — design option C (dark tile).
+     The active card — hovered on desktop, centred in the mobile slider — becomes the
+     same dark surface as the Process panel directly below it, so the two read as one
+     system. Colours route through custom properties so a single state switch
+     recolours everything.
+
+     Two things here exist purely to stop the card moving when the state changes:
+     padding is on EVERY card (adding it on hover would shift the text), and all four
+     border sides are always present — transparent when inactive — so switching to the
+     dark tile cannot change the box by 3px.
+
+     There is deliberately no ::before. The previous version painted the fill with
+     `inset: -28px -20px -24px`, which spilled 20px sideways and landed on the next
+     card in the mobile slider, where the gap is only 16px. */
   .cap {
-    position: relative;
-    isolation: isolate;
-    border-top: 1px solid var(--line-d);
-    padding-top: 36px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding: 36px 28px 30px;
+    border: 1px solid transparent;
+    border-top-color: var(--line-d);
+    border-radius: var(--radius);
+    background: transparent;
     --cap-n: var(--accent-blue);
+    --cap-t: var(--ink);
     --cap-d: var(--dim-l);
     --cap-rule: var(--line-l);
+    transition: background 0.25s ease, border-color 0.25s ease;
   }
-  .cap::before {
-    content: '';
-    position: absolute;
-    inset: -28px -20px -24px;
-    background: var(--orange);
-    border-radius: var(--radius);
-    opacity: 0;
-    transition: opacity 0.25s ease;
-    z-index: -1;
-  }
+
   @media (hover: hover) {
-    .cap:hover::before { opacity: 1; }
     .cap:hover {
-      --cap-n: rgba(10, 10, 10, 0.62);
-      --cap-d: rgba(10, 10, 10, 0.74);
-      --cap-rule: rgba(10, 10, 10, 0.18);
+      background: var(--tile);
+      border-color: var(--line-d2);
+      --cap-n: var(--accent);
+      --cap-t: #fff;
+      --cap-d: #a8a8b3;
+      --cap-rule: var(--line-d2);
     }
   }
-  .cap.is-active::before { opacity: 1; }
+
   .cap.is-active {
-    --cap-n: rgba(10, 10, 10, 0.62);
-    --cap-d: rgba(10, 10, 10, 0.74);
-    --cap-rule: rgba(10, 10, 10, 0.18);
+    background: var(--tile);
+    border-color: var(--line-d2);
+    --cap-n: var(--accent);
+    --cap-t: #fff;
+    --cap-d: #a8a8b3;
+    --cap-rule: var(--line-d2);
   }
 
   .cap__n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: var(--cap-n); transition: color 0.25s ease; }
-  .cap__t { font-family: var(--font-display); font-weight: 500; font-size: 28px; line-height: 1.15; letter-spacing: -1px; }
+  .cap__t { font-family: var(--font-display); font-weight: 500; font-size: 28px; line-height: 1.15; letter-spacing: -1px; color: var(--cap-t); transition: color 0.25s ease; }
   .cap__d { font-family: var(--font-body); font-size: 15px; line-height: 1.55; color: var(--cap-d); transition: color 0.25s ease; }
   .cap__list { display: flex; flex-direction: column; }
   .cap__list li { font-family: var(--font-body); font-size: 13.5px; color: var(--cap-d); border-top: 1px solid var(--cap-rule); padding: 11px 0; transition: color 0.25s ease, border-color 0.25s ease; }
+
+  /* Slide indicator — mobile only, matching the slider's breakpoint. One segment per
+     slide, filled up to the active one, plus a mono counter. The segment count tells
+     you how many slides there are; the fill tells you where you are. */
+  .whatprog { display: none; }
+
+  @media (max-width: 900px) {
+    .whatprog {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 22px;
+    }
+    .whatprog__segs { display: flex; gap: 6px; flex: 1; }
+    .whatprog__seg {
+      flex: 1;
+      height: 2px;
+      background: var(--line-l);
+      transition: background 0.3s ease;
+    }
+    .whatprog__seg.is-active { background: var(--accent); }
+    .whatprog__count {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--dim-l);
+    }
+  }
 
   /* Process — dark card, horizontal rail with coral node dots */
   .proc { margin-top: 72px; background: var(--tile); border: 1px solid var(--line-d2); border-radius: var(--radius);
@@ -751,7 +798,10 @@ const lifePhotos = [
   @media (max-width: 1100px) {
     .hero { height: auto; padding: 28px 0 40px; display: flex; flex-direction: column; gap: 26px; }
     .hero__vline { display: none; }
-    .hero__marquees { position: static; }
+    /* Desktop centres the band with top:50% + translateY(-50%). Resetting only
+       `position` leaves that transform live, which drags the band 112px up behind
+       the sticky header — so `transform` and `top` both have to be cleared. */
+    .hero__marquees { position: static; top: auto; transform: none; }
     .hero__row { height: 56px; }
     .hero__track span { font-size: 32px; letter-spacing: -1px; }
     .hero__top { position: static; padding-inline: var(--pad); }
@@ -1042,6 +1092,8 @@ const lifePhotos = [
   const capSlider = document.querySelector('[data-slider]');
   if (capSlider) {
     const caps = Array.from(capSlider.querySelectorAll('.cap'));
+    const progSegs = Array.from(document.querySelectorAll('[data-prog]'));
+    const progCount = document.querySelector('[data-prog-count]');
     let capRaf = 0;
     const markActiveCap = () => {
       capRaf = 0;
@@ -1062,6 +1114,13 @@ const lifePhotos = [
         }
       }
       caps.forEach((c) => c.classList.toggle('is-active', c === best));
+
+      // Slide indicator: fill segments up to the active one, and update the counter.
+      const idx = best ? caps.indexOf(best) : 0;
+      progSegs.forEach((sg, i) => sg.classList.toggle('is-active', i <= idx));
+      if (progCount) {
+        progCount.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(caps.length).padStart(2, '0')}`;
+      }
     };
     const onCapScroll = () => {
       if (!capRaf) capRaf = requestAnimationFrame(markActiveCap);
