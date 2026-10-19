@@ -16,9 +16,9 @@ if (!service) {
 }
 
 const allWorks = await fetchWorksData();
-// Pull real posts by type rather than hardcoding designed slugs — some of the
-// slugs in the design don't exist in WordPress (see design/HANDOFF.md §6).
-const related = allWorks.filter((w) => w.type === service.workType).slice(0, 3);
+// Match on ANY of a post's work_type terms (not just the first) — e.g. a post tagged
+// ['lu7','wordpress'] should appear under the WordPress service too.
+const related = allWorks.filter((w) => w.types.includes(service.workType)).slice(0, 3);
 const others = services.filter((s) => s.slug !== service.slug);
 
 const pad = (n: number) => String(n).padStart(2, '0');

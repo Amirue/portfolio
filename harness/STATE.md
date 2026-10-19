@@ -164,6 +164,16 @@ Answers to "why" + fixes. Prod WP now has work_type terms: ai, lu7 ("Light Up 7"
   querying `[data-type]`, so it collected 0 cards and every click was a no-op on live. Now queries
   `[data-types]`. (Lesson: the filter JS selector and the card attribute must move together.)
 
+## Batch — services tweaks (this session)
+- UI/UX offering: `Accessibility (WCAG AA)` -> `UX laws` (Fitts/Hick/Jakob/Miller).
+- AI offering `Full-stack apps` desc -> 'From database to interface — I build and ship the whole
+  thing, not just a front-end mockup.'
+- **Service "Selected work" bugfix:** `services/[slug].astro` filtered by `w.type === service.workType`
+  (first term only), so WordPress (works tagged `['lu7','wordpress']`) showed none. Now uses
+  `w.types.includes(service.workType)`. Prod build: wordpress 3 works, ai 2, uiux 0 (no post tagged
+  `uiux` yet — user can tag one in WP).
+- EXPLORE link stays pointing at the service detail page (user's call).
+
 ## Commits (branch v6-redesign)
 - `d838136` feat(v6): closing band shared gradient, gallery + case study on V6, services/contact/404 routes
   (batch from design agent + this session's harness; all 6 untracked paths staged).

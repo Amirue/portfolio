@@ -76,8 +76,8 @@ export const services: Service[] = [
         desc: 'Mobile-first layouts that hold together on every screen size.',
       },
       {
-        title: 'Accessibility (WCAG AA)',
-        desc: 'Contrast, focus states, semantics and full keyboard support.',
+        title: 'UX laws',
+        desc: 'Applying the classics — Fitts, Hick, Jakob, Miller — so flows feel obvious instead of confusing.',
       },
       {
         title: 'Brand & print assets',
@@ -103,7 +103,7 @@ export const services: Service[] = [
       },
       {
         title: 'Full-stack apps',
-        desc: 'Node.js and PostgreSQL backends behind real, production-ready products.',
+        desc: 'From database to interface — I build and ship the whole thing, not just a front-end mockup.',
       },
       {
         title: 'LLM agents & prompting',
