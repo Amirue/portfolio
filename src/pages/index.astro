@@ -3,7 +3,7 @@ import Base from '../components/layout/Base.astro';
 import Glow from '../components/layout/Glow.astro';
 import TextLoop from '../components/layout/TextLoop.astro';
 import KioskMock from '../components/KioskMock.astro';
-import { fetchWorksData } from '../lib/wordpress';
+import { fetchWorksData, fetchGalleryData } from '../lib/wordpress';
 import { axes } from '../data/toolbox';
 
 // Replaces the old top marquee ticker — same copy, cycled one phrase at a time in
@@ -82,12 +82,13 @@ const ringPts = (r: number) => axes.map((_, i) => polar(i, r).join(',')).join(' 
 const dataPts = axes.map((a, i) => polar(i, (RR * a.v) / 100).join(',')).join(' ');
 const panelData = axes.map((a) => ({ label: a.label, v: a.v, items: a.items }));
 
-const lifePhotos = [
-  '/assets/images/wc-1.jpg',
-  '/assets/images/wc-3.jpg',
-  '/assets/images/wc-2.jpg',
-  '/assets/images/hero-1.png',
-];
+// Life lately: one image per gallery post (its featured / first photo). Falls back to the
+// local photos when WordPress is unreachable so the strip is never empty.
+const { posts: galleryPosts } = await fetchGalleryData();
+const featuredPhotos = galleryPosts.map((p) => p.media[0]).filter(Boolean);
+const lifePhotos = featuredPhotos.length
+  ? featuredPhotos
+  : ['/assets/images/wc-1.jpg', '/assets/images/wc-3.jpg', '/assets/images/wc-2.jpg', '/assets/images/hero-1.png'];
 ---
 
 <Base title="Amiruan — Web Developer & AI Specialist" description="Creative web developer and AI specialist in Kuala Lumpur. I design, I build, I ship — WordPress, frontend and AI." current="">
@@ -402,7 +403,7 @@ const lifePhotos = [
     </div>
     <div class="life__strip marquee">
       <div class="marquee__track life__track">
-        {[...lifePhotos, ...lifePhotos, ...lifePhotos, ...lifePhotos].map((src) => (
+        {[...lifePhotos, ...lifePhotos].map((src) => (
           <img src={src} alt="Life lately" loading="lazy" />
         ))}
       </div>

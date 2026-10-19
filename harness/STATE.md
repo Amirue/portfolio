@@ -190,6 +190,9 @@ Pen.dev's work was left uncommitted in the tree; reviewed, verified, committed h
   and track the active slide.
 - Verified prod build (14 pages): gallery `data-media` = 3 entries + badge + lightbox markup;
   `myeventqr` = 6 `case__img` + 6 thumbs.
+- **Life lately (home):** now uses one featured image per gallery post (prod has 23 posts -> 23
+  unique, duplicated x2 for the seamless marquee = 46 `<img>`), falling back to the four local
+  photos only if the gallery fetch is empty.
 
 ## Commits (branch v6-redesign)
 - `d838136` feat(v6): closing band shared gradient, gallery + case study on V6, services/contact/404 routes
