@@ -174,6 +174,11 @@ Answers to "why" + fixes. Prod WP now has work_type terms: ai, lu7 ("Light Up 7"
   `uiux` yet — user can tag one in WP).
 - EXPLORE link stays pointing at the service detail page (user's call).
 
+## Batch — footer (this session)
+- Removed the bottom `SYSTEM OPERATIONAL / ◷ LOCAL … MYT / ◎ AVAILABLE FOR HIRE` bar (and its
+  clock script). `AVAILABLE FOR HIRE` now sits inline with the copyright line; copy changed
+  `Built with precision.` -> `Built with care.`
+
 ## Commits (branch v6-redesign)
 - `d838136` feat(v6): closing band shared gradient, gallery + case study on V6, services/contact/404 routes
   (batch from design agent + this session's harness; all 6 untracked paths staged).
