@@ -83,7 +83,7 @@ const feedMeta = `${pad(posts.length)} POSTS${years.length ? `  ·  ${years.join
         <>
           <div class="ggrid" data-ggrid>
             {posts.map((p, i) => (
-              <article class="post" data-gtype={p.type} data-gindex={i}>
+              <article class="post" data-gtype={p.type} data-gindex={i} data-media={p.media.join('|')}>
                 <div class="post__bar">
                   <span class="post__type">{p.type.toUpperCase()}</span>
                   <span class="post__meta">{`${pad(i + 1)}   ·   ${p.date || '—'}`}</span>
@@ -91,7 +91,17 @@ const feedMeta = `${pad(posts.length)} POSTS${years.length ? `  ·  ${years.join
                 <span class="post__rule" aria-hidden="true"></span>
                 <div class="post__media">
                   {p.media[0] ? (
-                    <img src={p.media[0]} alt={p.title} loading={i < 3 ? 'eager' : 'lazy'} />
+                    <button
+                      type="button"
+                      class="post__open"
+                      data-open={i}
+                      aria-label={`View ${p.title} — ${p.media.length} photo${p.media.length === 1 ? '' : 's'}`}
+                    >
+                      <img src={p.media[0]} alt={p.title} loading={i < 3 ? 'eager' : 'lazy'} />
+                      {p.media.length > 1 && (
+                        <span class="post__count">{`${pad(p.media.length)} PHOTOS`}</span>
+                      )}
+                    </button>
                   ) : (
                     <span class="post__nophoto" aria-hidden="true">NO PHOTO</span>
                   )}
@@ -104,6 +114,17 @@ const feedMeta = `${pad(posts.length)} POSTS${years.length ? `  ·  ${years.join
                 </div>
               </article>
             ))}
+          </div>
+
+          {/* Lightbox. Steps through every image of the post that was opened. Uses an
+              .is-open class rather than the hidden attribute — an author `display` rule
+              outranks the UA stylesheet's [hidden] { display: none }. */}
+          <div class="lbox" data-lbox role="dialog" aria-modal="true" aria-label="Photo viewer">
+            <button class="lbox__close" data-lbox-close aria-label="Close viewer">✕</button>
+            <button class="lbox__nav lbox__nav--prev" data-lbox-prev aria-label="Previous photo">‹</button>
+            <img class="lbox__img" data-lbox-img src="" alt="" />
+            <button class="lbox__nav lbox__nav--next" data-lbox-next aria-label="Next photo">›</button>
+            <span class="lbox__count" data-lbox-count></span>
           </div>
 
           <div class="gend">
@@ -250,6 +271,75 @@ const feedMeta = `${pad(posts.length)} POSTS${years.length ? `  ·  ${years.join
     color: var(--dim-d);
   }
 
+  /* The card shows one image; the rest live in the lightbox. */
+  .post__open { display: block; width: 100%; height: 100%; padding: 0; position: relative; cursor: zoom-in; }
+  .post__open img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .post__count {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    padding: 5px 9px;
+    background: rgba(10, 10, 10, 0.72);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: #fff;
+  }
+
+  /* ── Lightbox ── */
+  .lbox {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(6, 6, 8, 0.94);
+  }
+  .lbox.is-open { display: flex; }
+  .lbox__img {
+    max-width: min(1200px, 88vw);
+    max-height: 82vh;
+    object-fit: contain;
+    border-radius: var(--radius);
+  }
+  .lbox__close,
+  .lbox__nav {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: var(--radius);
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .lbox__close:hover,
+  .lbox__nav:hover { border-color: var(--accent); color: var(--accent); }
+  .lbox__close { top: 24px; right: 24px; width: 44px; height: 44px; font-size: 16px; }
+  .lbox__nav { top: 50%; transform: translateY(-50%); width: 52px; height: 52px; font-size: 28px; line-height: 1; }
+  .lbox__nav--prev { left: 24px; }
+  .lbox__nav--next { right: 24px; }
+  .lbox__count {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .lbox__nav[disabled] { opacity: 0.3; cursor: default; }
+
+  @media (max-width: 760px) {
+    .lbox__nav { width: 42px; height: 42px; font-size: 22px; }
+    .lbox__nav--prev { left: 10px; }
+    .lbox__nav--next { right: 10px; }
+    .lbox__close { top: 12px; right: 12px; }
+  }
+
   .post__foot { padding: 16px; display: flex; flex-direction: column; gap: 8px; min-height: 94px; }
   .post__t { font-family: var(--font-display); font-weight: 500; font-size: 16px; color: #fff; }
   .post__loc { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: #7a7a88; }
@@ -296,6 +386,67 @@ const feedMeta = `${pad(posts.length)} POSTS${years.length ? `  ·  ${years.join
 </style>
 
 <script>
+  // ── Lightbox ──────────────────────────────────────────────────────────────
+  // Cards show one image; the rest are reachable here. Media lists ride on the card's
+  // `data-media` (pipe-separated) so the viewer needs no extra fetch.
+  const lbox = document.querySelector<HTMLElement>('[data-lbox]');
+  const lboxImg = document.querySelector<HTMLImageElement>('[data-lbox-img]');
+  const lboxCount = document.querySelector<HTMLElement>('[data-lbox-count]');
+  const lboxPrev = document.querySelector<HTMLButtonElement>('[data-lbox-prev]');
+  const lboxNext = document.querySelector<HTMLButtonElement>('[data-lbox-next]');
+
+  if (lbox && lboxImg) {
+    let list: string[] = [];
+    let at = 0;
+    let lastFocus: HTMLElement | null = null;
+
+    const show = (n: number) => {
+      if (!list.length) return;
+      at = (n + list.length) % list.length;
+      lboxImg.src = list[at];
+      lboxImg.alt = `${at + 1} of ${list.length}`;
+      if (lboxCount) lboxCount.textContent = `${String(at + 1).padStart(2, '0')} / ${String(list.length).padStart(2, '0')}`;
+      const single = list.length < 2;
+      if (lboxPrev) lboxPrev.disabled = single;
+      if (lboxNext) lboxNext.disabled = single;
+    };
+
+    const open = (media: string[], trigger: HTMLElement) => {
+      list = media;
+      lastFocus = trigger;
+      lbox.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      show(0);
+      lboxNext?.focus();
+    };
+
+    const close = () => {
+      lbox.classList.remove('is-open');
+      document.body.style.overflow = '';
+      lboxImg.src = '';
+      lastFocus?.focus();
+    };
+
+    document.querySelectorAll<HTMLElement>('[data-open]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('[data-media]');
+        const media = (card?.getAttribute('data-media') || '').split('|').filter(Boolean);
+        if (media.length) open(media, btn);
+      });
+    });
+
+    lboxPrev?.addEventListener('click', () => show(at - 1));
+    lboxNext?.addEventListener('click', () => show(at + 1));
+    document.querySelector('[data-lbox-close]')?.addEventListener('click', close);
+    lbox.addEventListener('click', (e) => { if (e.target === lbox) close(); });
+    document.addEventListener('keydown', (e) => {
+      if (!lbox.classList.contains('is-open')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') show(at - 1);
+      else if (e.key === 'ArrowRight') show(at + 1);
+    });
+  }
+
   const grid = document.querySelector('[data-ggrid]');
   if (grid) {
     const INITIAL = 6;

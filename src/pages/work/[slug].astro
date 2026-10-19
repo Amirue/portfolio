@@ -113,6 +113,22 @@ const metaRows = [
             )}
           </div>
 
+          {/* Thumbnails. The arrows and the counter alone didn't make it obvious there
+              were six images — this shows the whole set at a glance and jumps directly. */}
+          {images.length > 1 && (
+            <div class="case__thumbs" data-thumbs>
+              {images.map((src, i) => (
+                <button
+                  class={`case__thumb ${i === 0 ? 'is-active' : ''}`}
+                  data-thumb={i}
+                  aria-label={`Show image ${i + 1} of ${images.length}`}
+                >
+                  <img src={src} alt="" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          )}
+
           <div class="case__cap">
             <span class="case__st">CAPTURE</span>
             <span class="case__capTxt" data-cap>{`CAPTURE 1 OF ${images.length}`}</span>
@@ -230,6 +246,30 @@ const metaRows = [
 
   .case__hud { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .case__count { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: #fff; }
+
+  /* Thumbnail strip — makes the size of the gallery visible at a glance. */
+  .case__thumbs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .case__thumbs::-webkit-scrollbar { display: none; }
+  .case__thumb {
+    flex: 0 0 auto;
+    width: 64px;
+    height: 46px;
+    padding: 0;
+    border: 1px solid var(--line-d2);
+    border-radius: var(--radius);
+    overflow: hidden;
+    opacity: 0.5;
+    transition: opacity 0.2s ease, border-color 0.2s ease;
+  }
+  .case__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .case__thumb:hover { opacity: 0.8; }
+  .case__thumb.is-active { opacity: 1; border-color: var(--accent); }
   .case__nav { display: flex; gap: 8px; }
   .case__arrow {
     width: 34px;
@@ -273,6 +313,7 @@ const metaRows = [
   const root = document.querySelector('[data-gallery]');
   if (root) {
     const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-slide]'));
+    const thumbs = Array.from(root.querySelectorAll<HTMLElement>('[data-thumb]'));
     if (slides.length > 1) {
       const count = root.querySelector('[data-count]');
       const cap = root.querySelector('[data-cap]');
@@ -280,11 +321,15 @@ const metaRows = [
       const show = (n: number) => {
         i = (n + slides.length) % slides.length;
         slides.forEach((s, idx) => s.classList.toggle('is-active', idx === i));
+        thumbs.forEach((t, idx) => t.classList.toggle('is-active', idx === i));
         if (count) count.textContent = `${i + 1} / ${slides.length}`;
         if (cap) cap.textContent = `CAPTURE ${i + 1} OF ${slides.length}`;
       };
       root.querySelector('[data-prev]')?.addEventListener('click', () => show(i - 1));
       root.querySelector('[data-next]')?.addEventListener('click', () => show(i + 1));
+      thumbs.forEach((t) => {
+        t.addEventListener('click', () => show(Number(t.getAttribute('data-thumb')) || 0));
+      });
     }
   }
 </script>

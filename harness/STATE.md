@@ -179,6 +179,18 @@ Answers to "why" + fixes. Prod WP now has work_type terms: ai, lu7 ("Light Up 7"
   clock script). `AVAILABLE FOR HIRE` now sits inline with the copyright line; copy changed
   `Built with precision.` -> `Built with care.`
 
+## Batch — gallery lightbox + work thumbnails (Pen.dev, verified+committed this session)
+Pen.dev's work was left uncommitted in the tree; reviewed, verified, committed here.
+- `wordpress.ts`: `imagesFromHtml()` + `imageKey()` (strips WP `-WxH` size suffixes / query) +
+  `collectMedia()` = union of the ACF gallery field and body `<img>`s (ACF first, deduped, http->https).
+  `mapPost` now uses it, so editor-added gallery photos are no longer dropped.
+- `gallery.astro`: card image is a zoom-in button with an `NN PHOTOS` badge; a lightbox steps through
+  all of a post's photos (prev/next, counter, Esc/arrows, click-outside, focus restore).
+- `work/[slug].astro`: thumbnail strip under the case-study stage (shown when >1 image); thumbs jump
+  and track the active slide.
+- Verified prod build (14 pages): gallery `data-media` = 3 entries + badge + lightbox markup;
+  `myeventqr` = 6 `case__img` + 6 thumbs.
+
 ## Commits (branch v6-redesign)
 - `d838136` feat(v6): closing band shared gradient, gallery + case study on V6, services/contact/404 routes
   (batch from design agent + this session's harness; all 6 untracked paths staged).

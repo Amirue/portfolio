@@ -61,6 +61,58 @@ function stripHtml(html: string): string {
   return html.replace(/<[^>]+>/g, '').trim();
 }
 
+/** Image URLs found in rendered post content, in document order. */
+function imagesFromHtml(html: string): string[] {
+  const out: string[] = [];
+  const re = /<img[^>]*\ssrc=["']([^"']+)["']/gi;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html)) !== null) {
+    // WordPress can emit http:// for images inserted before the site went https.
+    // Upgrade them unless they're a local dev host, or the browser blocks them.
+    const url = m[1].replace(/^http:\/\/(?!localhost|127\.0\.0\.1)/i, 'https://');
+    out.push(url);
+  }
+  return out;
+}
+
+/**
+ * Dedupe key for an image URL.
+ *
+ * WordPress emits resized variants (`photo-1024x692.jpg`) while the ACF field holds the
+ * full-size original (`photo.jpg`), so comparing raw URLs treats one photo as two. Strip the
+ * WordPress size suffix and the query string before comparing.
+ */
+function imageKey(url: string): string {
+  return url
+    .split('?')[0]
+    // `-768x1024-1` — a resize plus WordPress's duplicate-name counter
+    .replace(/-\d+x\d+-\d+(?=\.[a-z0-9]+$)/i, '')
+    // `-1024x692` — a plain resize
+    .replace(/-\d+x\d+(?=\.[a-z0-9]+$)/i, '')
+    .toLowerCase();
+}
+
+/**
+ * All images for a post: the ACF gallery field first, then anything in the body that
+ * isn't already listed.
+ *
+ * Both authoring paths used to be mutually exclusive — only the ACF field was read, so any
+ * image added with the block editor vanished silently. Union covers both.
+ */
+function collectMedia(acfUrls: string[], html: string): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  // ACF first so full-size originals win over body-embedded resized copies.
+  for (const url of [...acfUrls, ...imagesFromHtml(html)]) {
+    if (!url) continue;
+    const key = imageKey(url);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(url);
+  }
+  return out;
+}
+
 function mapPost(wp: WPPost): GalleryPost {
   const acf = wp.acf || {} as WPAcfFields;
   const type = (wp.gallery_type && wp.gallery_type[0]) || 'moments';
@@ -70,7 +122,10 @@ function mapPost(wp: WPPost): GalleryPost {
     .filter(Boolean)
     .map((t) => (t.startsWith('#') ? t : '#' + t));
 
-  const media = (acf.gallery_images || []).map((img) => img.url).filter(Boolean);
+  const media = collectMedia(
+    (acf.gallery_images || []).map((img) => img.url).filter(Boolean),
+    wp.content.rendered || ''
+  );
 
   return {
     id: wp.slug,
