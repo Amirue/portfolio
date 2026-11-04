@@ -9,18 +9,21 @@ import { axes } from '../data/toolbox';
 // Replaces the old top marquee ticker — same copy, cycled one phrase at a time in
 // the hero instead of scrolling across the navbar.
 const tickerPhrases = [
-  'Web dev on a slow day',
-  'Currently arguing with CSS',
-  'This ships rough on purpose',
-  'Built with caffeine and spite',
-  'If it looks half-done, it probably is',
-  'Designers never finish their own portfolio',
-  'Open to work (and snacks)',
-  'Yes, I built this myself',
+  'WordPress & custom web builds',
+  'UI/UX that ships',
+  'AI-assisted development',
+  'Design that holds up in production',
+  'Based in Kuala Lumpur',
+  'Open to new work',
+  'Details matter',
+  'Built with care',
 ];
 
 const works = await fetchWorksData();
 const featured = works.slice(0, 3);
+// Range from the actual featured posts (handles multi-year strings like "2024-2026").
+const featuredYears = featured.flatMap((w) => (String(w.year).match(/\d{4}/g) ?? []).map(Number));
+const workRange = featuredYears.length ? `${Math.min(...featuredYears)}—${Math.max(...featuredYears)}` : '';
 
 // ── Static copy (declared here so a CPT swap later is a one-line change) ──
 const stats = [
@@ -84,7 +87,7 @@ const lifePhotos = featuredPhotos.length
   : ['/assets/images/wc-1.jpg', '/assets/images/wc-3.jpg', '/assets/images/wc-2.jpg', '/assets/images/hero-1.png'];
 ---
 
-<Base title="Amiruan — Web Developer & AI Specialist" description="Creative web developer and AI specialist in Kuala Lumpur. I design, I build, I ship — WordPress, frontend and AI." current="">
+<Base title="Amiruan — Web Developer & Designer | WordPress & AI-Assisted" description="Kuala Lumpur web developer and designer building production WordPress sites and custom web apps, with AI-assisted development." current="">
 
   <!-- 02 Hero -->
   <section class="hero">
@@ -206,7 +209,7 @@ const lifePhotos = featuredPhotos.length
     <div class="wrap">
       <header class="sec-head sec-head--row">
         <h2 class="t-h2 reveal">Selected Work</h2>
-        <span class="work__count reveal">{`(${String(featured.length).padStart(2, '0')}) · 2024—2025`}</span>
+        <span class="work__count reveal">{`(${String(featured.length).padStart(2, '0')})${workRange ? ` · ${workRange}` : ''}`}</span>
       </header>
 
       <div class="accordion" id="workAccordion">
