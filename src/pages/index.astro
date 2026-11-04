@@ -51,13 +51,6 @@ const capabilities = [
   },
 ];
 
-const process = [
-  { n: '01', t: 'Discover', d: 'Understand the business, the users, and what actually needs to change.' },
-  { n: '02', t: 'Design', d: 'Wireframes first, then a real design system. Nothing decorative for its own sake.' },
-  { n: '03', t: 'Build', d: 'Clean, accessible frontend. WordPress or headless, whichever fits.' },
-  { n: '04', t: 'Ship & iterate', d: 'Launch, measure, keep improving. Handover docs and a walkthrough included.' },
-];
-
 const path = [
   { y: '2020', k: 'EDUCATION', t: 'UTM — Software Engineering', d: 'Started a Software Engineering degree at Universiti Teknologi Malaysia, Skudai, Johor.', x: ['Software Engineering', 'C++', 'Java OOP', 'AI', 'Software QA', 'Design Architecture'], img: 'https://wp.amiruan.site/wp-content/uploads/2026/10/utm.png' },
   { y: '2022', k: 'EXPERIENCE', t: 'Orchestra Instructor', d: 'Taught woodwind and ran rehearsals at SM Sains Raja Tun Azlan Shah — including state-level performances.', x: ['Gold Award', '3rd Place SBP WOC'], img: 'https://wp.amiruan.site/wp-content/uploads/2026/10/orchestra.png' },
@@ -203,22 +196,6 @@ const lifePhotos = featuredPhotos.length
           ))}
         </span>
         <span class="whatprog__count" data-prog-count>{`01 / ${String(capabilities.length).padStart(2, '0')}`}</span>
-      </div>
-
-      <div class="proc">
-        <span class="proc__label">HOW IT USUALLY GOES</span>
-        <div class="proc__steps">
-          {process.map((p, i) => (
-            <div class="proc__step reveal" style={`--i:${i}`}>
-              <span class="proc__n">{p.n}</span>
-              <span class="proc__dot" aria-hidden="true"></span>
-              <div class="proc__body">
-                <h3 class="proc__t">{p.t}</h3>
-                <p class="proc__d">{p.d}</p>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   </section>
@@ -527,10 +504,9 @@ const lifePhotos = featuredPhotos.length
   .what__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 
   /* Capability cards — design option C (dark tile).
-     The active card — hovered on desktop, centred in the mobile slider — becomes the
-     same dark surface as the Process panel directly below it, so the two read as one
-     system. Colours route through custom properties so a single state switch
-     recolours everything.
+     The active card — hovered on desktop, centred in the mobile slider — becomes a dark
+     tile (#131318) so it reads as a distinct, selected surface. Colours route through
+     custom properties so a single state switch recolours everything.
 
      Two things here exist purely to stop the card moving when the state changes:
      padding is on EVERY card (adding it on hover would shift the text), and all four
@@ -610,20 +586,6 @@ const lifePhotos = featuredPhotos.length
     }
   }
 
-  /* Process — dark card, horizontal rail with coral node dots */
-  .proc { margin-top: 72px; background: var(--tile); border: 1px solid var(--line-d2); border-radius: var(--radius);
-    padding: 36px 32px; display: flex; flex-direction: column; gap: 30px; }
-  .proc__label { align-self: flex-start; padding: 9px 14px; background: #1B1B22; border: 1px solid #33333D;
-    border-radius: var(--radius); font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; color: var(--dim-d); }
-  .proc__steps { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
-  .proc__steps::before { content: ''; position: absolute; left: 0; right: 0; top: 30px; height: 1px; background: #FFFFFF1F; }
-  .proc__step { position: relative; display: flex; flex-direction: column; }
-  .proc__n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: var(--accent-blue); }
-  .proc__dot { width: 13px; height: 13px; border-radius: 50%; background: var(--tile);
-    border: 2px solid var(--accent); margin-top: 11px; }
-  .proc__body { display: flex; flex-direction: column; gap: 8px; margin-top: 27px; }
-  .proc__t { font-family: var(--font-display); font-weight: 500; font-size: 20px; color: #fff; }
-  .proc__d { font-family: var(--font-body); font-size: 13px; line-height: 1.6; color: var(--dim-d); }
 
   /* ── Work ── */
   .work__count { font-family: var(--font-mono); font-size: 12px; color: var(--dim-d); }
@@ -891,15 +853,12 @@ const lifePhotos = featuredPhotos.length
     .bench { grid-template-columns: 1fr; gap: 40px; }
     .bench__radar { width: 100%; max-width: 480px; margin-inline: auto; }
     .axes { grid-template-columns: repeat(3, 1fr); }
-    .proc__steps { grid-template-columns: repeat(2, 1fr); row-gap: 36px; }
-    .proc__steps::before { display: none; }
     .life__track img { height: 180px; }
   }
 
   @media (max-width: 560px) {
     .toolbox { padding: 64px 0; }
     .axes { grid-template-columns: repeat(2, 1fr); }
-    .proc__steps { grid-template-columns: 1fr; }
     .acc { padding: 0 20px; }
     .acc__panel { grid-template-columns: 1fr; gap: 24px; }
   }

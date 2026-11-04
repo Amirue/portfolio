@@ -194,6 +194,10 @@ Pen.dev's work was left uncommitted in the tree; reviewed, verified, committed h
   unique, duplicated x2 for the seamless marquee = 46 `<img>`), falling back to the four local
   photos only if the gallery fetch is empty.
 
+## Batch — process panel removed (this session)
+- Removed the "HOW IT USUALLY GOES" process card from the homepage ("What I do" now ends after
+  the 3 capability cards). Dropped the `process` data array, `.proc*` CSS and its responsive rules.
+
 ## Commits (branch v6-redesign)
 - `d838136` feat(v6): closing band shared gradient, gallery + case study on V6, services/contact/404 routes
   (batch from design agent + this session's harness; all 6 untracked paths staged).
