@@ -3,6 +3,9 @@ import Base from '../components/layout/Base.astro';
 import Glow from '../components/layout/Glow.astro';
 import TextLoop from '../components/layout/TextLoop.astro';
 import KioskMock from '../components/KioskMock.astro';
+import CheckinMock from '../components/CheckinMock.astro';
+import FenMock from '../components/FenMock.astro';
+import DutaguruMock from '../components/DutaguruMock.astro';
 import { fetchWorksData, fetchGalleryData } from '../lib/wordpress';
 import { axes } from '../data/toolbox';
 
@@ -226,9 +229,15 @@ const lifePhotos = featuredPhotos.length
               <div class="acc__panel">
                 {w.slug === 'ai-kiosk-interface'
                   ? <KioskMock />
-                  : w.image
-                    ? <img class="acc__img" src={w.image} alt={w.title} loading="lazy" />
-                    : <div class="acc__img acc__img--ph">PREVIEW SOON</div>}
+                  : ['automated-printing', 'myeventqr', 'event-checkin', 'badge-printing'].includes(w.slug)
+                    ? <CheckinMock />
+                    : ['brand-website-redesign', 'fen-learn', 'fen', 'fen-proaktif'].includes(w.slug)
+                      ? <FenMock />
+                      : ['dutaguru', 'dutaguru-simposium', 'simposium'].includes(w.slug)
+                        ? <DutaguruMock />
+                        : w.image
+                        ? <img class="acc__img" src={w.image} alt={w.title} loading="lazy" />
+                        : <div class="acc__img acc__img--ph">PREVIEW SOON</div>}
                 <div class="acc__info">
                   <span class="acc__fl u-blue">FEATURED PROJECT</span>
                   <p class="acc__desc">{w.subtitle}</p>
@@ -532,18 +541,22 @@ const lifePhotos = featuredPhotos.length
     --cap-t: var(--ink);
     --cap-d: var(--dim-l);
     --cap-rule: var(--line-l);
-    transition: background 0.25s ease, border-color 0.25s ease;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
   }
 
   @media (hover: hover) {
     .cap:hover {
       background: var(--tile);
       border-color: var(--line-d2);
+      transform: translateY(-4px);
       --cap-n: var(--accent);
       --cap-t: #fff;
       --cap-d: #a8a8b3;
       --cap-rule: var(--line-d2);
     }
+    .tool:hover { transform: translateY(-2px); }
+    .acc__cta:hover { color: #fff; }
+    .work__all:hover { color: var(--accent); }
   }
 
   .cap.is-active {
@@ -602,7 +615,7 @@ const lifePhotos = featuredPhotos.length
   .acc__ic { font-size: 22px; color: var(--accent); text-align: right; }
   .acc__body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
   .acc.is-open .acc__body { grid-template-rows: 1fr; }
-  .acc__panel { overflow: hidden; display: grid; grid-template-columns: 620px 1fr; gap: 48px; }
+  .acc__panel { overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 40px; }
   /* Bottom spacing only while open: padding on the grid item is NOT clipped by the
      collapsing 0fr row, so a permanent padding-bottom left every closed panel 48px tall
      and its content bled over the next item on mobile. */
@@ -613,8 +626,8 @@ const lifePhotos = featuredPhotos.length
   .acc__fl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; }
   .acc__desc { font-family: var(--font-body); font-size: 15px; color: #cfcfcf; }
   .acc__metric { font-family: var(--font-mono); font-size: 12px; color: var(--green); }
-  .acc__cta { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1.5px; color: var(--accent); }
-  .work__all { display: inline-block; margin-top: 40px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 2px; color: #fff; }
+  .acc__cta { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1.5px; color: var(--accent); transition: color 0.2s ease; }
+  .work__all { display: inline-block; margin-top: 40px; font-family: var(--font-mono); font-size: 13px; letter-spacing: 2px; color: #fff; transition: color 0.2s ease, transform 0.2s ease; }
 
   /* ── Path ── */
   /* Title left; sub + filled blue resume button hard right, all top-aligned
@@ -739,7 +752,7 @@ const lifePhotos = featuredPhotos.length
   .tooltabs { display: none; }
   .tool { height: 148px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;
     background: transparent; outline: 1px solid var(--line-d2); outline-offset: -0.5px; border-radius: var(--radius);
-    transition: background 0.2s ease, outline-color 0.2s ease; }
+    transition: background 0.2s ease, outline-color 0.2s ease, transform 0.2s ease; }
   /* `display: flex` above outranks the UA stylesheet's [hidden] { display: none },
      so the mobile axis filter needs this explicitly. */
   .tool[hidden] { display: none; }

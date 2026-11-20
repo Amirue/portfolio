@@ -1,0 +1,77 @@
+---
+/**
+ * DutaguruMock — Dutaguru symposium site preview: a mini browser window
+ * embedding the live dutaguru.my in a user-scrollable frame. No simulation —
+ * a brochure site has no task loop to operate.
+ */
+---
+
+<div class="dg">
+  <div class="dg__chrome">
+    <span class="dg__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="dg__tab">Simposium Kebangsaan PDG 2026</span>
+    <span class="dg__url" aria-hidden="true">⌂&nbsp;&nbsp;dutaguru.my</span>
+  </div>
+
+  <div class="dg__view">
+    <iframe
+      class="dg__frame"
+      src="https://dutaguru.my/"
+      title="Pratonton laman Simposium Kebangsaan PDG 2026 — boleh skrol"
+      loading="lazy"></iframe>
+  </div>
+</div>
+
+<style>
+  .dg {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #101014;
+    border: 1px solid var(--line-d2);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  /* ── Browser chrome ── */
+  .dg__chrome {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: #15151c;
+    border-bottom: 1px solid #101014;
+  }
+  .dg__dots { display: flex; gap: 6px; flex: none; }
+  .dg__dots i { width: 9px; height: 9px; border-radius: 50%; background: #3a3a44; }
+  .dg__dots i:first-child { background: #5a3a3a; }
+  .dg__tab {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    color: #fff;
+    background: #101014;
+    border: 1px solid var(--line-d2);
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    padding: 6px 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .dg__url {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--dim-d);
+    background: #0a0a0d;
+    border-radius: 999px;
+    padding: 6px 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── Live site preview (real page, user-scrollable) ── */
+  .dg__view { height: 340px; position: relative; background: #fff; }
+  .dg__frame { display: block; width: 100%; height: 100%; border: 0; background: #fff; }
+</style>

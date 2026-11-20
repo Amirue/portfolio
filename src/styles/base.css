@@ -222,6 +222,13 @@ h1, h2, h3, h4, h5, h6, p, figure {
   .tloop__item { transition: none; }
 }
 
+/* ── V7 subtle upgrades: selection tint (zero layout risk; page-level hover
+   lifts live in each page's scoped styles + the new CheckinMock) ── */
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
 /* ── Focus states (visible on dark and light) ── */
 :focus-visible {
   outline: 2px solid var(--accent);

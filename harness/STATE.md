@@ -211,6 +211,68 @@ Pen.dev's work was left uncommitted in the tree; reviewed, verified, committed h
 - `6a8d12e` chore: drop dead gallery placeholder svgs (g01-g12; orphaned by cef621e) + contact-email decision.
 - `87742ad` feat(home): wire DOWNLOAD RESUME to the real PDF (index.astro:138, :255).
 
+## Batch — V7: MyEventQR check-in mock + subtle motion (this session, 2026-11-20)
+- Session renamed `redesign v7 - 2026-11-20`.
+- New `src/components/CheckinMock.astro`: vanilla port of the public-demo animation (no React dep).
+  idle → scanning (scan-line over decorative seeded-SVG QR, 760ms) → printing (badge ejects from
+  printer slot via overflow-hidden clip + overshoot keyframe, 1300ms) → done. Invalid QR stops before
+  printing with a red stamp; repeat check-ins don't double-count; timers cleared on reset; delays
+  shorten under reduced-motion; status via role="status"; lime accent kept local (`--ck-lime`) so the
+  site token discipline is untouched.
+- Mounted in the home Selected Work accordion for slugs
+  `automated-printing/myeventqr/event-checkin/badge-printing` (index.astro:5, :227-232), same 620px
+  panel column as KioskMock.astro:106.
+- Subtle site-wide motion: `.cap` hover lift (-4px), `.tool` hover lift (-2px), `.acc__cta`/`.work__all`
+  hover colours, `::selection` accent tint (base.css). All hover-only, no layout shift; global
+  reduced-motion kill-switch in base.css covers the new keyframes.
+- Build PASS (14 pages; live-WP pointed).
+- **V7 layout fix:** accordion visual/info columns `620px 1fr` → `minmax(0,1fr) 280px` (index.astro:605);
+  CheckinMock widened (250px rail, 188px phone, 196px desk, QR 134px, window 172px; stacks ≤680px).
+  Verified in `dist/index.html`: mock + script render for slug `myeventqr`. NOT browser-checked yet —
+  user to refresh dev server. No push/deploy.
+- **V7 mock refinements:** phone casing light (`#ecece8`) for contrast on dark bg; participants renamed to
+  DEMO Amiruddin / Husna / Demogorgon; all NOT-VALID copy, stamp and the invalid-QR button removed;
+  printed badge now carries its own 75px QR (same pattern, 3px/module exact). Build 14 PASS.
+- **V7 FEN mock:** new `src/components/FenMock.astro` — micro-lesson sim for the FEN project
+  (`brand-website-redesign` slug, index.astro:5/227): play sample lesson (2s progress) → 4-option
+  quick check (wrong answers shake + retry, score 100 first-try / 80 after retry) → XP ring fills to
+  50 XP + completion certificate slides in, retake resets. Verified in `dist/index.html`
+  (quiz copy + 34 fen__ refs present). No browser check yet; no push/deploy.
+- **V7 FEN rebrand (BM):** `FenMock.astro` rewritten — quiz is now financial (peraturan 50/30/20) and all
+  copy in Bahasa Melayu. Colours sampled from the live product (logo favicon + FEN Proaktif 2.0 OG
+  image): deep navy `#0a1f44` card, lime `#b5d334` primary, gold `#ffc72c` play-done state, navy seal
+  with lime monogram + lime top-edge on the certificate. Build 14 PASS.
+- **V7 cert redesign:** `fen__cert` now a proper certificate — org line, navy title, gold divider rule,
+  20px recipient name, "telah menyempurnakan" course line, rosette seal (navy medallion + gold ribbon
+  tails, `z-index:0` stacking fix) beside an italic signature line, faint FL watermark, gold inner
+  frame; wrap reserve 320px.
+- **V7 FEN playback clock:** lesson card shows a live `0:00 / 4:12` readout (rAF-driven, 04:12 compressed
+  into the 2s simulation, resets on retake). Build 14 PASS.
+- **V7 FEN video frame:** lesson card is now a 16:9 player — navy glow thumbnail, centered lime
+  play button, title (ellipsis-guarded) bottom-left, timestamp badge bottom-right, progress pinned to the
+  bottom edge. Verified visually at desktop 1440. No push/deploy.
+- **V7 size match:** FEN compacted (250px video, denser quiz/ring/cert/status, shorter BM question) —
+  measured exactly 440px = check-in height. Build 14 PASS.
+- **V7 Dutaguru real data:** mock now mirrors dutaguru.my — real URL in the bar, theme chips
+  (3–4 NOV 2026 · PICC PUTRAJAYA · 4000+ PESERTA), true stats (4000+/20+/40+), real session types
+  (Ucaptama, Pustaka Manusia, Bengkel, Pameran), 2-day program matching the real 3–4 Nov dates, and a
+  link to the genuine registration app (app.dutaguru.my/ns-rsvp). Seat meter stays demo fiction.
+- **V7 Dutaguru live embed:** fake scrolling page replaced with a real `<iframe src="https://dutaguru.my/">`
+  (framing allowed — no X-Frame-Options/CSP; user-scrollable; HUD tabs/booking retained below).
+- **V7 build bug found+fixed:** a stray extra `</div>` (leftover from the iframe swap) unbalanced
+  DutaguruMock's template — Astro silently dropped the component's entire scoped `<style>` (HTML/JS
+  still rendered). Diagnosed by bisecting to a trivial rule; fixed by removing the stray tag. Build
+  14 PASS, `dg__` rules confirmed back in the bundle.
+- Dev server went stale during the fix cycle (serving probe copy) — user to `restart` + refresh.
+  No push/deploy.
+- **V7 Dutaguru stripped:** per user request the whole HUD (day tabs, agenda, Daftar, seat meter,
+  status, real-site link) is removed — panel is now just browser chrome + the live dutaguru.my
+  iframe (340px view, no component JS left). Div balance verified 3/3. Build 14 PASS, confirmed
+  rendering the real hero (PDG/KPM/PETRONAS) with its own scrollbar.
+- **V7 mobile verified (browser, 390px):** both mocks stack cleanly, no overflow — check-in phone
+  (casing/island/homebar/crisp QR) wraps above printer (lid/LED/slot all visible), FEN quiz + XP ring
+  full-width, cert reveals in place. Accordion one-open-at-a-time confirmed. No push/deploy.
+
 ## Next
 - ALL previously-open "do NOT guess" decisions are now resolved (contact email, socials incl. GitHub,
   Ask AI / UX Pathfinder, resume, work slugs). No open items remain.

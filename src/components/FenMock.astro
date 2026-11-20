@@ -1,0 +1,575 @@
+---
+/**
+ * FenMock — interactive FEN Learn micro-lesson simulation (Bahasa Melayu).
+ *
+ * Branding sampled from the live product (logo + FEN Proaktif 2.0 creative):
+ * deep navy + lime + gold. Same recipe as CheckinMock (vanilla Astro + CSS):
+ * play the sample lesson (~2s) → answer the financial quick check in BM →
+ * XP ring fills and a completion certificate slides out. Wrong answers shake
+ * and allow a retry; score 100 on first try, 80 after retry.
+ */
+const options = [
+  { t: '20% — simpanan & pelaburan', ok: true },
+  { t: '50% — simpanan', ok: false },
+  { t: '30% — bayar hutang', ok: false },
+  { t: 'Simpan apa yang tinggal', ok: false },
+];
+---
+
+<div class="fen" data-fen>
+  <div class="fen__bar">
+    <span class="fen__tl">FEN LEARN · MODUL CONTOH · SIMULASI</span>
+    <span class="fen__sb"><span class="fen__dot" aria-hidden="true"></span>MOD BELAJAR</span>
+  </div>
+
+  <div class="fen__grid">
+    <div class="fen__left">
+      <span class="fen__lbl">01 · MODUL MIKRO</span>
+      <div class="fen__video">
+        <button class="fen__play" data-play aria-label="Mainkan modul contoh">
+          <span aria-hidden="true">▶</span>
+        </button>
+        <span class="fen__vtitle">Pengurusan Aliran Tunai</span>
+        <span class="fen__vdur" data-tcode>0:00 / 4:12</span>
+        <span class="fen__vprog" aria-hidden="true"><i data-vbar></i></span>
+      </div>
+
+      <span class="fen__lbl">02 · SOALAN SEMAK</span>
+      <p class="fen__q">Peraturan 50/30/20: berapakah bahagian untuk simpanan?</p>
+      <div class="fen__opts" role="group" aria-label="Pilihan jawapan">
+        {options.map((o, i) => (
+          <button class="fen__opt" data-opt={i} data-ok={o.ok ? '1' : '0'} disabled>
+            <span class="fen__key" aria-hidden="true">{String.fromCharCode(65 + i)}</span>
+            {o.t}
+          </button>
+        ))}
+      </div>
+      <button class="fen__ghost" data-retake hidden>Ulang modul</button>
+
+      <p class="fen__status" role="status" data-msg>Tekan main untuk memulakan modul contoh.</p>
+    </div>
+
+    <div class="fen__right">
+      <div class="fen__xp">
+        <svg class="fen__ring" viewBox="0 0 84 84" aria-hidden="true">
+          <circle cx="42" cy="42" r="34" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="8" />
+          <circle
+            cx="42" cy="42" r="34" fill="none" stroke="var(--fen-lime)"
+            stroke-width="8" stroke-linecap="round"
+            stroke-dasharray="213.6" stroke-dashoffset="213.6"
+            transform="rotate(-90 42 42)" data-ring />
+        </svg>
+        <div class="fen__xpmeta">
+          <b data-xp>0 MATA</b>
+          <small>RENTETAN 12 HARI</small>
+        </div>
+      </div>
+
+      <div class="fen__certwrap">
+        <article class="fen__cert" data-cert aria-label="Sijil penyiapan">
+          <span class="fen__wm" aria-hidden="true">FL</span>
+          <small class="fen__corg">FEN LEARN · JARINGAN PENDIDIKAN KEWANGAN</small>
+          <small class="fen__ctitle">SIJIL PENYIAPAN</small>
+          <span class="fen__crule" aria-hidden="true"><i></i><b>◆</b><i></i></span>
+          <strong class="fen__cname">DEMO Amiruddin</strong>
+          <span class="fen__ccourse">telah menyempurnakan modul<br />Pengurusan Aliran Tunai</span>
+          <div class="fen__cfoot">
+            <span class="fen__seal" aria-hidden="true">FL</span>
+            <span class="fen__csig">Pengarah Program</span>
+          </div>
+          <span class="fen__crow"><span>SKOR</span><b data-score>—</b></span>
+          <span class="fen__crow"><span>ID SIJIL</span><b>FEN-2026-018214</b></span>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .fen {
+    --fen-navy: #0a1f44;
+    --fen-deep: #071733;
+    --fen-lime: #b5d334;
+    --fen-gold: #ffc72c;
+    --fen-line: rgba(255, 255, 255, 0.14);
+    --fen-dim: #9aa7c7;
+    width: 100%;
+    min-height: 440px;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #0c2450 0%, var(--fen-navy) 60%, var(--fen-deep) 100%);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .fen__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 20px;
+    background: rgba(0, 0, 0, 0.25);
+  }
+  .fen__tl {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+    color: var(--fen-dim);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .fen__sb {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--fen-lime);
+    flex: none;
+  }
+  .fen__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--fen-lime);
+    animation: fen-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes fen-pulse {
+    50% { opacity: 0.35; }
+  }
+
+  .fen__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 210px;
+    gap: 16px;
+    padding: 18px 20px;
+  }
+  .fen__left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+  }
+  .fen__lbl {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: var(--fen-dim);
+  }
+
+  .fen__video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    max-width: 250px;
+    border: 1px solid var(--fen-line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background:
+      radial-gradient(120% 100% at 50% 0%, #16407f 0%, #0a1f44 55%, #071733 100%);
+  }
+  .fen__video::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+    background-size: 14px 14px;
+    pointer-events: none;
+  }
+  .fen__play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--fen-lime);
+    color: #0a1f44;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 28px -8px rgba(181, 211, 52, 0.6);
+    transition: transform 0.2s ease, filter 0.2s ease;
+    z-index: 1;
+  }
+  @media (hover: hover) {
+    .fen__play:hover:not(:disabled) { transform: translate(-50%, -50%) scale(1.07); filter: brightness(1.08); }
+  }
+  .fen__play:disabled { opacity: 0.45; }
+  .fen__play.is-done { background: var(--fen-gold); }
+  .fen__vtitle {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    right: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+  }
+  .fen__vdur {
+    position: absolute;
+    right: 10px;
+    bottom: 13px;
+    background: rgba(0, 0, 0, 0.72);
+    padding: 3px 8px;
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    color: var(--fen-lime);
+    white-space: nowrap;
+  }
+  .fen__vprog {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 5px;
+    background: rgba(0, 0, 0, 0.55);
+  }
+  .fen__vprog { display: block; height: 5px; border-radius: 3px; background: rgba(0, 0, 0, 0.5); overflow: hidden; }
+  .fen__vprog i {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--fen-lime);
+    border-radius: 3px;
+  }
+  .fen.is-watching .fen__vprog i { width: 100%; transition: width 2s linear; }
+  .fen.is-watched .fen__vprog i { width: 100%; transition: none; }
+
+  .fen__q { font-family: var(--font-body); font-size: 13px; font-weight: 600; color: #fff; }
+  .fen__opts { display: flex; flex-direction: column; gap: 6px; }
+  .fen__opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    border: 1px solid var(--fen-line);
+    border-radius: var(--radius);
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: #d6ddf0;
+    text-align: left;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  }
+  .fen__opt:not(:disabled):hover { transform: translateY(-2px); border-color: var(--fen-lime); color: #fff; }
+  .fen__opt:disabled { cursor: default; opacity: 0.7; }
+  .fen__opt.is-pickable { opacity: 1; cursor: pointer; }
+  .fen__key {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--fen-line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fen-dim);
+  }
+  .fen__opt.is-good { border-color: var(--fen-lime); background: rgba(181, 211, 52, 0.1); color: #fff; opacity: 1; }
+  .fen__opt.is-good .fen__key { background: var(--fen-lime); border-color: var(--fen-lime); color: #0a1f44; }
+  .fen__opt.is-bad { border-color: var(--accent); animation: fen-shake 0.35s ease; }
+  @keyframes fen-shake {
+    20% { transform: translateX(-5px); }
+    45% { transform: translateX(5px); }
+    70% { transform: translateX(-3px); }
+    90% { transform: translateX(2px); }
+  }
+
+  .fen__ghost {
+    align-self: flex-start;
+    padding: 10px 14px;
+    border: 1px solid var(--fen-line);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #d6ddf0;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .fen__ghost:hover { border-color: var(--fen-lime); transform: translateY(-2px); }
+  .fen__ghost[hidden] { display: none; }
+  .fen__status {
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    line-height: 1.55;
+    color: var(--fen-dim);
+    border-top: 1px solid var(--fen-line);
+    padding-top: 8px;
+    min-height: 38px;
+  }
+
+  .fen__right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+  }
+  .fen__xp { display: flex; align-items: center; gap: 12px; }
+  .fen__ring { width: 64px; height: 64px; flex: none; }
+  .fen__ring [data-ring] { transition: stroke-dashoffset 0.9s cubic-bezier(0.22, 0.9, 0.24, 1); }
+  .fen__xpmeta { display: flex; flex-direction: column; gap: 4px; }
+  .fen__xpmeta b { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: #fff; }
+  .fen__xpmeta small { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; color: var(--fen-lime); }
+
+  .fen__certwrap { position: relative; min-height: 240px; }
+  .fen__cert {
+    position: relative;
+    background: #fff;
+    border-radius: 8px;
+    border-top: 6px solid var(--fen-lime);
+    box-shadow: inset 0 0 0 1px #e4e4e4, inset 0 0 0 5px #fff, inset 0 0 0 6px var(--fen-gold);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.9, 0.24, 1);
+  }
+  .fen.is-certified .fen__cert { opacity: 1; transform: none; }
+  .fen__wm {
+    position: absolute;
+    right: -8px;
+    bottom: -34px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 120px;
+    line-height: 1;
+    color: rgba(10, 31, 68, 0.06);
+    pointer-events: none;
+  }
+  .fen__corg { font-family: var(--font-mono); font-size: 7px; letter-spacing: 1.5px; color: var(--fen-navy); }
+  .fen__ctitle {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--fen-navy);
+  }
+  .fen__crule { display: flex; align-items: center; gap: 8px; width: 100%; }
+  .fen__crule i { flex: 1; height: 1px; background: var(--fen-gold); }
+  .fen__crule b { font-size: 9px; color: var(--fen-gold); }
+  .fen__cname { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: #141414; }
+  .fen__ccourse { font-family: var(--font-body); font-size: 12px; line-height: 1.6; color: #555; }
+  .fen__cfoot {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 6px;
+  }
+  /* Rosette seal: navy medallion with lime monogram + ribbon tails. */
+  .fen__seal {
+    position: relative;
+    z-index: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--fen-navy);
+    color: var(--fen-lime);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fen__seal::before,
+  .fen__seal::after {
+    content: "";
+    position: absolute;
+    top: 34px;
+    width: 12px;
+    height: 22px;
+    background: var(--fen-gold);
+    z-index: -1;
+  }
+  .fen__seal::before { left: 5px; transform: rotate(12deg); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%); }
+  .fen__seal::after { right: 5px; transform: rotate(-12deg); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%); }
+  .fen__csig {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 12px;
+    color: #141414;
+    border-bottom: 1px solid #141414;
+    padding: 0 12px 3px;
+  }
+  .fen__crow {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #e4e4e4;
+    padding-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #8a8a8a;
+  }
+  .fen__crow b { color: #141414; }
+
+  @media (max-width: 680px) {
+    .fen__grid { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fen__dot { animation: none; }
+    .fen.is-watching .fen__vprog i { transition-duration: 0.01ms; }
+    .fen__ring [data-ring] { transition: none; }
+    .fen__cert { transition: none; }
+    .fen__opt.is-bad { animation: none; }
+  }
+</style>
+
+<script>
+  // Micro-lesson state machine: idle → watching → quiz → certified. All copy in BM.
+  const root = document.querySelector('[data-fen]');
+  if (root) {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const WATCH_MS = reduce ? 60 : 2000;
+    const CIRC = 213.6;
+
+    const play = root.querySelector('[data-play]');
+    const vbar = root.querySelector('[data-vbar]');
+    const tcode = root.querySelector('[data-tcode]');
+    const opts = Array.from(root.querySelectorAll('[data-opt]'));
+    const retake = root.querySelector('[data-retake]');
+    const msg = root.querySelector('[data-msg]');
+    const ring = root.querySelector('[data-ring]');
+    const xp = root.querySelector('[data-xp]');
+    const score = root.querySelector('[data-score]');
+
+    let watching = false;
+    let watched = false;
+    let locked = false;
+    let wrongTries = 0;
+    let timer = 0;
+    let raf = 0;
+    // Simulated playback: 04:12 of lesson compressed into the watch window.
+    const LESSON_S = 252;
+    const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+    const runClock = (t0) => {
+      const step = (t) => {
+        const p = Math.min(1, (t - t0) / WATCH_MS);
+        if (tcode) tcode.textContent = `${fmt(p * LESSON_S)} / 4:12`;
+        if (p < 1 && watching) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    };
+    const say = (t) => {
+      if (msg) msg.textContent = t;
+    };
+    const setRing = (frac) => {
+      if (ring) ring.style.strokeDashoffset = String(CIRC * (1 - frac));
+    };
+    const countXp = (to) => {
+      if (!xp) return;
+      if (reduce) {
+        xp.textContent = `${to} MATA`;
+        return;
+      }
+      const t0 = performance.now();
+      const step = (t) => {
+        const p = Math.min(1, (t - t0) / 900);
+        const e = 1 - Math.pow(1 - p, 3);
+        xp.textContent = `${Math.round(to * e)} MATA`;
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+
+    play?.addEventListener('click', () => {
+      if (watching || watched) return;
+      watching = true;
+      if (play) play.disabled = true;
+      root.classList.add('is-watching');
+      runClock(performance.now());
+      say('Modul contoh dimainkan… jawab soalan semak untuk membuka kunci.');
+      timer = window.setTimeout(() => {
+        watching = false;
+        watched = true;
+        if (tcode) tcode.textContent = '4:12 / 4:12';
+        root.classList.remove('is-watching');
+        root.classList.add('is-watched');
+        if (play) {
+          play.classList.add('is-done');
+          play.innerHTML = '<span aria-hidden="true">✓</span>';
+        }
+        opts.forEach((o) => {
+          o.disabled = false;
+          o.classList.add('is-pickable');
+        });
+        say('Modul selesai — jawab soalan semak untuk mengutip 50 mata.');
+      }, WATCH_MS);
+    });
+
+    opts.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (locked || btn.disabled) return;
+        if (btn.getAttribute('data-ok') === '1') {
+          locked = true;
+          btn.classList.add('is-good');
+          opts.forEach((o) => {
+            o.disabled = true;
+            o.classList.remove('is-pickable');
+          });
+          const finalScore = wrongTries === 0 ? 100 : 80;
+          if (score) score.textContent = `${finalScore}/100`;
+          setRing(1);
+          countXp(50);
+          root.classList.add('is-certified');
+          if (retake) retake.hidden = false;
+          say(
+            wrongTries === 0
+              ? 'Betul pada cubaan pertama — 50 mata diperoleh, sijil dikeluarkan.'
+              : 'Betul — 50 mata diperoleh, sijil dikeluarkan (skor 80 selepas ulangan).'
+          );
+        } else {
+          wrongTries += 1;
+          btn.classList.remove('is-bad');
+          void btn.offsetWidth;
+          btn.classList.add('is-bad');
+          say('Kurang tepat — cuba lagi.');
+        }
+      });
+    });
+
+    retake?.addEventListener('click', () => {
+      window.clearTimeout(timer);
+      window.cancelAnimationFrame(raf);
+      watching = false;
+      watched = false;
+      locked = false;
+      wrongTries = 0;
+      root.classList.remove('is-watching', 'is-watched', 'is-certified');
+      if (play) {
+        play.disabled = false;
+        play.classList.remove('is-done');
+        play.innerHTML = '<span aria-hidden="true">▶</span>';
+      }
+      if (vbar) vbar.style.width = '';
+      opts.forEach((o) => {
+        o.disabled = true;
+        o.classList.remove('is-good', 'is-bad', 'is-pickable');
+      });
+      setRing(0);
+      if (xp) xp.textContent = '0 MATA';
+      if (score) score.textContent = '—';
+      if (tcode) tcode.textContent = '0:00 / 4:12';
+      if (retake) retake.hidden = true;
+      say('Tekan main untuk memulakan modul contoh.');
+    });
+  }
+</script>

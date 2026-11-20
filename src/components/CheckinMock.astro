@@ -1,0 +1,631 @@
+---
+/**
+ * CheckinMock — interactive MyEventQR registration-desk simulation.
+ *
+ * Ports the public-demo animation (React) to vanilla Astro + CSS:
+ * idle → scanning (scan-line over a decorative QR, ~760ms) → printing
+ * (badge ejects from the printer, ~1300ms) → success. Repeat check-ins don't double-count.
+ *
+ * The QR is decorative SVG, never a valid credential. Timers are cleared on
+ * reset; delays shorten under prefers-reduced-motion (the global CSS kill
+ * switch in base.css also freezes the keyframes). Status changes go through
+ * a role="status" region.
+ */
+const parts = [
+  { init: 'AU', name: 'DEMO Amiruddin', role: 'Delegate' },
+  { init: 'HU', name: 'DEMO Husna', role: 'VIP' },
+  { init: 'DG', name: 'DEMO Demogorgon', role: 'Speaker' },
+];
+
+// Deterministic decorative QR pattern (21x21). Finder squares at 3 corners,
+// seeded fill elsewhere — stable across builds, no hydration needed.
+const N = 21;
+const inFinder = (x: number, y: number) =>
+  (x < 7 && y < 7) || (x > N - 8 && y < 7) || (x < 7 && y > N - 8);
+let seed = 7;
+const rnd = () => {
+  seed = (seed * 16807) % 2147483647;
+  return seed / 2147483647;
+};
+const cells: Array<{ x: number; y: number }> = [];
+for (let y = 0; y < N; y++)
+  for (let x = 0; x < N; x++) {
+    if (inFinder(x, y)) continue;
+    if (rnd() > 0.52) cells.push({ x, y });
+  }
+const finder = (ox: number, oy: number) => ({ ox, oy });
+const finders = [finder(0, 0), finder(N - 7, 0), finder(0, N - 7)];
+---
+
+<div class="checkin" data-checkin>
+  <div class="checkin__bar">
+    <span class="checkin__tl">REGISTRATION DESK · SAMPLE SUMMIT · SIMULATION</span>
+    <span class="checkin__sb"><span class="checkin__dot" aria-hidden="true"></span><span data-msg-dot>LIVE</span></span>
+  </div>
+
+  <div class="checkin__grid">
+    <div class="checkin__left">
+      <span class="checkin__lbl">01 · PICK A SAMPLE PARTICIPANT</span>
+      <div class="checkin__parts" role="group" aria-label="Sample participants">
+        {parts.map((p, i) => (
+          <button
+            class={`checkin__part ${i === 0 ? 'is-sel' : ''}`}
+            data-part={i}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+          >
+            <span class="checkin__av" aria-hidden="true">{p.init}</span>
+            <span class="checkin__who">
+              <strong>{p.name}</strong>
+              <small>{p.role}</small>
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <span class="checkin__lbl">02 · RUN THE DESK</span>
+      <button class="checkin__scan" data-scan>
+        <span aria-hidden="true">⌁</span> Simulate scan
+      </button>
+      <button class="checkin__ghost" data-reset>Reset preview</button>
+
+      <p class="checkin__status" role="status" data-msg>READY — choose a sample participant, then simulate a scan.</p>
+    </div>
+
+    <div class="checkin__right">
+      <div class="checkin__phone" aria-hidden="true">
+        <span class="checkin__sidebtn checkin__sidebtn--v1"></span>
+        <span class="checkin__sidebtn checkin__sidebtn--v2"></span>
+        <span class="checkin__sidebtn checkin__sidebtn--pwr"></span>
+        <div class="checkin__screen">
+          <span class="checkin__island"></span>
+          <span class="checkin__rsvp">RSVP CONFIRMED</span>
+        <strong class="checkin__pname" data-pname>{parts[0].name}</strong>
+        <div class="checkin__qrbox">
+          <svg class="checkin__qr" viewBox="-2 -2 25 25" shape-rendering="crispEdges">
+            {finders.map((f) => (
+              <g>
+                <rect x={f.ox} y={f.oy} width="7" height="7" fill="#141414" />
+                <rect x={f.ox + 1} y={f.oy + 1} width="5" height="5" fill="#fff" />
+                <rect x={f.ox + 2} y={f.oy + 2} width="3" height="3" fill="#141414" />
+              </g>
+            ))}
+            {cells.map((c) => (
+              <rect x={c.x} y={c.y} width="1" height="1" fill="#141414" />
+            ))}
+          </svg>
+          <span class="checkin__scanline" data-scanline hidden></span>
+        </div>
+        <span class="checkin__code">SAMPLE SUMMIT · DEMO PASS</span>
+          <span class="checkin__homebar"></span>
+        </div>
+      </div>
+
+      <span class="checkin__go" aria-hidden="true">→</span>
+
+      <div class="checkin__desk">
+        <div class="checkin__printer">
+          <div class="checkin__lid">
+            <span class="checkin__led" aria-hidden="true"></span>
+            <span class="checkin__plbl">BADGE PRINTER · SIMULATED</span>
+          </div>
+          <div class="checkin__pbody">
+            <span class="checkin__pbar"><i data-bar></i></span>
+            <span class="checkin__pcount">BADGES PRINTED&nbsp;&nbsp;<b data-count>000</b></span>
+          </div>
+          <div class="checkin__slot" aria-hidden="true"><i></i></div>
+        </div>
+        <div class="checkin__window">
+          <article class="checkin__badge" data-badge>
+            <small data-brole>{parts[0].role.toUpperCase()}</small>
+            <strong data-bname>{parts[0].name}</strong>
+            <span class="checkin__brule"></span>
+            <svg class="checkin__bqr" viewBox="-2 -2 25 25" shape-rendering="crispEdges" aria-hidden="true">
+              {finders.map((f) => (
+                <g>
+                  <rect x={f.ox} y={f.oy} width="7" height="7" fill="#141414" />
+                  <rect x={f.ox + 1} y={f.oy + 1} width="5" height="5" fill="#fff" />
+                  <rect x={f.ox + 2} y={f.oy + 2} width="3" height="3" fill="#141414" />
+                </g>
+              ))}
+              {cells.map((c) => (
+                <rect x={c.x} y={c.y} width="1" height="1" fill="#141414" />
+              ))}
+            </svg>
+            <small class="checkin__bdemo">SAMPLE SUMMIT · 2026</small>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .checkin {
+    --ck-bg: #0d0d12;
+    --ck-bar: #15151c;
+    --ck-lime: #c8ff00;
+    --ck-ink: #141414;
+    width: 100%;
+    min-height: 440px;
+    display: flex;
+    flex-direction: column;
+    background: var(--ck-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .checkin__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--ck-bar);
+  }
+  .checkin__tl {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+    color: var(--dim-d);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .checkin__sb {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--ck-lime);
+    flex: none;
+  }
+  .checkin__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ck-lime);
+    animation: ck-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes ck-pulse {
+    50% { opacity: 0.35; }
+  }
+
+  .checkin__grid {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 28px;
+    padding: 26px 28px;
+  }
+  .checkin__left {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+  .checkin__lbl {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: var(--dim-d);
+  }
+  .checkin__parts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .checkin__part {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border: 1px solid var(--line-d2);
+    border-radius: var(--radius);
+    text-align: left;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  }
+  @media (hover: hover) {
+    .checkin__part:hover { transform: translateY(-2px); border-color: var(--ck-lime); }
+  }
+  .checkin__part.is-sel { border-color: var(--ck-lime); background: rgba(200, 255, 0, 0.06); }
+  .checkin__av {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ck-lime);
+    color: var(--ck-ink);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .checkin__who { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .checkin__who strong {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .checkin__who small { font-family: var(--font-body); font-size: 11px; color: var(--dim-d); }
+
+  .checkin__scan {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 0;
+    background: var(--ck-lime);
+    color: var(--ck-ink);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+  @media (hover: hover) {
+    .checkin__scan:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.05); }
+  }
+  .checkin__scan:disabled { opacity: 0.55; cursor: wait; }
+  .checkin__row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .checkin__ghost {
+    padding: 10px 6px;
+    border: 1px solid var(--line-d2);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #cfcfcf;
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  @media (hover: hover) {
+    .checkin__ghost:hover:not(:disabled) { transform: translateY(-2px); border-color: var(--ck-lime); color: #fff; }
+  }
+  .checkin__ghost:disabled { opacity: 0.5; }
+  .checkin__status {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--dim-d);
+    border-top: 1px solid var(--line-d2);
+    padding-top: 12px;
+    min-height: 62px;
+  }
+
+  .checkin__right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    min-width: 0;
+    background-image: radial-gradient(#2a2a33 1px, transparent 1px);
+    background-size: 16px 16px;
+    border-radius: var(--radius);
+    padding: 24px 20px;
+  }
+  .checkin__phone {
+    flex: none;
+    position: relative;
+    width: 200px;
+    background: linear-gradient(180deg, #f4f4f1 0%, #d9d9d5 100%);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 32px;
+    padding: 10px;
+    box-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.6);
+  }
+  /* Hardware keys sticking out of the casing edges. */
+  .checkin__sidebtn {
+    position: absolute;
+    width: 3px;
+    border-radius: 2px;
+    background: #c6c6c2;
+  }
+  .checkin__sidebtn--v1 { left: -3px; top: 96px; height: 26px; }
+  .checkin__sidebtn--v2 { left: -3px; top: 128px; height: 26px; }
+  .checkin__sidebtn--pwr { right: -3px; top: 112px; height: 42px; }
+  .checkin__screen {
+    background: #fff;
+    border: 3px solid #141414;
+    border-radius: 24px;
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    overflow: hidden;
+  }
+  .checkin__island {
+    width: 62px;
+    height: 15px;
+    border-radius: 999px;
+    background: #141414;
+    margin-bottom: 2px;
+  }
+  .checkin__homebar {
+    width: 76px;
+    height: 4px;
+    border-radius: 2px;
+    background: #141414;
+    opacity: 0.85;
+    margin-top: 3px;
+  }
+  .checkin__rsvp { font-family: var(--font-mono); font-size: 8px; letter-spacing: 1.5px; color: #8a8a8a; }
+  .checkin__pname {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: var(--ck-ink);
+    text-align: center;
+  }
+  .checkin__qrbox {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border: 1px solid #e4e4e4;
+    border-radius: 6px;
+    background: #fff;
+  }
+  .checkin__qr { width: 100%; height: 100%; }
+  .checkin__scanline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3px;
+    background: var(--ck-lime);
+    box-shadow: 0 0 14px 4px rgba(200, 255, 0, 0.7);
+    animation: ck-scan 0.8s ease-in-out infinite alternate;
+  }
+  @keyframes ck-scan {
+    from { transform: translateY(0); }
+    to { transform: translateY(147px); }
+  }
+  .checkin__code { font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px; color: #8a8a8a; }
+
+  .checkin__go {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--ck-lime);
+    color: var(--ck-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .checkin__desk { flex: none; width: 196px; display: flex; flex-direction: column; }
+  .checkin__printer {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(180deg, #26262e 0%, #191920 72%);
+    border: 1px solid #33333e;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+    box-shadow: 0 14px 30px -18px rgba(0, 0, 0, 0.8);
+  }
+  .checkin__lid {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 12px 10px;
+    border-bottom: 1px solid #101014;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  .checkin__led {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #3a3a44;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+  }
+  .checkin.is-printing .checkin__led {
+    background: var(--ck-lime);
+    box-shadow: 0 0 10px 2px rgba(200, 255, 0, 0.55);
+    animation: ck-pulse 0.6s ease-in-out infinite;
+  }
+  .checkin__plbl { font-family: var(--font-mono); font-size: 8px; letter-spacing: 1.5px; color: #cfcfcf; }
+  .checkin__pbody {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 12px 12px;
+  }
+  .checkin__pbar { display: block; height: 5px; border-radius: 3px; background: #0a0a0a; overflow: hidden; }
+  .checkin__pbar i {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--ck-lime);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+  }
+  .checkin.is-printing .checkin__pbar i { width: 100%; transition-duration: 1.3s; transition-timing-function: linear; }
+  .checkin__pcount { font-family: var(--font-mono); font-size: 8px; letter-spacing: 1.5px; color: #8a8a8a; }
+  .checkin__pcount b { color: var(--ck-lime); }
+  /* Paper-exit slot: the badge slides out from behind this lip. */
+  .checkin__slot {
+    height: 12px;
+    background: #0b0b0e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.9);
+  }
+  .checkin__slot i {
+    display: block;
+    width: 76%;
+    height: 4px;
+    border-radius: 2px;
+    background: #000;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.07);
+  }
+
+  /* The clip that sells the print: the badge starts fully above the visible
+     area and slides down out of the printer slot. */
+  .checkin__window {
+    position: relative;
+    z-index: 1;
+    height: 196px;
+    overflow: hidden;
+    background: transparent;
+  }
+  .checkin__badge {
+    background: #fff;
+    border-radius: 8px;
+    margin: 0 10px;
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    text-align: center;
+    transform: translateY(-110%);
+  }
+  .checkin__badge small {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    color: #8a8a8a;
+  }
+  .checkin__badge strong {
+    font-family: var(--font-display);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--ck-ink);
+  }
+  .checkin__brule { width: 100%; height: 1px; background: #e4e4e4; }
+  .checkin__bqr {
+    width: 75px;
+    height: 75px;
+    background: #fff;
+  }
+  .checkin__bdemo { color: #8a8a8a !important; }
+  .checkin.is-printing .checkin__badge { animation: ck-eject 1.3s cubic-bezier(0.4, 0.1, 0.3, 1) forwards; }
+  .checkin.is-done .checkin__badge { transform: translateY(6px); }
+  @keyframes ck-eject {
+    from { transform: translateY(-110%); }
+    85% { transform: translateY(10%); }
+    to { transform: translateY(6px); }
+  }
+
+  @media (max-width: 680px) {
+    .checkin__grid { grid-template-columns: 1fr; }
+    .checkin__right { flex-wrap: wrap; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .checkin__dot, .checkin__scanline { animation: none; }
+    .checkin.is-printing .checkin__badge { animation: none; transform: translateY(6px); }
+    .checkin.is-printing .checkin__pbar i { transition: none; width: 100%; }
+  }
+</style>
+
+<script>
+  // Desk state machine: idle → scanning → printing → done (+ error branch).
+  // Timings mirror the public demo: ~760ms scan, ~1300ms print.
+  const root = document.querySelector('[data-checkin]');
+  if (root) {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const SCAN_MS = reduce ? 60 : 760;
+    const PRINT_MS = reduce ? 60 : 1300;
+
+    const names = ['DEMO Amiruddin', 'DEMO Husna', 'DEMO Demogorgon'];
+    const roles = ['DELEGATE', 'VIP', 'SPEAKER'];
+    const partBtns = Array.from(root.querySelectorAll('[data-part]'));
+    const scanBtn = root.querySelector('[data-scan]');
+    const resetBtn = root.querySelector('[data-reset]');
+    const msg = root.querySelector('[data-msg]');
+    const pname = root.querySelector('[data-pname]');
+    const bname = root.querySelector('[data-bname]');
+    const brole = root.querySelector('[data-brole]');
+    const scanline = root.querySelector('[data-scanline]');
+    const badge = root.querySelector('[data-badge]');
+    const count = root.querySelector('[data-count]');
+
+    let sel = 0;
+    let busy = false;
+    let printed = 0;
+    const checked = new Set();
+    let timers = [];
+    const later = (fn, ms) => {
+      const id = setTimeout(fn, ms);
+      timers.push(id);
+    };
+    const clearTimers = () => {
+      timers.forEach(clearTimeout);
+      timers = [];
+    };
+    const setBusy = (on) => {
+      busy = on;
+      [scanBtn, ...partBtns].forEach((b) => {
+        if (b) b.disabled = on;
+      });
+    };
+    const say = (t) => {
+      if (msg) msg.textContent = t;
+    };
+
+    const select = (i) => {
+      if (busy) return;
+      sel = i;
+      partBtns.forEach((b, idx) => {
+        b.classList.toggle('is-sel', idx === i);
+        b.setAttribute('aria-pressed', idx === i ? 'true' : 'false');
+      });
+      if (pname) pname.textContent = names[i];
+      if (bname) bname.textContent = names[i];
+      if (brole) brole.textContent = roles[i];
+      if (!root.classList.contains('is-done')) {
+        say(`READY — ${names[i]} selected. Simulate a scan to check in.`);
+      }
+    };
+    partBtns.forEach((b, i) => b.addEventListener('click', () => select(i)));
+
+    const finishPrint = () => {
+      if (!checked.has(sel)) {
+        checked.add(sel);
+        printed += 1;
+        if (count) count.textContent = String(printed).padStart(3, '0');
+        say(`CHECKED IN — ${names[sel]} badge ${String(printed).padStart(3, '0')} printed.`);
+      } else {
+        say(`${names[sel]} is already checked in — no duplicate badge printed.`);
+      }
+      root.classList.remove('is-printing');
+      root.classList.add('is-done');
+      setBusy(false);
+    };
+
+    scanBtn?.addEventListener('click', () => {
+      if (busy) return;
+      clearTimers();
+      setBusy(true);
+      root.classList.remove('is-done', 'is-printing');
+      if (scanline) scanline.hidden = false;
+      say(`SCANNING — reading ${names[sel]}'s ticket…`);
+      later(() => {
+        if (scanline) scanline.hidden = true;
+        root.classList.add('is-printing');
+        say(`PRINTING — badge for ${names[sel]}…`);
+        later(finishPrint, PRINT_MS);
+      }, SCAN_MS);
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      clearTimers();
+      setBusy(false);
+      root.classList.remove('is-done', 'is-printing');
+      if (scanline) scanline.hidden = true;
+      say('READY — choose a sample participant, then simulate a scan.');
+    });
+  }
+</script>
