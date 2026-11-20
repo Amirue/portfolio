@@ -264,11 +264,19 @@ Pen.dev's work was left uncommitted in the tree; reviewed, verified, committed h
   still rendered). Diagnosed by bisecting to a trivial rule; fixed by removing the stray tag. Build
   14 PASS, `dg__` rules confirmed back in the bundle.
 - Dev server went stale during the fix cycle (serving probe copy) — user to `restart` + refresh.
+- **V7 tag bugfix (post-deploy):** the Selected Work header tag only read the post's FIRST type and
+  defaulted everything else to "AI" — Dutaguru showed AI despite being WordPress. Now renders all
+  real types via `workTypeLabel` (index.astro:6,14,225), matching the case-study TYPE row:
+  MyEventQR "AI · Light Up 7", FEN "AI · Light Up 7", Dutaguru "Light Up 7 · WordPress".
   No push/deploy.
 - **V7 Dutaguru stripped:** per user request the whole HUD (day tabs, agenda, Daftar, seat meter,
   status, real-site link) is removed — panel is now just browser chrome + the live dutaguru.my
   iframe (340px view, no component JS left). Div balance verified 3/3. Build 14 PASS, confirmed
   rendering the real hero (PDG/KPM/PETRONAS) with its own scrollbar.
+- **DEPLOYED 2026-11-20 (user-approved):** committed `9ce0b92` (6 files: 3 new mocks + index.astro,
+  base.css, STATE.md; left pre-existing untracked README-security.md/reports/ alone) and pushed
+  `v6-redesign:master` (`d657d5d..9ce0b92`, fast-forward). Cloudflare Pages rebuilds amiruan.site
+  from master. Note: branch still named `v6-redesign` though the session is v7 — rename only if wanted.
 - **V7 mobile verified (browser, 390px):** both mocks stack cleanly, no overflow — check-in phone
   (casing/island/homebar/crisp QR) wraps above printer (lid/LED/slot all visible), FEN quiz + XP ring
   full-width, cert reveals in place. Accordion one-open-at-a-time confirmed. No push/deploy.

@@ -6,7 +6,7 @@ import KioskMock from '../components/KioskMock.astro';
 import CheckinMock from '../components/CheckinMock.astro';
 import FenMock from '../components/FenMock.astro';
 import DutaguruMock from '../components/DutaguruMock.astro';
-import { fetchWorksData, fetchGalleryData } from '../lib/wordpress';
+import { fetchWorksData, fetchGalleryData, fetchWorkTypes, workTypeLabel } from '../lib/wordpress';
 import { axes } from '../data/toolbox';
 
 // Replaces the old top marquee ticker — same copy, cycled one phrase at a time in
@@ -23,6 +23,7 @@ const tickerPhrases = [
 ];
 
 const works = await fetchWorksData();
+const workTypes = await fetchWorkTypes();
 const featured = works.slice(0, 3);
 // Range from the actual featured posts (handles multi-year strings like "2024-2026").
 const featuredYears = featured.flatMap((w) => (String(w.year).match(/\d{4}/g) ?? []).map(Number));
@@ -221,7 +222,7 @@ const lifePhotos = featuredPhotos.length
             <button class="acc__head" aria-expanded={i === 0 ? 'true' : 'false'}>
               <span class="acc__n u-blue">{String(i + 1).padStart(2, '0')}</span>
               <span class="acc__t t-card">{w.title}</span>
-              <span class="acc__tag">{w.type === 'uiux' ? 'UI/UX' : w.type === 'wordpress' ? 'WordPress' : 'AI'}</span>
+              <span class="acc__tag">{w.types.map((t) => workTypeLabel(t, workTypes)).join(' · ')}</span>
               <span class="acc__yr u-dim">{w.year}</span>
               <span class="acc__ic" aria-hidden="true">{i === 0 ? '—' : '+'}</span>
             </button>
