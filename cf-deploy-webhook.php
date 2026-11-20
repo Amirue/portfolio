@@ -8,8 +8,19 @@
 
 if (!defined('ABSPATH')) exit;
 
-// Cloudflare Deploy Hook URL
-define('CF_DEPLOY_HOOK_URL', 'https://api.cloudflare.com/client/v4/pages/webhooks/deploy_hooks/11037a6a-d4a9-4f9b-aa0e-d508b1b6bdf3');
+// Deploy hook URL is NOT stored in this repo (public).
+// Set it in wp-config.php (above "That's all, stop editing!"):
+//   define('AMIRUAN_CF_DEPLOY_HOOK', 'https://api.cloudflare.com/.../new-hook');
+// Or via server environment. Fails closed if absent.
+function amiruan_cf_get_hook_url() {
+    if (defined('AMIRUAN_CF_DEPLOY_HOOK') && is_string(AMIRUAN_CF_DEPLOY_HOOK)) {
+        $url = trim(AMIRUAN_CF_DEPLOY_HOOK);
+        if ($url !== '') return $url;
+    }
+    $env = getenv('AMIRUAN_CF_DEPLOY_HOOK');
+    if (is_string($env) && trim($env) !== '') return trim($env);
+    return '';
+}
 
 // Debounce: don't fire more than once every 30 seconds
 function amiruan_cf_should_trigger() {
@@ -33,8 +44,13 @@ function amiruan_cf_trigger_deploy($post_id = 0) {
     $relevant = array('post', 'page', 'gallery_post', 'work', 'attachment');
     if ($post_type && !in_array($post_type, $relevant)) return;
 
-    // Fire webhook (async via wp_remote_post)
-    $response = wp_remote_post(CF_DEPLOY_HOOK_URL, array(
+    // Fire webhook (async via wp_remote_post) — fail closed if no hook configured
+    $hook = amiruan_cf_get_hook_url();
+    if ($hook === '') {
+        error_log('[Cloudflare Webhook] Skipped: AMIRUAN_CF_DEPLOY_HOOK not configured.');
+        return;
+    }
+    $response = wp_remote_post($hook, array(
         'timeout' => 5,
         'blocking' => false, // Don't wait for response
         'headers' => array('Content-Type' => 'application/json'),
@@ -62,7 +78,12 @@ add_action('deleted_post', 'amiruan_cf_trigger_deploy', 20, 1);
 // Hook into term changes (gallery_type, work_type)
 function amiruan_cf_trigger_on_term($term_id, $tt_id, $taxonomy) {
     if (!amiruan_cf_should_trigger()) return;
-    wp_remote_post(CF_DEPLOY_HOOK_URL, array(
+    $hook = amiruan_cf_get_hook_url();
+    if ($hook === '') {
+        error_log('[Cloudflare Webhook] Skipped: AMIRUAN_CF_DEPLOY_HOOK not configured.');
+        return;
+    }
+    wp_remote_post($hook, array(
         'timeout' => 5,
         'blocking' => false,
         'headers' => array('Content-Type' => 'application/json'),
@@ -81,6 +102,10 @@ add_action('edited_term', 'amiruan_cf_trigger_on_term', 20, 3);
 function amiruan_cf_webhook_admin_notice() {
     $screen = get_current_screen();
     if (!$screen || $screen->id !== 'plugins') return;
-    echo '<div class="notice notice-info"><p><strong>Cloudflare Deploy Webhook</strong> is active. Content changes auto-trigger a rebuild at <code>amiruan.site</code>.</p></div>';
+    if (amiruan_cf_get_hook_url() === '') {
+        echo '<div class="notice notice-warning"><p><strong>Cloudflare Deploy Webhook</strong> is installed but <strong>not configured</strong> (missing <code>AMIRUAN_CF_DEPLOY_HOOK</code>). WP saves will NOT rebuild <code>amiruan.site</code> until this is set.</p></div>';
+    } else {
+        echo '<div class="notice notice-info"><p><strong>Cloudflare Deploy Webhook</strong> is active. Content changes auto-trigger a rebuild at <code>amiruan.site</code>.</p></div>';
+    }
 }
 add_action('admin_notices', 'amiruan_cf_webhook_admin_notice');
