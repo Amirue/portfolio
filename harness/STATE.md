@@ -277,6 +277,10 @@ Pen.dev's work was left uncommitted in the tree; reviewed, verified, committed h
   Copy/figures from the shipped product (Selamat pagi, RM2,615.50, 1,346 kcal, CG-7K2Q).
   Build 15 PASS (new case-study page included), divs balanced 16/16. NOT browser-verified —
   dev server was down at check time.
+- **DEPLOYED 2026-11-26 (user-approved):** committed `8148ce8` (featured reorder to MyEventQR/FEN/
+  Couple Goals + CoupleGoalsMock + mount + STATE) and pushed `v6-redesign:master`
+  (`53f744d..8148ce8`, fast-forward). Verified live-bound content on localhost first (mock renders,
+  all 5 tabs + chores interactive). No push of unrelated untracked files.
   No push/deploy.
 - **V7 Dutaguru stripped:** per user request the whole HUD (day tabs, agenda, Daftar, seat meter,
   status, real-site link) is removed — panel is now just browser chrome + the live dutaguru.my
