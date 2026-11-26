@@ -268,6 +268,15 @@ Pen.dev's work was left uncommitted in the tree; reviewed, verified, committed h
   defaulted everything else to "AI" — Dutaguru showed AI despite being WordPress. Now renders all
   real types via `workTypeLabel` (index.astro:6,14,225), matching the case-study TYPE row:
   MyEventQR "AI · Light Up 7", FEN "AI · Light Up 7", Dutaguru "Light Up 7 · WordPress".
+- **V7 featured edit (this session):** homepage now uses an explicit `FEATURED_SLUGS` order
+  (myeventqr, brand-website-redesign, couple-goals) with backfill — Dutaguru out, Couple Goals in,
+  immune to publish-order reshuffles. Verified couple-goals post exists in WP (type flutter).
+- **V7 Couple Goals mock:** new `src/components/CoupleGoalsMock.astro` — cream card in the app's
+  palette, phone with 5 working tabs (rail + in-phone tab bar drive the same screens), tappable
+  Home chores with live done-count, animated Money bars, SVG rings, invite code + goal bars.
+  Copy/figures from the shipped product (Selamat pagi, RM2,615.50, 1,346 kcal, CG-7K2Q).
+  Build 15 PASS (new case-study page included), divs balanced 16/16. NOT browser-verified —
+  dev server was down at check time.
   No push/deploy.
 - **V7 Dutaguru stripped:** per user request the whole HUD (day tabs, agenda, Daftar, seat meter,
   status, real-site link) is removed — panel is now just browser chrome + the live dutaguru.my

@@ -1,0 +1,512 @@
+---
+/**
+ * CoupleGoalsMock — interactive Couple Goals household-app simulation.
+ *
+ * The app's whole idea is "one question per tab", so the demo is a phone with
+ * five working tabs (Home, Money, Kitchen, Health, Us), driven from the rail
+ * or the phone's own tab bar. Home chores are tappable; bars and rings animate
+ * each time their screen opens. Copy and figures come from the shipped product.
+ * Status changes go through role="status"; the global reduced-motion switch
+ * freezes the keyframes.
+ */
+const tabs = [
+  { init: 'HO', name: 'Home', hint: 'The room first, then what is due.' },
+  { init: 'MO', name: 'Money', hint: 'One month at a time.' },
+  { init: 'KI', name: 'Kitchen', hint: 'Recipes from the actual cupboard.' },
+  { init: 'HE', name: 'Health', hint: 'The week, not a leaderboard.' },
+  { init: 'US', name: 'Us', hint: 'Two phones, one household.' },
+];
+const bars = [34, 48, 42, 58, 52, 66, 60, 74, 68, 82, 76, 90];
+---
+
+<div class="cg" data-cg>
+  <div class="cg__bar">
+    <span class="cg__tl">COUPLE GOALS · SHARED HOUSEHOLD · SIMULATION</span>
+    <span class="cg__sb"><span class="cg__dot" aria-hidden="true"></span><span>LIVE</span></span>
+  </div>
+
+  <div class="cg__grid">
+    <div class="cg__left">
+      <span class="cg__lbl">01 · PICK A TAB</span>
+      <div class="cg__parts" role="group" aria-label="App tabs">
+        {tabs.map((t, i) => (
+          <button
+            class={`cg__part ${i === 0 ? 'is-sel' : ''}`}
+            data-tab={i}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+          >
+            <span class="cg__av" aria-hidden="true">{t.init}</span>
+            <span class="cg__who">
+              <strong>{t.name}</strong>
+              <small>{t.hint}</small>
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <span class="cg__lbl">02 · POKE AROUND</span>
+      <button class="cg__ghost" data-reset>Reset demo</button>
+
+      <p class="cg__status" role="status" data-msg>Home — the room first, then what is due.</p>
+    </div>
+
+    <div class="cg__right">
+      <div class="cg__phone" aria-hidden="true">
+        <span class="cg__island"></span>
+        <div class="cg__screen">
+          {/* HOME */}
+          <section data-screen="0">
+            <span class="cg__hey">Selamat pagi</span>
+            <strong class="cg__home">Our little home · LIVE</strong>
+            <span class="cg__lines"><i>Chores — <b data-donecount>1 of 3</b> done</i><i>Bills due Friday</i><i>Cupboard: 6 meals</i></span>
+            <div class="cg__chores" data-chores>
+              <button data-chore="1" class="is-done"><i>✓</i>Clean kitchen</button>
+              <button data-chore="0"><i>✓</i>Siram pokok</button>
+              <button data-chore="0"><i>✓</i>Lipat kain</button>
+            </div>
+          </section>
+          {/* MONEY */}
+          <section data-screen="1" hidden>
+            <span class="cg__hey">November</span>
+            <strong class="cg__big">RM2,615.50</strong>
+            <small class="cg__sub">left · RM3,950 in · RM1,335 out</small>
+            <div class="cg__bars" aria-hidden="true">
+              {bars.map((h, i) => <i style={`--h:${h}%;--i:${i}`}></i>)}
+            </div>
+            <div class="cg__chips"><span>Food</span><span>Bills</span><span>Fun</span><span>Save</span></div>
+          </section>
+          {/* KITCHEN */}
+          <section data-screen="2" hidden>
+            <span class="cg__hey">Tonight: sup ayam</span>
+            <div class="cg__notes">
+              <span class="cg__note"><b>FOOD</b>Telur · Susu · Roti</span>
+              <span class="cg__note"><b>HOME</b>Sabun · Tisu</span>
+            </div>
+            <div class="cg__ringrow">
+              <svg class="cg__ring" viewBox="0 0 84 84" aria-hidden="true">
+                <circle cx="42" cy="42" r="34" fill="none" stroke="rgba(34,30,23,.14)" stroke-width="9" />
+                <circle cx="42" cy="42" r="34" fill="none" stroke="#5a9e4b" stroke-width="9"
+                  stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="68.4"
+                  transform="rotate(-90 42 42)" />
+              </svg>
+              <span><b>68%</b><small>ready · 6 meals</small></span>
+            </div>
+          </section>
+          {/* HEALTH */}
+          <section data-screen="3" hidden>
+            <span class="cg__hey">Today</span>
+            <strong class="cg__big">1,346<small> kcal left</small></strong>
+            <div class="cg__ringrow">
+              <svg class="cg__ring" viewBox="0 0 84 84" aria-hidden="true">
+                <circle cx="42" cy="42" r="34" fill="none" stroke="rgba(34,30,23,.14)" stroke-width="9" />
+                <circle cx="42" cy="42" r="34" fill="none" stroke="#de7a2e" stroke-width="9"
+                  stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="145.2"
+                  transform="rotate(-90 42 42)" />
+              </svg>
+              <span><b>32%</b><small>of the week</small></span>
+            </div>
+            <div class="cg__figs"><span><b>68.4</b>kg</span><span><b>22.1</b>BMI</span><span><b>12</b>day streak</span></div>
+          </section>
+          {/* US */}
+          <section data-screen="4" hidden>
+            <span class="cg__hey">Household</span>
+            <span class="cg__code">CG-7K2Q</span>
+            <div class="cg__goals">
+              <span class="cg__goal"><i>Bali</i><b><u style="width:62%"></u></b><em>62%</em></span>
+              <span class="cg__goal"><i>Sofa</i><b><u style="width:38%"></u></b><em>38%</em></span>
+            </div>
+            <small class="cg__sub">Two phones, one invite code.</small>
+          </section>
+          <nav class="cg__tabs" aria-label="App tabs">
+            {tabs.map((t, i) => (
+              <button class={i === 0 ? 'is-on' : ''} data-ctab={i}>{t.name}</button>
+            ))}
+          </nav>
+        </div>
+        <span class="cg__homebar"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cg {
+    --cg-cream: #f5efe2;
+    --cg-ink: #221e17;
+    --cg-dim: #7a7264;
+    --cg-line: rgba(34, 30, 23, 0.16);
+    --cg-green: #5a9e4b;
+    --cg-orange: #de7a2e;
+    width: 100%;
+    min-height: 440px;
+    display: flex;
+    flex-direction: column;
+    background: var(--cg-cream);
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: var(--cg-ink);
+  }
+  .cg__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 20px;
+    background: #ece4d2;
+  }
+  .cg__tl {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+    color: var(--cg-dim);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cg__sb {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--cg-green);
+    flex: none;
+  }
+  .cg__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--cg-green);
+    animation: cg-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes cg-pulse {
+    50% { opacity: 0.35; }
+  }
+
+  .cg__grid {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 28px;
+    padding: 26px 28px;
+  }
+  .cg__left { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .cg__lbl { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; color: var(--cg-dim); }
+  .cg__parts { display: flex; flex-direction: column; gap: 8px; }
+  .cg__part {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border: 1px solid var(--cg-line);
+    border-radius: var(--radius);
+    text-align: left;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  }
+  @media (hover: hover) {
+    .cg__part:hover { transform: translateY(-2px); border-color: var(--cg-ink); }
+  }
+  .cg__part.is-sel { background: var(--cg-ink); border-color: var(--cg-ink); }
+  .cg__part.is-sel strong { color: var(--cg-cream); }
+  .cg__part.is-sel small { color: #b9b0a0; }
+  .cg__av {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cg-ink);
+    color: var(--cg-cream);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .cg__part.is-sel .cg__av { background: var(--cg-green); color: #0e2410; }
+  .cg__who { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .cg__who strong {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--cg-ink);
+    white-space: nowrap;
+  }
+  .cg__who small {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--cg-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cg__ghost {
+    align-self: flex-start;
+    padding: 10px 14px;
+    border: 1px solid var(--cg-line);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--cg-ink);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .cg__ghost:hover { border-color: var(--cg-ink); transform: translateY(-2px); }
+  .cg__status {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--cg-dim);
+    border-top: 1px solid var(--cg-line);
+    padding-top: 12px;
+    min-height: 62px;
+  }
+
+  .cg__right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    background-image: radial-gradient(rgba(34, 30, 23, 0.12) 1px, transparent 1px);
+    background-size: 16px 16px;
+    border-radius: var(--radius);
+    padding: 20px 12px;
+  }
+  .cg__phone {
+    flex: none;
+    width: 208px;
+    background: var(--cg-ink);
+    border-radius: 30px;
+    padding: 10px;
+    box-shadow: 0 24px 50px -24px rgba(34, 30, 23, 0.55);
+  }
+  .cg__island {
+    display: block;
+    width: 62px;
+    height: 14px;
+    border-radius: 999px;
+    background: #0c0a08;
+    margin: 0 auto 8px;
+  }
+  .cg__screen {
+    background: #fbf7ec;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 322px;
+  }
+  .cg__screen section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 12px 12px 4px;
+    animation: cg-in 0.3s ease;
+  }
+  .cg__screen section[hidden] { display: none; }
+  @keyframes cg-in {
+    from { opacity: 0; transform: translateY(8px); }
+  }
+  .cg__hey { font-family: var(--font-mono); font-size: 8px; letter-spacing: 1.5px; color: var(--cg-dim); }
+  .cg__home { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--cg-ink); }
+  .cg__big { font-family: var(--font-display); font-size: 21px; font-weight: 700; letter-spacing: -0.5px; color: var(--cg-ink); }
+  .cg__big small { font-size: 11px; font-weight: 500; letter-spacing: 0; color: var(--cg-dim); }
+  .cg__sub { font-family: var(--font-body); font-size: 10.5px; color: var(--cg-dim); }
+  .cg__lines { display: flex; flex-direction: column; gap: 4px; }
+  .cg__lines i {
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    letter-spacing: 0.3px;
+    color: var(--cg-ink);
+    background: rgba(34, 30, 23, 0.06);
+    border-radius: 4px;
+    padding: 5px 8px;
+  }
+  .cg__lines b { color: var(--cg-green); }
+  .cg__chores { display: flex; flex-direction: column; gap: 5px; }
+  .cg__chores button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--cg-ink);
+    border: 1px solid var(--cg-line);
+    border-radius: 4px;
+    padding: 6px 8px;
+    text-align: left;
+    transition: background 0.2s ease;
+  }
+  .cg__chores button i {
+    flex: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid var(--cg-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: normal;
+    font-size: 9px;
+    color: transparent;
+  }
+  .cg__chores button.is-done { text-decoration: line-through; opacity: 0.6; }
+  .cg__chores button.is-done i { background: var(--cg-green); border-color: var(--cg-green); color: #0e2410; }
+  .cg__bars { display: flex; align-items: flex-end; gap: 3px; height: 56px; padding-top: 4px; }
+  .cg__bars i {
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    background: var(--cg-green);
+    height: var(--h);
+    transform-origin: bottom;
+    animation: cg-grow 0.5s cubic-bezier(0.22, 0.9, 0.24, 1) backwards;
+    animation-delay: calc(var(--i) * 40ms);
+  }
+  @keyframes cg-grow {
+    from { transform: scaleY(0); }
+  }
+  .cg__chips { display: flex; gap: 5px; flex-wrap: wrap; }
+  .cg__chips span {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.5px;
+    border: 1px solid var(--cg-line);
+    border-radius: 999px;
+    padding: 4px 8px;
+    color: var(--cg-ink);
+  }
+  .cg__notes { display: flex; flex-direction: column; gap: 5px; }
+  .cg__note {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--cg-ink);
+    background: #fff;
+    border: 1px solid var(--cg-line);
+    border-radius: 3px;
+    padding: 7px 9px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    box-shadow: 1px 2px 0 rgba(34, 30, 23, 0.08);
+  }
+  .cg__note b { font-size: 7.5px; letter-spacing: 1.5px; color: var(--cg-dim); }
+  .cg__ringrow { display: flex; align-items: center; gap: 10px; }
+  .cg__ring { width: 58px; height: 58px; flex: none; }
+  .cg__ringrow span { display: flex; flex-direction: column; }
+  .cg__ringrow b { font-family: var(--font-display); font-size: 16px; color: var(--cg-ink); }
+  .cg__ringrow small { font-family: var(--font-body); font-size: 10px; color: var(--cg-dim); }
+  .cg__figs { display: flex; gap: 10px; }
+  .cg__figs span { font-family: var(--font-body); font-size: 9px; color: var(--cg-dim); }
+  .cg__figs b { font-family: var(--font-display); font-size: 13px; color: var(--cg-ink); margin-right: 2px; }
+  .cg__code {
+    font-family: var(--font-mono);
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--cg-ink);
+    border: 1px dashed var(--cg-dim);
+    border-radius: 6px;
+    padding: 8px 0;
+    text-align: center;
+  }
+  .cg__goals { display: flex; flex-direction: column; gap: 7px; }
+  .cg__goal { display: grid; grid-template-columns: 34px 1fr 30px; align-items: center; gap: 8px; }
+  .cg__goal i { font-style: normal; font-family: var(--font-body); font-size: 10.5px; color: var(--cg-ink); }
+  .cg__goal b { height: 7px; border-radius: 4px; background: rgba(34, 30, 23, 0.12); overflow: hidden; }
+  .cg__goal u { display: block; height: 100%; background: var(--cg-orange); border-radius: 4px; }
+  .cg__goal em { font-style: normal; font-family: var(--font-mono); font-size: 9px; color: var(--cg-dim); text-align: right; }
+  .cg__tabs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-top: 1px solid var(--cg-line);
+    background: #fbf7ec;
+  }
+  .cg__tabs button {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.3px;
+    color: var(--cg-dim);
+    padding: 9px 0 10px;
+    transition: color 0.2s ease;
+  }
+  .cg__tabs button.is-on { color: var(--cg-ink); font-weight: 700; box-shadow: inset 0 2px 0 var(--cg-green); }
+  .cg__homebar {
+    display: block;
+    width: 76px;
+    height: 4px;
+    border-radius: 2px;
+    background: #0c0a08;
+    opacity: 0.85;
+    margin: 8px auto 2px;
+  }
+
+  @media (max-width: 680px) {
+    .cg__grid { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cg__dot { animation: none; }
+    .cg__screen section, .cg__bars i { animation: none; }
+  }
+</style>
+
+<script>
+  // Tab simulator: rail buttons and the phone tab bar drive the same screens.
+  // Home chores toggle done state and update the done count.
+  const root = document.querySelector('[data-cg]');
+  if (root) {
+    const hints = [
+      'Home — the room first, then what is due.',
+      'Money — one month at a time.',
+      'Kitchen — recipes from the actual cupboard.',
+      'Health — the week, not a leaderboard.',
+      'Us — two phones, one household.',
+    ];
+    const rail = Array.from(root.querySelectorAll('[data-tab]'));
+    const ctabs = Array.from(root.querySelectorAll('[data-ctab]'));
+    const screens = Array.from(root.querySelectorAll('[data-screen]'));
+    const msg = root.querySelector('[data-msg]');
+    const chores = Array.from(root.querySelectorAll('[data-chore]'));
+    const doneCount = root.querySelector('[data-donecount]');
+    const reset = root.querySelector('[data-reset]');
+
+    let sel = 0;
+    const paint = (i) => {
+      sel = i;
+      rail.forEach((b, idx) => {
+        b.classList.toggle('is-sel', idx === i);
+        b.setAttribute('aria-pressed', idx === i ? 'true' : 'false');
+      });
+      ctabs.forEach((b, idx) => b.classList.toggle('is-on', idx === i));
+      screens.forEach((s, idx) => {
+        s.hidden = idx !== i;
+      });
+      if (msg) msg.textContent = hints[i];
+    };
+    rail.forEach((b, i) => b.addEventListener('click', () => paint(i)));
+    ctabs.forEach((b, i) => b.addEventListener('click', () => paint(i)));
+
+    const paintChores = () => {
+      const done = chores.filter((c) => c.classList.contains('is-done')).length;
+      if (doneCount) doneCount.textContent = `${done} of ${chores.length}`;
+    };
+    chores.forEach((c) => {
+      c.addEventListener('click', () => {
+        c.classList.toggle('is-done');
+        c.setAttribute('data-chore', c.classList.contains('is-done') ? '1' : '0');
+        paintChores();
+      });
+    });
+
+    reset?.addEventListener('click', () => {
+      chores.forEach((c, idx) => c.classList.toggle('is-done', idx === 0));
+      paintChores();
+      paint(0);
+      if (msg) msg.textContent = 'Demo reset — start at Home.';
+    });
+
+    paint(0);
+    paintChores();
+  }
+</script>

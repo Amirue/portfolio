@@ -5,6 +5,7 @@ import TextLoop from '../components/layout/TextLoop.astro';
 import KioskMock from '../components/KioskMock.astro';
 import CheckinMock from '../components/CheckinMock.astro';
 import FenMock from '../components/FenMock.astro';
+import CoupleGoalsMock from '../components/CoupleGoalsMock.astro';
 import DutaguruMock from '../components/DutaguruMock.astro';
 import { fetchWorksData, fetchGalleryData, fetchWorkTypes, workTypeLabel } from '../lib/wordpress';
 import { axes } from '../data/toolbox';
@@ -24,7 +25,14 @@ const tickerPhrases = [
 
 const works = await fetchWorksData();
 const workTypes = await fetchWorkTypes();
-const featured = works.slice(0, 3);
+// Editorial featured order: first three panels. Unknown slugs are skipped and
+// the list backfills from the rest, so the section is never short or reshuffled
+// by the next published post.
+const FEATURED_SLUGS = ['myeventqr', 'brand-website-redesign', 'couple-goals'];
+const featured = [
+  ...FEATURED_SLUGS.map((s) => works.find((w) => w.slug === s)).filter(Boolean),
+  ...works.filter((w) => !FEATURED_SLUGS.includes(w.slug)),
+].slice(0, 3);
 // Range from the actual featured posts (handles multi-year strings like "2024-2026").
 const featuredYears = featured.flatMap((w) => (String(w.year).match(/\d{4}/g) ?? []).map(Number));
 const workRange = featuredYears.length ? `${Math.min(...featuredYears)}—${Math.max(...featuredYears)}` : '';
@@ -234,7 +242,9 @@ const lifePhotos = featuredPhotos.length
                     ? <CheckinMock />
                     : ['brand-website-redesign', 'fen-learn', 'fen', 'fen-proaktif'].includes(w.slug)
                       ? <FenMock />
-                      : ['dutaguru', 'dutaguru-simposium', 'simposium'].includes(w.slug)
+                      : ['couple-goals', 'couplegoals'].includes(w.slug)
+                        ? <CoupleGoalsMock />
+                        : ['dutaguru', 'dutaguru-simposium', 'simposium'].includes(w.slug)
                         ? <DutaguruMock />
                         : w.image
                         ? <img class="acc__img" src={w.image} alt={w.title} loading="lazy" />
